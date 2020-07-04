@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DonationCollector</string>
+    <string name="welcome_message">Hello Donation Collector</string>
 </resources>
