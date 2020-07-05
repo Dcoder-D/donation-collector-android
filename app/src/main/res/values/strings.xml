@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DonationCollector</string>
+    <string name="test_branch_yutian">test message</string>
 </resources>
