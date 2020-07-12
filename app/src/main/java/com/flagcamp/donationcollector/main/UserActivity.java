@@ -1,4 +1,4 @@
-package com.flagcamp.donationcollector;
+package com.flagcamp.donationcollector.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
-import com.flagcamp.donationcollector.databinding.ActivityGooglesigninBinding;
-import com.flagcamp.donationcollector.databinding.ActivityMainBinding;
+import com.flagcamp.donationcollector.R;
+import com.flagcamp.donationcollector.databinding.ActivityUserBinding;
+import com.flagcamp.donationcollector.signin.AppUser;
 import com.flagcamp.donationcollector.signin.ChooserActivity;
 import com.flagcamp.donationcollector.signin.GoogleSignInActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -20,22 +22,28 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity implements
+public class UserActivity extends AppCompatActivity implements
         View.OnClickListener {
 
-    private Button mBtLaunchSignIn;
-    private static final String TAG = "MainActivity";
-    private ActivityMainBinding mBinding;
+    private static final String TAG = "UserActivity";
+    private ActivityUserBinding mBinding;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    private AppUser appUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        mBinding = ActivityUserBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-//        setContentView(R.layout.activity_main);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.server_client_id))
@@ -48,15 +56,44 @@ public class MainActivity extends AppCompatActivity implements
         mBinding.signOutButton.setOnClickListener(this);
         mBinding.disconnectButton.setOnClickListener(this);
 
-        mBtLaunchSignIn = findViewById(R.id.bt_launch_signin);
-        mBtLaunchSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "Success in the Main Activity");
-            }
-        });
         // show the login success message
-        Snackbar.make(mBinding.mainLayout, "Login Success.", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mBinding.userLayout, "Login Success.", Snackbar.LENGTH_SHORT).show();
+
+        // retrieve data from database
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        getUser(currentUser);
+    }
+
+    private void getUser(FirebaseUser user) {
+        ValueEventListener userListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                appUser = dataSnapshot.getValue(AppUser.class);
+                TextView displayTextView = findViewById(R.id.user_info);
+                String displayText = "Hello"
+                        + "\n"
+                        + appUser.getFirstName()
+                        + "\n"
+                        + appUser.getLastName()
+                        + "\n"
+                        + "Your are logged in as an User";
+                displayTextView.setText(displayText);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+            }
+        };
+        mDatabase.child(user.getUid()).addValueEventListener(userListener);
     }
 
     // [START signOut]
@@ -94,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements
     // [END revokeAccess]
 
     private void updateUI() {
-        Intent intent = new Intent(MainActivity.this, ChooserActivity.class);
+        Intent intent = new Intent(UserActivity.this, ChooserActivity.class);
         startActivity(intent);
         finish();
     }

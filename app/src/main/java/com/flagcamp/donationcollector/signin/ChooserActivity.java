@@ -24,6 +24,7 @@ public class ChooserActivity extends AppCompatActivity implements AdapterView.On
     private static final Class[] CLASSES = new Class[]{
             GoogleSignInActivity.class,
             PasswordSignInActivity.class,
+//            CustomSignInActivity.class
 //            SignInActivityWithDrive.class,
 //            IdTokenActivity.class,
 //            ServerAuthCodeActivity.class,
@@ -31,11 +32,12 @@ public class ChooserActivity extends AppCompatActivity implements AdapterView.On
     };
 
     private static final int[] DESCRIPTION_IDS = new int[] {
-            R.string.desc_sign_in_activity,
-            R.string.desc_sign_in_activity_scopes,
-            R.string.desc_id_token_activity,
-            R.string.desc_auth_code_activity,
-            R.string.desc_rest_activity,
+            R.string.desc_google_signin,
+            R.string.desc_password_signin,
+//            R.string.desc_custom_sign_in_activity,
+//            R.string.desc_id_token_activity,
+//            R.string.desc_auth_code_activity,
+//            R.string.desc_rest_activity,
     };
 
     @Override

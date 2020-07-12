@@ -1,18 +1,19 @@
 package com.flagcamp.donationcollector.signin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 
-import com.flagcamp.donationcollector.MainActivity;
+import com.flagcamp.donationcollector.main.NgoActivity;
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.databinding.ActivityPasswordsigninBinding;
+import com.flagcamp.donationcollector.main.UserActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -21,6 +22,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthMultiFactorException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.MultiFactorResolver;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class PasswordSignInActivity extends BaseActivity implements
         View.OnClickListener {
@@ -31,6 +37,9 @@ public class PasswordSignInActivity extends BaseActivity implements
     private ActivityPasswordsigninBinding mBinding;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    private boolean isUser;
+//    private boolean loginTypeMatch;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,16 +49,23 @@ public class PasswordSignInActivity extends BaseActivity implements
         setProgressBar(mBinding.progressBar);
 
         // Buttons
-        mBinding.emailSignInButton.setOnClickListener(this);
-        mBinding.emailCreateAccountButton.setOnClickListener(this);
-        mBinding.signOutButton.setOnClickListener(this);
-        mBinding.verifyEmailButton.setOnClickListener(this);
-        mBinding.reloadButton.setOnClickListener(this);
+        mBinding.signInButton.setOnClickListener(this);
+        mBinding.createAccountButton.setOnClickListener(this);
+        mBinding.radioNgo.setOnClickListener(this);
+        mBinding.radioUser.setOnClickListener(this);
+        mBinding.switchToLoginButton.setOnClickListener(this);
+        mBinding.switchToRegisterButton.setOnClickListener(this);
 
         // [START initialize_auth]
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
+
+        // [START initialize_database_ref]
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+        // [END initialize_database_ref]
+
+        isUser = ((RadioButton) findViewById(R.id.radio_user)).isChecked();
     }
 
     // [START on_start_check_user]
@@ -64,7 +80,7 @@ public class PasswordSignInActivity extends BaseActivity implements
 
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
-        if (!validateForm()) {
+        if (!validateForm(true)) {
             return;
         }
 
@@ -75,11 +91,11 @@ public class PasswordSignInActivity extends BaseActivity implements
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "createUser:onComplete:" + task.isSuccessful());
+                        hideProgressBar();
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            FirebaseUser user = task.getResult().getUser();
+                            onAuthSuccess(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -96,25 +112,48 @@ public class PasswordSignInActivity extends BaseActivity implements
         // [END create_user_with_email]
     }
 
+    private void onAuthSuccess(FirebaseUser user) {
+        AppUser appUser = new AppUser(
+                mBinding.fieldFirstName.getText().toString(),
+                mBinding.fieldLastName.getText().toString(),
+                mBinding.fieldEmail.getText().toString(),
+                mBinding.fieldPhone.getText().toString(),
+                isUser);
+        writeNewUser(user.getUid(), appUser);
+        registerToLogin();
+    }
+
+    private void writeNewUser(String userId, AppUser appUser) {
+        mDatabase.child(userId).setValue(appUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Snackbar.make(mBinding.coordinatorLayout,
+                            "Registration Success.", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Snackbar.make(mBinding.coordinatorLayout,
+                            "Registration Failed.", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
 
     private void updateUI(FirebaseUser user) {
         hideProgressBar();
         if (user != null) {
             // try to start the main activity here
             // and finish the login activity
-            Intent intent = new Intent(PasswordSignInActivity.this, MainActivity.class);
+            Class thisClass = isUser ? UserActivity.class : NgoActivity.class;
+            Intent intent = new Intent(PasswordSignInActivity.this, thisClass);
             startActivity(intent);
             finish();
         } else {
-            mBinding.status.setText(R.string.signed_out);
-            mBinding.detail.setText(null);
-            mBinding.emailPasswordButtons.setVisibility(View.VISIBLE);
             mBinding.emailPasswordFields.setVisibility(View.VISIBLE);
-            mBinding.signedInButtons.setVisibility(View.GONE);
         }
     }
 
-    private boolean validateForm() {
+    private boolean validateForm(boolean isRegister) {
         boolean valid = true;
 
         String email = mBinding.fieldEmail.getText().toString();
@@ -133,12 +172,49 @@ public class PasswordSignInActivity extends BaseActivity implements
             mBinding.fieldPassword.setError(null);
         }
 
+        if (isRegister) {
+            String confirmPassword = mBinding.fieldConfirmPassword.getText().toString();
+            if (TextUtils.isEmpty(confirmPassword)) {
+                mBinding.fieldPassword.setError("Required.");
+                valid = false;
+            } else if (!confirmPassword.equals(password)) {
+                mBinding.fieldConfirmPassword.setError("Password does not match.");
+                valid = false;
+            } else {
+                mBinding.fieldConfirmPassword.setError(null);
+            }
+
+            String firstName = mBinding.fieldFirstName.getText().toString();
+            if (TextUtils.isEmpty(firstName)) {
+                mBinding.fieldFirstName.setError("Required.");
+                valid = false;
+            } else {
+                mBinding.fieldFirstName.setError(null);
+            }
+
+            String lastName = mBinding.fieldLastName.getText().toString();
+            if (TextUtils.isEmpty(lastName)) {
+                mBinding.fieldLastName.setError("Required.");
+                valid = false;
+            } else {
+                mBinding.fieldLastName.setError(null);
+            }
+
+            String phone = mBinding.fieldPhone.getText().toString();
+            if (TextUtils.isEmpty(phone)) {
+                mBinding.fieldPhone.setError("Required.");
+                valid = false;
+            } else {
+                mBinding.fieldPhone.setError(null);
+            }
+        }
+
         return valid;
     }
 
     private void signIn(String email, String password) {
         Log.d(TAG, "signIn:" + email);
-        if (!validateForm()) {
+        if (!validateForm(false)) {
             return;
         }
 
@@ -153,7 +229,16 @@ public class PasswordSignInActivity extends BaseActivity implements
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            validateUserType(user);
+//                            if (validateUserType(user)) {
+//                                updateUI(user);
+//                            } else {
+//                                Snackbar.make(mBinding.coordinatorLayout, "Log in failed due to wrong type of user.",
+//                                        Snackbar.LENGTH_SHORT).show();
+//                                // Firebase sign out
+//                                mAuth.signOut();
+//                                updateUI(null);
+//                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -167,13 +252,41 @@ public class PasswordSignInActivity extends BaseActivity implements
 
                         // [START_EXCLUDE]
                         if (!task.isSuccessful()) {
-                            mBinding.status.setText(R.string.auth_failed);
+//                            mBinding.status.setText(R.string.auth_failed);
+                            Log.d(TAG, "Authentication Failed");
                         }
                         hideProgressBar();
                         // [END_EXCLUDE]
                     }
                 });
         // [END sign_in_with_email]
+    }
+
+    private void validateUserType(final FirebaseUser user) {
+        ValueEventListener userListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                AppUser appUser = dataSnapshot.getValue(AppUser.class);
+                if (appUser.isUser() == isUser) {
+//                    loginTypeMatch = true;
+                    updateUI(user);
+                } else {
+//                    loginTypeMatch = false;
+                    Snackbar.make(mBinding.coordinatorLayout, "Log in failed due to wrong type of user.",
+                            Snackbar.LENGTH_SHORT)
+                            .show();
+                    // Firebase sign out
+                    mAuth.signOut();
+                    updateUI(null);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+            }
+        };
+        mDatabase.child(user.getUid()).addValueEventListener(userListener);
     }
 
     private void checkForMultiFactorFailure(Exception e) {
@@ -188,79 +301,50 @@ public class PasswordSignInActivity extends BaseActivity implements
         }
     }
 
-
-    private void signOut() {
-        mAuth.signOut();
-        updateUI(null);
+    private void registerToLogin() {
+        hideProgressBar();
+        mBinding.fieldConfirmPassword.setVisibility(View.GONE);
+        mBinding.fieldFirstName.setVisibility(View.GONE);
+        mBinding.fieldLastName.setVisibility(View.GONE);
+        mBinding.fieldPhone.setVisibility(View.GONE);
+        mBinding.switchFromRegisterToLogin.setVisibility(View.GONE);
+        mBinding.switchFromLoginToRegister.setVisibility(View.VISIBLE);
+        mBinding.signInButton.setVisibility(View.VISIBLE);
+        mBinding.createAccountButton.setVisibility(View.GONE);
     }
 
-    private void sendEmailVerification() {
-        // Disable button
-        mBinding.verifyEmailButton.setEnabled(false);
-
-        // Send verification email
-        // [START send_email_verification]
-        final FirebaseUser user = mAuth.getCurrentUser();
-        user.sendEmailVerification()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // [START_EXCLUDE]
-                        // Re-enable button
-                        mBinding.verifyEmailButton.setEnabled(true);
-
-                        if (task.isSuccessful()) {
-                            Snackbar.make(mBinding.passwordLoginLayout,
-                                    "Verification email sent to " + user.getEmail(),
-                                    Snackbar.LENGTH_SHORT).show();
-                        } else {
-                            Log.e(TAG, "sendEmailVerification", task.getException());
-                            Snackbar.make(mBinding.passwordLoginLayout,
-                                    "Failed to send verification email.",
-                                    Snackbar.LENGTH_SHORT).show();
-                        }
-                        // [END_EXCLUDE]
-                    }
-                });
-        // [END send_email_verification]
-    }
-
-    private void reload() {
-        mAuth.getCurrentUser().reload().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    updateUI(mAuth.getCurrentUser());
-                    Snackbar.make(mBinding.passwordLoginLayout,
-                            "Reload successful!",
-                            Snackbar.LENGTH_SHORT).show();
-                } else {
-                    Log.e(TAG, "reload", task.getException());
-                    Snackbar.make(mBinding.passwordLoginLayout,
-                            "Failed to reload user.",
-                            Snackbar.LENGTH_SHORT).show();
-                }
-            }
-        });
+    private void loginToRegister() {
+        hideProgressBar();
+        mBinding.fieldConfirmPassword.setVisibility(View.VISIBLE);
+        mBinding.fieldFirstName.setVisibility(View.VISIBLE);
+        mBinding.fieldLastName.setVisibility(View.VISIBLE);
+        mBinding.fieldPhone.setVisibility(View.VISIBLE);
+        mBinding.switchFromRegisterToLogin.setVisibility(View.VISIBLE);
+        mBinding.switchFromLoginToRegister.setVisibility(View.GONE);
+        mBinding.signInButton.setVisibility(View.GONE);
+        mBinding.createAccountButton.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.emailCreateAccountButton:
+            case R.id.createAccountButton:
                 createAccount(mBinding.fieldEmail.getText().toString(), mBinding.fieldPassword.getText().toString());
                 break;
-            case R.id.emailSignInButton:
+            case R.id.signInButton:
                 signIn(mBinding.fieldEmail.getText().toString(), mBinding.fieldPassword.getText().toString());
                 break;
-            case R.id.signOutButton:
-                signOut();
+            case R.id.radio_user:
+                isUser = true;
                 break;
-            case R.id.verifyEmailButton:
-                sendEmailVerification();
+            case R.id.radio_ngo:
+                isUser = false;
                 break;
-            case R.id.reloadButton:
-                reload();
+            case R.id.switchToLoginButton:
+                registerToLogin();
+                break;
+            case R.id.switchToRegisterButton:
+                loginToRegister();
                 break;
         }
     }

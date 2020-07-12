@@ -11,4 +11,5 @@
 
     <dimen name="button_horizontal_margin">8dp</dimen>
     <dimen name="g_top_margin">100dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

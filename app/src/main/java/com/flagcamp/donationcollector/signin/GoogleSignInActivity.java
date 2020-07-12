@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.flagcamp.donationcollector.MainActivity;
+import com.flagcamp.donationcollector.main.NgoActivity;
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.databinding.ActivityGooglesigninBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -29,8 +25,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-import static android.widget.Toast.LENGTH_SHORT;
 
 
 /**
@@ -178,14 +172,10 @@ public class GoogleSignInActivity extends BaseActivity implements
     private void updateUI(FirebaseUser user) {
         hideProgressBar();
         if (user != null) {
-//            mBinding.status.setText(getString(R.string.google_status_fmt, user.getEmail()));
-//            mBinding.detail.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-//
-//            mBinding.signInButton.setVisibility(View.GONE);
-//            mBinding.signOutAndDisconnect.setVisibility(View.VISIBLE);
             // try to start the main activity here
             // and finish the login activity
-            Intent intent = new Intent(GoogleSignInActivity.this, MainActivity.class);
+            // TODO: change activity here
+            Intent intent = new Intent(GoogleSignInActivity.this, NgoActivity.class);
             startActivity(intent);
             finish();
         } else {
