@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.flagcamp.donationcollector.databinding.FragmentLoginBinding;
 
 public class LoginFragment extends Fragment {
-// 13405877593 闫凯
+    
     private FragmentLoginBinding binding;
     Button loginButton;
 
