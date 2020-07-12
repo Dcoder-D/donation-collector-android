@@ -83,6 +83,7 @@
     <string name="hint_password">Password</string>
     <string name="hint_phone">Phone</string>
     <string name="hint_confirm_password">Confirm Password</string>
+    <string name="hint_organization_name">Organization Name</string>
     <string name="sign_in">Sign In</string>
     <string name="create_account">Create Account</string>
     <string name="verify_email">Verify</string>

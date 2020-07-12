@@ -39,7 +39,7 @@ public class PasswordSignInActivity extends BaseActivity implements
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private boolean isUser;
-//    private boolean loginTypeMatch;
+    private boolean isRegister;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,9 @@ public class PasswordSignInActivity extends BaseActivity implements
         // [END initialize_database_ref]
 
         isUser = ((RadioButton) findViewById(R.id.radio_user)).isChecked();
+
+        // initialized the page to be the login page
+        isRegister = false;
     }
 
     // [START on_start_check_user]
@@ -80,7 +83,7 @@ public class PasswordSignInActivity extends BaseActivity implements
 
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
-        if (!validateForm(true)) {
+        if (!validateForm()) {
             return;
         }
 
@@ -114,11 +117,15 @@ public class PasswordSignInActivity extends BaseActivity implements
 
     private void onAuthSuccess(FirebaseUser user) {
         AppUser appUser = new AppUser(
-                mBinding.fieldFirstName.getText().toString(),
-                mBinding.fieldLastName.getText().toString(),
                 mBinding.fieldEmail.getText().toString(),
                 mBinding.fieldPhone.getText().toString(),
                 isUser);
+        if (isUser) {
+            appUser.setFirstName(mBinding.fieldFirstName.getText().toString());
+            appUser.setLastName(mBinding.fieldLastName.getText().toString());
+        } else {
+            appUser.setOrganizationName(mBinding.fieldOrganizationName.getText().toString());
+        }
         writeNewUser(user.getUid(), appUser);
         registerToLogin();
     }
@@ -153,7 +160,7 @@ public class PasswordSignInActivity extends BaseActivity implements
         }
     }
 
-    private boolean validateForm(boolean isRegister) {
+    private boolean validateForm() {
         boolean valid = true;
 
         String email = mBinding.fieldEmail.getText().toString();
@@ -184,20 +191,30 @@ public class PasswordSignInActivity extends BaseActivity implements
                 mBinding.fieldConfirmPassword.setError(null);
             }
 
-            String firstName = mBinding.fieldFirstName.getText().toString();
-            if (TextUtils.isEmpty(firstName)) {
-                mBinding.fieldFirstName.setError("Required.");
-                valid = false;
-            } else {
-                mBinding.fieldFirstName.setError(null);
-            }
+            if (isUser) {
+                String firstName = mBinding.fieldFirstName.getText().toString();
+                if (TextUtils.isEmpty(firstName)) {
+                    mBinding.fieldFirstName.setError("Required.");
+                    valid = false;
+                } else {
+                    mBinding.fieldFirstName.setError(null);
+                }
 
-            String lastName = mBinding.fieldLastName.getText().toString();
-            if (TextUtils.isEmpty(lastName)) {
-                mBinding.fieldLastName.setError("Required.");
-                valid = false;
+                String lastName = mBinding.fieldLastName.getText().toString();
+                if (TextUtils.isEmpty(lastName)) {
+                    mBinding.fieldLastName.setError("Required.");
+                    valid = false;
+                } else {
+                    mBinding.fieldLastName.setError(null);
+                }
             } else {
-                mBinding.fieldLastName.setError(null);
+                String organizationName = mBinding.fieldOrganizationName.getText().toString();
+                if (TextUtils.isEmpty(organizationName)) {
+                    mBinding.fieldOrganizationName.setError("Required.");
+                    valid = false;
+                } else {
+                    mBinding.fieldOrganizationName.setError(null);
+                }
             }
 
             String phone = mBinding.fieldPhone.getText().toString();
@@ -214,7 +231,7 @@ public class PasswordSignInActivity extends BaseActivity implements
 
     private void signIn(String email, String password) {
         Log.d(TAG, "signIn:" + email);
-        if (!validateForm(false)) {
+        if (!validateForm()) {
             return;
         }
 
@@ -306,6 +323,7 @@ public class PasswordSignInActivity extends BaseActivity implements
         mBinding.fieldConfirmPassword.setVisibility(View.GONE);
         mBinding.fieldFirstName.setVisibility(View.GONE);
         mBinding.fieldLastName.setVisibility(View.GONE);
+        mBinding.fieldOrganizationName.setVisibility(View.GONE);
         mBinding.fieldPhone.setVisibility(View.GONE);
         mBinding.switchFromRegisterToLogin.setVisibility(View.GONE);
         mBinding.switchFromLoginToRegister.setVisibility(View.VISIBLE);
@@ -316,8 +334,15 @@ public class PasswordSignInActivity extends BaseActivity implements
     private void loginToRegister() {
         hideProgressBar();
         mBinding.fieldConfirmPassword.setVisibility(View.VISIBLE);
-        mBinding.fieldFirstName.setVisibility(View.VISIBLE);
-        mBinding.fieldLastName.setVisibility(View.VISIBLE);
+        if (isUser) {
+            mBinding.fieldFirstName.setVisibility(View.VISIBLE);
+            mBinding.fieldLastName.setVisibility(View.VISIBLE);
+            mBinding.fieldOrganizationName.setVisibility(View.GONE);
+        } else {
+            mBinding.fieldFirstName.setVisibility(View.GONE);
+            mBinding.fieldLastName.setVisibility(View.GONE);
+            mBinding.fieldOrganizationName.setVisibility(View.VISIBLE);
+        }
         mBinding.fieldPhone.setVisibility(View.VISIBLE);
         mBinding.switchFromRegisterToLogin.setVisibility(View.VISIBLE);
         mBinding.switchFromLoginToRegister.setVisibility(View.GONE);
@@ -336,14 +361,22 @@ public class PasswordSignInActivity extends BaseActivity implements
                 break;
             case R.id.radio_user:
                 isUser = true;
+                if (isRegister) {
+                    loginToRegister();
+                }
                 break;
             case R.id.radio_ngo:
                 isUser = false;
+                if (isRegister) {
+                    loginToRegister();
+                }
                 break;
             case R.id.switchToLoginButton:
+                isRegister = false;
                 registerToLogin();
                 break;
             case R.id.switchToRegisterButton:
+                isRegister = true;
                 loginToRegister();
                 break;
         }

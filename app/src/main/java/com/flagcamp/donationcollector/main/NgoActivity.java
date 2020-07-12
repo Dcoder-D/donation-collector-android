@@ -77,9 +77,7 @@ public class NgoActivity extends AppCompatActivity
                 TextView displayTextView = findViewById(R.id.user_info);
                 String displayText = "Hello"
                         + "\n"
-                        + appUser.getFirstName()
-                        + "\n"
-                        + appUser.getLastName()
+                        + appUser.getOrganizationName()
                         + "\n"
                         + "Your are logged in as an Non-Governmental Organization";
                 displayTextView.setText(displayText);
