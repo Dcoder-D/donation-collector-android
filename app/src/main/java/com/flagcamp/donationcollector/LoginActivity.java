@@ -1,15 +1,12 @@
 package com.flagcamp.donationcollector;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(!userType.equals("user") && !userType.equals("NGO")) {
                     loginMessage.setText("You have to type in user\nor NGO in the edit Text \nabove");
                 } else {
-                    Class classType = userType.equals("user") ? MainActivityUser.class : MainActivity.class;
+                    Class classType = userType.equals("user") ? MainActivityUser.class : MainActivityNGO.class;
                     loginMessage.setText("You are a " + userType);
 
                     Intent startMainIntent = new Intent(LoginActivity.this, classType);
