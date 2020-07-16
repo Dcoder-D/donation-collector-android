@@ -145,10 +145,12 @@ public class PasswordSignInActivity extends BaseActivity implements
     }
 
     private void onAuthSuccess(FirebaseUser user) {
-        AppUser appUser = new AppUser(
-                mBinding.fieldEmail.getText().toString(),
-                mBinding.fieldPhone.getText().toString(),
-                isChooseUser);
+        AppUser appUser = new AppUser.AppUserBuilder()
+                .emailAddress(mBinding.fieldEmail.getText().toString())
+                .phone(mBinding.fieldPhone.getText().toString())
+                .isUser(isChooseUser)
+                .uid(user.getUid())
+                .build();
         if (isChooseUser) {
             appUser.setFirstName(mBinding.fieldFirstName.getText().toString());
             appUser.setLastName(mBinding.fieldLastName.getText().toString());
