@@ -1,8 +1,9 @@
 package com.flagcamp.donationcollector.signin;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class AppUser {
+public class AppUser implements Serializable {
     private String firstName;
     private String lastName;
     private String emailAddress;

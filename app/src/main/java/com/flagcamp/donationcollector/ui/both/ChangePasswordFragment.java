@@ -1,6 +1,7 @@
 package com.flagcamp.donationcollector.ui.both;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +14,43 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.databinding.FragmentChangePasswordBinding;
+import com.flagcamp.donationcollector.databinding.FragmentProfileBinding;
+import com.flagcamp.donationcollector.signin.AppUser;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-public class ChangePasswordFragment extends Fragment {
+public class ChangePasswordFragment extends Fragment
+        implements View.OnClickListener {
 
-    FragmentChangePasswordBinding binding;
-    Button changePasswordButton;
+    private FragmentChangePasswordBinding binding;
+    private static final String TAG = "ChangePasswordFragment";
+    private GoogleSignInClient mGoogleSignInClient;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    private AppUser appUser;
 
     public ChangePasswordFragment() {
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
+        mAuth = FirebaseAuth.getInstance();
+        // retrieve data from database
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+        binding = FragmentChangePasswordBinding.inflate(getLayoutInflater());
+
+        binding.changePasswordConfirmButton.setOnClickListener(this);
     }
 
     @Nullable
@@ -34,13 +64,19 @@ public class ChangePasswordFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        changePasswordButton = view.findViewById(R.id.change_password_confirm_button);
+    }
 
-        changePasswordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavHostFragment.findNavController(ChangePasswordFragment.this).navigate(R.id.action_title_change_password_to_profile);
-            }
-        });
+
+    private void changePassWord() {
+        Log.d(TAG, "onClick change password button");
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.change_password_confirm_button:
+                changePassWord();
+                break;
+        }
     }
 }

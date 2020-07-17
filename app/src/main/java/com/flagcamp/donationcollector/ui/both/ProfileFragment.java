@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.flagcamp.donationcollector.R;
+import com.flagcamp.donationcollector.databinding.ActivityPasswordsigninBinding;
 import com.flagcamp.donationcollector.databinding.FragmentProfileBinding;
 import com.flagcamp.donationcollector.signin.AppUser;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -30,19 +31,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment
+        implements View.OnClickListener {
 
     private FragmentProfileBinding binding;
-    TextView passwordPlaceHolder;
-    Button logoutButton;
-    private static final String TAG = "UserActivity";
+    private static final String TAG = "ProfileFragment";
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private AppUser appUser;
 
     public ProfileFragment() {
-
     }
 
     @Override
@@ -56,6 +55,10 @@ public class ProfileFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         // retrieve data from database
         mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+        binding = FragmentProfileBinding.inflate(getLayoutInflater());
+
+        binding.logoutButton.setOnClickListener(this);
+        binding.changePassword.setOnClickListener(this);
     }
 
     @Override
@@ -68,32 +71,12 @@ public class ProfileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        return super.onCreateView(inflater, container, savedInstanceState);
-        binding = FragmentProfileBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        passwordPlaceHolder = view.findViewById(R.id.password_placeholder);
-        logoutButton = view.findViewById(R.id.logout_button);
-
-        passwordPlaceHolder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.action_title_profile_to_change_password);
-            }
-        });
-
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signOut();
-                getActivity().finish();
-            }
-        });
-
     }
 
     private void getUser(FirebaseUser user) {
@@ -124,6 +107,19 @@ public class ProfileFragment extends Fragment {
         mAuth.signOut();
         // Google sign out
         mGoogleSignInClient.signOut();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.logout_button:
+                signOut();
+                getActivity().finish();
+                break;
+            case R.id.change_password:
+                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.action_title_profile_to_change_password);
+                break;
+        }
     }
     // [END signOut]
 }
