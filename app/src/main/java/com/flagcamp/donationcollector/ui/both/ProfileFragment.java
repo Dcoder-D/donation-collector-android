@@ -1,5 +1,6 @@
 package com.flagcamp.donationcollector.ui.both;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.databinding.ActivityPasswordsigninBinding;
 import com.flagcamp.donationcollector.databinding.FragmentProfileBinding;
 import com.flagcamp.donationcollector.signin.AppUser;
+import com.flagcamp.donationcollector.signin.PasswordSignInActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -107,6 +109,9 @@ public class ProfileFragment extends Fragment
         mAuth.signOut();
         // Google sign out
         mGoogleSignInClient.signOut();
+        Intent intent = new Intent(getActivity(), PasswordSignInActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     @Override
@@ -114,7 +119,6 @@ public class ProfileFragment extends Fragment
         switch (v.getId()) {
             case R.id.logout_button:
                 signOut();
-                getActivity().finish();
                 break;
             case R.id.change_password:
                 NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.action_title_profile_to_change_password);

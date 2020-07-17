@@ -107,8 +107,9 @@ public class PasswordSignInActivity extends BaseActivity implements
         user = mAuth.getCurrentUser();
         if (user != null) {
             validateUserType(user);
+        } else {
+            updateUI(null);
         }
-        updateUI(user);
     }
     // [END on_start_check_user]
 
@@ -133,7 +134,7 @@ public class PasswordSignInActivity extends BaseActivity implements
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Snackbar.make(mBinding.passwordLoginLayout,
+                            Snackbar.make(mBinding.snackbar,
                                     "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -286,7 +287,7 @@ public class PasswordSignInActivity extends BaseActivity implements
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Snackbar.make(mBinding.passwordLoginLayout, "Authentication failed.",
+                            Snackbar.make(mBinding.snackbar, "Authentication failed.",
                                     Snackbar.LENGTH_SHORT).show();
                             updateUI(null);
                             // [START_EXCLUDE]
