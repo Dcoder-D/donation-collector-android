@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.flagcamp.donationcollector.R;
+import com.flagcamp.donationcollector.databinding.ActivityPasswordsigninBinding;
 import com.flagcamp.donationcollector.databinding.FragmentChangePasswordBinding;
 import com.flagcamp.donationcollector.databinding.FragmentProfileBinding;
 import com.flagcamp.donationcollector.signin.AppUser;

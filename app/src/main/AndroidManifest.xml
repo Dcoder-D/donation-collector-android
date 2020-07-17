@@ -26,7 +26,7 @@
 <!--            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />-->
         <activity
             android:name=".signin.PasswordSignInActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:theme="@style/ThemeOverlay.MyNoTitleActivity"
             android:windowSoftInputMode="stateAlwaysHidden" >
             <intent-filter>
@@ -37,11 +37,11 @@
         </activity>
         <activity
             android:name=".MainActivityNGO"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleTop" />
 
         <activity
             android:name=".MainActivityUser"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleTop" />
 
     </application>
 
