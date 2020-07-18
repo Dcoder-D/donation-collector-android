@@ -1,5 +1,9 @@
 package com.flagcamp.donationcollector.ui.user.posts;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +12,16 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.databinding.FragmentPostUserBinding;
+
+import static android.app.Activity.RESULT_OK;
 
 public class PostUserFragment extends Fragment {
 
@@ -33,6 +43,12 @@ public class PostUserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        addIcon = view.findViewById(R.id.post_user_add_icon);
+        binding.postUserAddIcon.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Navigation.findNavController(v).navigate(R.id.action_nav_post_user_to_nav_albums);
+           }
+        });
     }
+
 }
