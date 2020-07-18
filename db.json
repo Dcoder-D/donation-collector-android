@@ -1,0 +1,135 @@
+{
+
+  "items": [
+    {
+      "id": "0",
+      "urlToImage": "http://placehold.it/120x120&text=image0",
+      "lat": 100,
+      "lon": 100,
+      "location": "100 Main St",
+      "posterId": "0",
+      "category": "Furniture",
+      "description": "this is a chair",
+      "size": "5'*5'*4'",
+      "availableTime": [
+        "2020-07-15",
+        "2020-07-16"
+      ],
+      "status": "Pending",
+      "pickUpNGOId": "1",
+      "pickupTime": "2020-07-16 07:45"
+    },
+    {
+      "id": "1",
+      "urlToImage": "http://placehold.it/120x120&text=image1",
+      "lat": 100,
+      "lon": 100,
+      "location": "100 Main St",
+      "posterId": "0",
+      "category": "Furniture",
+      "description": "this is a desk",
+      "size": "8'*8'*4'",
+      "availableTime": [
+        "2020-07-15",
+        "2020-07-16"
+      ],
+      "status": "Pending",
+      "pickUpNGOId": "0",
+      "pickupTime": "2020-07-16 08:30"
+    },
+    {
+      "id": "2",
+      "urlToImage": "http://placehold.it/120x120&text=image2",
+      "lat": 200,
+      "lon": 200,
+      "location": "200 Main St",
+      "posterId": "1",
+      "category": "Furniture",
+      "description": "this is a chair",
+      "size": "5'*5'*4'",
+      "availableTime": [
+        "2020-07-20",
+        "2020-07-21"
+      ],
+      "status": "Pending",
+      "pickUpNGOId": "1",
+      "pickupTime": "2020-07-20 15:30"
+    },
+    {
+      "id": "3",
+      "urlToImage": "http://placehold.it/120x120&text=image3",
+      "lat": 200,
+      "lon": 200,
+      "location": "200 Main St",
+      "posterId": "1",
+      "category": "Furniture",
+      "description": "this is a lamp",
+      "size": "3'*3'*2'",
+      "availableTime": [
+        "2020-07-20",
+        "2020-07-21"
+      ],
+      "status": "Pending",
+      "pickUpNGOId": "",
+      "pickupTime": ""
+    },
+    {
+      "id": "4",
+      "urlToImage": "http://placehold.it/120x120&text=image4",
+      "lat": 300,
+      "lon": 300,
+      "location": "300 Main St",
+      "posterId": "2",
+      "category": "Apparel",
+      "description": "this is a t-shirt",
+      "size": "3'*3'*2'",
+      "availableTime": [
+        "2020-07-25",
+        "2020-07-26"
+      ],
+      "status": "Pending",
+      "pickUpNGOId": "",
+      "pickupTime": ""
+    }
+  ]
+,
+
+	"users": [
+    {
+      "id": 0,
+      "userType": "Individual",
+      "Name": "John Doe",
+      "email": "John@gmail.com",
+      "address": "100 Main St"
+    },
+    {
+      "id": 1,
+      "userType": "Individual",
+      "Name": "Bob Smith",
+      "email": "Bob@gmail.com",
+      "address": "200 Main St"
+    },
+    {
+      "id": 2,
+      "userType": "Individual",
+      "Name": "Charlie Johnson",
+      "email": "Charlie@gmail.com",
+      "address": "300 Main St"
+    },
+    {
+      "id": 3,
+      "userType": "NGO",
+      "Name": "NGO one",
+      "email": "John@gmail.com",
+      "address": "100 Main Road"
+    },
+    {
+      "id": 4,
+      "userType": "NGO",
+      "Name": "NGO two",
+      "email": "John@gmail.com",
+      "address": "200 Main Main Road"
+    }
+  ]
+
+}
