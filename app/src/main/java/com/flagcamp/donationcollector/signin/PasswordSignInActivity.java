@@ -185,6 +185,7 @@ public class PasswordSignInActivity extends BaseActivity implements
         if (user != null) {
             // try to start the main activity here
             // and finish the login activity
+
             Class thisClass = isUser ? MainActivityUser.class : MainActivityNGO.class;
             Intent intent = new Intent(PasswordSignInActivity.this, thisClass);
 //                                .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
