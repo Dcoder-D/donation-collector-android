@@ -11,21 +11,36 @@
         android:name="com.flagcamp.donationcollector.ui.user.posts.PostUserFragment"
         android:label="Items"
         tools:layout="@layout/fragment_post_user" >
+<!--        <argument-->
+<!--            android:name="dummy"-->
+<!--            android:defaultValue="@null"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_title_postcenter_to_post_details"-->
+<!--            app:destination="@+id/nav_post_details_ngo"-->
+<!--            app:enterAnim="@android:anim/slide_in_left"-->
+<!--            app:exitAnim="@android:anim/slide_out_right" >-->
+<!--            <argument-->
+<!--                android:name="dummy"-->
+<!--                android:defaultValue="@null"-->
+<!--                app:argType="string"-->
+<!--                app:nullable="true" />-->
+<!--        </action>-->
 
         <action
-            android:id="@+id/action_title_postuser_to_albums"
-            app:destination="@+id/nav_location_selector_ngo"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right">
-        </action>
-
-
+            android:id="@+id/action_nav_post_user_to_nav_albums"
+            app:destination="@id/nav_albums" />
     </fragment>
     <fragment
         android:id="@+id/nav_albums"
         android:name="com.flagcamp.donationcollector.ui.user.posts.AlbumsFragment"
         android:label="Albums"
-        tools:layout="@layout/fragment_albums" />
+        tools:layout="@layout/fragment_albums" >
+        <action
+            android:id="@+id/action_nav_albums_to_nav_post_user"
+            app:destination="@id/nav_post_user" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_calendar_user"
