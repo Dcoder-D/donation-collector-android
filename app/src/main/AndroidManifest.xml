@@ -10,10 +10,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<!--        <activity-->
+<!--            android:name=".signin.ChooserActivity"-->
+<!--            android:launchMode="singleTask"-->
+<!--            android:label="@string/app_name">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+<!--        <activity-->
+<!--            android:name=".signin.GoogleSignInActivity"-->
+<!--            android:launchMode="singleTask"-->
+<!--            android:label="@string/name_sign_in_activity"-->
+<!--            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />-->
         <activity
-            android:name=".signin.ChooserActivity"
-            android:launchMode="singleTask"
-            android:label="@string/app_name">
+            android:name=".signin.PasswordSignInActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,23 +37,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".signin.GoogleSignInActivity"
-            android:launchMode="singleTask"
-            android:label="@string/name_sign_in_activity"
-            android:theme="@style/ThemeOverlay.MyNoTitleActivity" />
-        <activity
-            android:name=".signin.PasswordSignInActivity"
-            android:launchMode="singleTask"
-            android:label="@string/label_emailpassword"
-            android:theme="@style/ThemeOverlay.MyNoTitleActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
             android:name=".MainActivityNGO"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
 
         <activity
             android:name=".MainActivityUser"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTop" />
 
     </application>
 

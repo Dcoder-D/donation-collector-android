@@ -5,18 +5,7 @@
     android:id="@+id/nav_graph_user"
     app:startDestination="@+id/nav_post_user"
     >
-    <!--    <fragment-->
-    <!--        android:id="@+id/nav_login"-->
-    <!--        android:name="com.flagcamp.donationcollector.ui.both.LoginFragment"-->
-    <!--        android:label="login_page"-->
-    <!--        tools:layout="@layout/fragment_login" >-->
-    <!--        <action-->
-    <!--            android:id="@+id/action_title_login_to_post_center"-->
-    <!--            app:destination="@+id/nav_post_center"-->
-    <!--            app:enterAnim="@android:anim/slide_in_left"-->
-    <!--            app:exitAnim="@android:anim/slide_out_right">-->
-    <!--        </action>-->
-    <!--    </fragment>-->
+
     <fragment
         android:id="@+id/nav_post_user"
         android:name="com.flagcamp.donationcollector.ui.user.posts.PostUserFragment"
@@ -53,55 +42,12 @@
             app:destination="@id/nav_post_user" />
     </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_location_selector_ngo"-->
-<!--        android:name="com.flagcamp.donationcollector.ui.ngo.posts.LocationSelectorNGOFragment"-->
-<!--        android:label="Location Selector"-->
-<!--        tools:layout="@layout/fragment_location_selector_ngo" >-->
-<!--        <argument-->
-<!--            android:name="dummy"-->
-<!--            android:defaultValue="@null"-->
-<!--            app:argType="string"-->
-<!--            app:nullable="true" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_title_location_selector_to_postcenter"-->
-<!--            app:destination="@+id/nav_post_center"-->
-<!--            app:enterAnim="@anim/slide_in_right"-->
-<!--            app:exitAnim="@anim/slide_out_left">-->
-<!--            <argument-->
-<!--                android:name="dummy"-->
-<!--                android:defaultValue="@null"-->
-<!--                app:argType="string"-->
-<!--                app:nullable="true" />-->
-<!--        </action>-->
-<!--    </fragment>-->
-<!--    <fragment-->
-<!--        android:id="@+id/nav_post_details_ngo"-->
-<!--        android:name="com.flagcamp.donationcollector.ui.ngo.posts.PostDetailsNGOFragment"-->
-<!--        android:label="Post Details NGO"-->
-<!--        tools:layout="@layout/fragment_post_details_ngo">-->
-<!--        <argument-->
-<!--            android:name="dummy"-->
-<!--            android:defaultValue="@null"-->
-<!--            app:argType="string"-->
-<!--            app:nullable="true" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_title_post_details_to_postcenter"-->
-<!--            app:destination="@+id/nav_post_center"-->
-<!--            app:enterAnim="@anim/slide_in_right"-->
-<!--            app:exitAnim="@anim/slide_out_left">-->
-<!--            <argument-->
-<!--                android:name="dummy"-->
-<!--                android:defaultValue="@null"-->
-<!--                app:argType="string"-->
-<!--                app:nullable="true" />-->
-<!--        </action>-->
-<!--    </fragment>-->
     <fragment
         android:id="@+id/nav_calendar_user"
         android:name="com.flagcamp.donationcollector.ui.user.calendar.CalendarUserFragment"
         android:label="Calendar"
         tools:layout="@layout/fragment_calendar_user" />
+
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.flagcamp.donationcollector.ui.both.ProfileFragment"
