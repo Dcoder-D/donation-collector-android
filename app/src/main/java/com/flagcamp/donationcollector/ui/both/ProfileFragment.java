@@ -44,6 +44,8 @@ public class ProfileFragment extends Fragment
     private DatabaseReference mDatabase;
     private AppUser appUser;
 
+
+
     public ProfileFragment() {
     }
 
