@@ -5,18 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@+id/nav_post_center"
     >
-<!--    <fragment-->
-<!--        android:id="@+id/nav_login"-->
-<!--        android:name="com.flagcamp.donationcollector.ui.both.LoginFragment"-->
-<!--        android:label="login_page"-->
-<!--        tools:layout="@layout/fragment_login" >-->
-<!--        <action-->
-<!--            android:id="@+id/action_title_login_to_post_center"-->
-<!--            app:destination="@+id/nav_post_center"-->
-<!--            app:enterAnim="@android:anim/slide_in_left"-->
-<!--            app:exitAnim="@android:anim/slide_out_right">-->
-<!--        </action>-->
-<!--    </fragment>-->
     <fragment
         android:id="@+id/nav_post_center"
         android:name="com.flagcamp.donationcollector.ui.ngo.posts.PostCenterFragment"

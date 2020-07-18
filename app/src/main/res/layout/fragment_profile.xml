@@ -22,19 +22,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/password_placeholder"
-        app:layout_constraintTop_toBottomOf="@+id/text"
-        app:layout_constraintStart_toStartOf="@+id/text"
+        android:id="@+id/change_password"
+        app:layout_constraintTop_toBottomOf="@id/text"
+        app:layout_constraintStart_toStartOf="@id/text"
         android:layout_marginTop="50dp"
-        android:text="Password PlaceHolder"
+        android:text="@string/change_password"
         android:textSize="30sp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/logout_button"
-        app:layout_constraintTop_toBottomOf="@+id/password_placeholder"
-        app:layout_constraintStart_toStartOf="@+id/password_placeholder"
+        app:layout_constraintTop_toBottomOf="@id/change_password"
+        app:layout_constraintStart_toStartOf="@id/change_password"
         android:layout_marginTop="50dp"
         android:text="Log Out"
         android:textSize="25sp" />
