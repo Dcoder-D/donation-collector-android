@@ -13,4 +13,9 @@
 .externalNativeBuild
 .cxx
 app/google-services.json
+app/src/main/java/com/flagcamp/donationcollector/signin/database
+app/src/main/java/com/flagcamp/donationcollector/signin/repository
+app/src/main/java/com/flagcamp/donationcollector/signin/ui
+app/src/main/res/layout/fragment_login.xml
+app/src/main/java/com/flagcamp/donationcollector/DonationCollectorApplication.java
 
