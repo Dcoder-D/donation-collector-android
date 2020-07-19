@@ -1,17 +1,35 @@
 package com.flagcamp.donationcollector;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.util.Log;
 
+import com.flagcamp.donationcollector.signin.AppUser;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivityNGO extends AppCompatActivity {
 
     private NavController navControllerNGO;
+    private AppUser appUser;
+    private static final String TAG = "MainActivityNGO";
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = getIntent();
+        appUser = (AppUser)intent.getSerializableExtra("AppUser");
+        if (appUser != null) {
+            Log.d(TAG, "Get appUser in NGO Main Activity as" + appUser.toString());
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
