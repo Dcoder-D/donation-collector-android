@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Item {
+public class Item implements Serializable{
     @NonNull
     @PrimaryKey
     @SerializedName("id")

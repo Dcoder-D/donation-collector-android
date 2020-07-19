@@ -32,9 +32,9 @@
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" >
             <argument
-                android:name="dummy"
+                android:name="post"
                 android:defaultValue="@null"
-                app:argType="string"
+                app:argType="com.flagcamp.donationcollector.model.Item"
                 app:nullable="true" />
         </action>
 
@@ -67,10 +67,10 @@
         android:label="Post Details NGO"
         tools:layout="@layout/fragment_post_details_ngo">
         <argument
-            android:name="dummy"
+            android:name="post"
             android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
+            app:argType="com.flagcamp.donationcollector.model.Item"
+            app:nullable="true"  />
         <action
             android:id="@+id/action_title_post_details_to_postcenter"
             app:destination="@+id/nav_post_center"
