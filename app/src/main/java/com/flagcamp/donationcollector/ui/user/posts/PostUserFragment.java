@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 
 import com.flagcamp.donationcollector.R;
@@ -57,6 +58,11 @@ public class PostUserFragment extends Fragment {
 
         addIcon = view.findViewById(R.id.post_user_add_icon);
 
+        PostUserAdapter postUserAdapter = new PostUserAdapter();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        binding.postRecyclerView.setLayoutManager(linearLayoutManager);
+        binding.postRecyclerView.setAdapter(postUserAdapter);
+
         PostRepository repository = new PostRepository(getContext());
         viewModel = new ViewModelProvider(this, new PostViewModelFactory(repository)).get(PostUserViewModel.class);
 
@@ -66,6 +72,7 @@ public class PostUserFragment extends Fragment {
         viewModel.getUserPosts("0").observe(getViewLifecycleOwner(), postResponse -> {
             if(postResponse != null) {
                 Log.d("PostUserFragment", postResponse.toString());
+                postUserAdapter.setItems(postResponse);
             } else {
                 Log.d("PostUserFragment", "Null postResponse");
             }

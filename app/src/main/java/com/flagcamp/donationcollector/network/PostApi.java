@@ -16,4 +16,7 @@ public interface PostApi {
 
     @GET("items")
     Call<List<Item>> getNGOPickUp(@Query("pickUpNGOId") String pickUpNGOId);
+
+    @GET("items")
+    Call<List<Item>> getStatusEquals(@Query("status") String status);
 }

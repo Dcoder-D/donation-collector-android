@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="7dp"
+    app:cardElevation="6dp"
+    android:layout_width="375dp"
+    android:layout_height="100dp"
+    android:layout_margin="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/post_card_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_add_24px"
+            />
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_card_category"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@+id/post_card_image"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Furniture"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="10dp" />
+        <TextView
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/post_card_location"
+            app:layout_constraintStart_toEndOf="@+id/post_card_image"
+            app:layout_constraintTop_toBottomOf="@+id/post_card_category"
+            android:text="100 Main St, A City, NY"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp" />
+        <TextView
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/post_card_status"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@+id/post_card_image"
+            app:layout_constraintTop_toBottomOf="@+id/post_card_location"
+            android:text="Pending"
+            android:background="@color/light_blue"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="7dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

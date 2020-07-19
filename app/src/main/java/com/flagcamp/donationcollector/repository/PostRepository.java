@@ -78,6 +78,27 @@ public class PostRepository {
         return userPostsLiveData;
     }
 
+    public LiveData<List<Item>> getStatusEquals(String status) {
+        final MutableLiveData<List<Item>> statusEqualsLiveData = new MutableLiveData<>();
+        postApi.getStatusEquals(status).enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                if(response.isSuccessful()) {
+                    statusEqualsLiveData.setValue(response.body());
+                } else {
+                    statusEqualsLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+                statusEqualsLiveData.setValue(null);
+            }
+        });
+
+        return statusEqualsLiveData;
+    }
+
     public List<Item> getUserPostsList(String posterId) {
         List<Item> userPostsLiveData = new ArrayList<>();
         postApi.getUserPosts(posterId).enqueue(new Callback<List<Item>>() {
