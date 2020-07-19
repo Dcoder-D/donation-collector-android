@@ -121,6 +121,24 @@ public class PostRepository {
         });
         return userPostsLiveData;
     }
+    public Boolean deletePost(String itemId) {
+        final Boolean[] deleteRes = {false};
+        postApi.deletePost(itemId).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.isSuccessful()) {
+                    deleteRes[0] = true;
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                deleteRes[0] = false;
+            }
+        });
+
+        return deleteRes[0];
+    }
 
 //    public static void main(String[] args) {
 //        PostRepository postRepository = new PostRepository();

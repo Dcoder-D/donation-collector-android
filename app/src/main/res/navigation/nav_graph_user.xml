@@ -16,17 +16,17 @@
 <!--            android:defaultValue="@null"-->
 <!--            app:argType="string"-->
 <!--            app:nullable="true" />-->
-<!--        <action-->
-<!--            android:id="@+id/action_title_postcenter_to_post_details"-->
-<!--            app:destination="@+id/nav_post_details_ngo"-->
-<!--            app:enterAnim="@android:anim/slide_in_left"-->
-<!--            app:exitAnim="@android:anim/slide_out_right" >-->
+        <action
+            android:id="@+id/action_title_postcenter_to_post_details"
+            app:destination="@+id/nav_post_details_user"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" >
 <!--            <argument-->
 <!--                android:name="dummy"-->
 <!--                android:defaultValue="@null"-->
 <!--                app:argType="string"-->
 <!--                app:nullable="true" />-->
-<!--        </action>-->
+        </action>
 
         <action
             android:id="@+id/action_nav_post_user_to_nav_albums"
@@ -80,5 +80,15 @@
         </action>
 
     </fragment>
+    <fragment
+        android:id="@+id/nav_post_details_user"
+        android:name="com.flagcamp.donationcollector.ui.user.posts.PostDetailsUserFragment"
+        android:label="DetailsUser"
+        tools:layout="@layout/fragment_post_details_user" >
+        <action
+            android:id="@+id/action_nav_details_to_user"
+            app:destination="@id/nav_post_user" />
+    </fragment>
+
 
 </navigation>
