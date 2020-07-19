@@ -55,8 +55,8 @@ public class PostCenterFragment extends Fragment {
 //                NavHostFragment.findNavController(PostCenterFragment.this).navigate(R.id.action_title_postcenter_to_location_selector);
 
               PostCenterFragmentDirections.ActionTitlePostcenterToLocationSelector actionTitlePostcenterToLocationSelector =
-              PostCenterFragmentDirections.actionTitlePostcenterToLocationSelector();
-              actionTitlePostcenterToLocationSelector.setDummy("test");
+              PostCenterFragmentDirections.actionTitlePostcenterToLocationSelector("PostCenterFragment");
+
               NavHostFragment.findNavController(PostCenterFragment.this).navigate(actionTitlePostcenterToLocationSelector);
             }
         });
