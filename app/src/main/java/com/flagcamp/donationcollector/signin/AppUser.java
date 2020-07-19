@@ -1,26 +1,78 @@
 package com.flagcamp.donationcollector.signin;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class AppUser {
+public class AppUser implements Serializable {
     private String firstName;
     private String lastName;
     private String emailAddress;
     private String phone;
     private String organizationName;
-    private boolean user;
+    private String uid;
+    private boolean isUser;
 
     public AppUser() {
         // Default constructor required for calls to DataSnapshot.getValue(AppUser.class)
     }
 
-    public AppUser(String emailAddress, String phone, boolean user) {
-        this.firstName = "";
-        this.lastName = "";
-        this.emailAddress = emailAddress;
-        this.phone = phone;
-        this.user = user;
-        this.organizationName = "";
+    public static class AppUserBuilder {
+        private String firstName = "";
+        private String lastName = "";
+        private String emailAddress = "";
+        private String phone = "";
+        private String organizationName = "";
+        private String uid;
+        private boolean isUser;
+
+        public AppUserBuilder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public AppUserBuilder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public AppUserBuilder emailAddress(String emailAddress) {
+            this.emailAddress = emailAddress;
+            return this;
+        }
+
+        public AppUserBuilder phone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public AppUserBuilder organizationName(String organizationName) {
+            this.organizationName = organizationName;
+            return this;
+        }
+
+        public AppUserBuilder uid(String uid) {
+            this.uid = uid;
+            return this;
+        }
+
+        public AppUserBuilder isUser(boolean isUser) {
+            this.isUser = isUser;
+            return this;
+        }
+
+        public AppUser build() {
+            return new AppUser(this);
+        }
+    }
+
+    private AppUser(AppUserBuilder builder) {
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.emailAddress = builder.emailAddress;
+        this.phone = builder.phone;
+        this.isUser = builder.isUser;
+        this.organizationName = builder.organizationName;
+        this.uid = builder.uid;
     }
 
     public void setFirstName(String firstName) {
@@ -35,13 +87,30 @@ public class AppUser {
         this.organizationName = organizationName;
     }
 
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setUser(boolean isUser) {
+        this.isUser = isUser;
+    }
+
     public AppUser(AppUser otherUser) {
         this.firstName = otherUser.firstName;
         this.lastName = otherUser.lastName;
         this.emailAddress = otherUser.emailAddress;
         this.organizationName = otherUser.organizationName;
         this.phone = otherUser.phone;
-        this.user = otherUser.user;
+        this.isUser = otherUser.isUser;
+        this.uid = otherUser.uid;
     }
 
     public String getFirstName() {
@@ -64,8 +133,12 @@ public class AppUser {
         return organizationName;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
     public boolean isUser() {
-        return user;
+        return isUser;
     }
 
     @Override
@@ -76,7 +149,8 @@ public class AppUser {
                 ", emailAddress='" + emailAddress + '\'' +
                 ", phone='" + phone + '\'' +
                 ", organizationName='" + organizationName + '\'' +
-                ", user=" + user +
+                ", uid='" + uid + '\'' +
+                ", isUser=" + isUser +
                 '}';
     }
 
@@ -85,16 +159,17 @@ public class AppUser {
         if (this == o) return true;
         if (!(o instanceof AppUser)) return false;
         AppUser appUser = (AppUser) o;
-        return user == appUser.user &&
+        return isUser == appUser.isUser &&
                 Objects.equals(firstName, appUser.firstName) &&
                 Objects.equals(lastName, appUser.lastName) &&
                 Objects.equals(emailAddress, appUser.emailAddress) &&
                 Objects.equals(phone, appUser.phone) &&
-                Objects.equals(organizationName, appUser.organizationName);
+                Objects.equals(organizationName, appUser.organizationName) &&
+                Objects.equals(uid, appUser.uid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, emailAddress, phone, organizationName, user);
+        return Objects.hash(firstName, lastName, emailAddress, phone, organizationName, uid, isUser);
     }
 }
