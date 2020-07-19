@@ -42,6 +42,7 @@ public class PasswordSignInActivity extends BaseActivity implements
     private boolean isUser;
     private boolean isRegister;
     private ValueEventListener userListener;
+    private AppUser appUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,10 +74,11 @@ public class PasswordSignInActivity extends BaseActivity implements
             public void onDataChange(DataSnapshot dataSnapshot) {
                 AppUser appUser = dataSnapshot.getValue(AppUser.class);
                 setIsUser(appUser.isUser());
+                setAppUser(appUser);
                 if (isUser == isChooseUser) {
                     updateUI(user);
                 } else {
-                    Snackbar.make(mBinding.coordinatorLayout, "Log in failed due to wrong type of user.",
+                    Snackbar.make(mBinding.snackbar, "Log in failed due to wrong type of user.",
                             Snackbar.LENGTH_SHORT)
                             .show();
                     // Firebase sign out
@@ -105,8 +107,9 @@ public class PasswordSignInActivity extends BaseActivity implements
         user = mAuth.getCurrentUser();
         if (user != null) {
             validateUserType(user);
+        } else {
+            updateUI(null);
         }
-        updateUI(user);
     }
     // [END on_start_check_user]
 
@@ -131,7 +134,7 @@ public class PasswordSignInActivity extends BaseActivity implements
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Snackbar.make(mBinding.passwordLoginLayout,
+                            Snackbar.make(mBinding.snackbar,
                                     "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -145,10 +148,12 @@ public class PasswordSignInActivity extends BaseActivity implements
     }
 
     private void onAuthSuccess(FirebaseUser user) {
-        AppUser appUser = new AppUser(
-                mBinding.fieldEmail.getText().toString(),
-                mBinding.fieldPhone.getText().toString(),
-                isChooseUser);
+        AppUser appUser = new AppUser.AppUserBuilder()
+                .emailAddress(mBinding.fieldEmail.getText().toString())
+                .phone(mBinding.fieldPhone.getText().toString())
+                .isUser(isChooseUser)
+                .uid(user.getUid())
+                .build();
         if (isChooseUser) {
             appUser.setFirstName(mBinding.fieldFirstName.getText().toString());
             appUser.setLastName(mBinding.fieldLastName.getText().toString());
@@ -164,10 +169,10 @@ public class PasswordSignInActivity extends BaseActivity implements
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Snackbar.make(mBinding.coordinatorLayout,
+                    Snackbar.make(mBinding.snackbar,
                             "Registration Success.", Snackbar.LENGTH_SHORT).show();
                 } else {
-                    Snackbar.make(mBinding.coordinatorLayout,
+                    Snackbar.make(mBinding.snackbar,
                             "Registration Failed.", Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -180,9 +185,11 @@ public class PasswordSignInActivity extends BaseActivity implements
         if (user != null) {
             // try to start the main activity here
             // and finish the login activity
+
             Class thisClass = isUser ? MainActivityUser.class : MainActivityNGO.class;
             Intent intent = new Intent(PasswordSignInActivity.this, thisClass);
 //                                .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra("AppUser", appUser);
             startActivity(intent);
             finish();
         } else {
@@ -274,14 +281,14 @@ public class PasswordSignInActivity extends BaseActivity implements
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
+                            Log.d(TAG, "Correct Username and Password");
                             FirebaseUser currentUser = mAuth.getCurrentUser();
                             validateUserType(currentUser);
                             setFirebaseUser(currentUser);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Snackbar.make(mBinding.passwordLoginLayout, "Authentication failed.",
+                            Snackbar.make(mBinding.snackbar, "Authentication failed.",
                                     Snackbar.LENGTH_SHORT).show();
                             updateUI(null);
                             // [START_EXCLUDE]
@@ -307,6 +314,10 @@ public class PasswordSignInActivity extends BaseActivity implements
 
     private void setIsUser(boolean input) {
         isUser = input;
+    }
+
+    private void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
     }
 
     private void setFirebaseUser(FirebaseUser currentUser) {
