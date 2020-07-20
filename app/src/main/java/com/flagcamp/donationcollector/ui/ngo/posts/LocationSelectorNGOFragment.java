@@ -38,14 +38,14 @@ public class LocationSelectorNGOFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         confirmButton = view.findViewById(R.id.location_confirm_ngo_button);
 
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LocationSelectorNGOFragmentDirections.ActionTitleLocationSelectorToPostcenter actionTitleLocationSelectorToPostcenter =
-                        LocationSelectorNGOFragmentDirections.actionTitleLocationSelectorToPostcenter();
-                actionTitleLocationSelectorToPostcenter.setDummy("test back");
-                NavHostFragment.findNavController(LocationSelectorNGOFragment.this).navigate(actionTitleLocationSelectorToPostcenter);
-            }
-        });
+//        confirmButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LocationSelectorNGOFragmentDirections.ActionTitleLocationSelectorToPostcenter actionTitleLocationSelectorToPostcenter =
+//                        LocationSelectorNGOFragmentDirections.actionTitleLocationSelectorToPostcenter();
+//                actionTitleLocationSelectorToPostcenter.setDummy("test back");
+//                NavHostFragment.findNavController(LocationSelectorNGOFragment.this).navigate(actionTitleLocationSelectorToPostcenter);
+//            }
+//        });
     }
 }

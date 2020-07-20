@@ -1,0 +1,143 @@
+{
+  "items": [
+    {
+      "id": "0",
+      "urlToImage": "https://media.fds.fi/product_image/800/10Ton_19_TH.jpg",
+      "lat": 100,
+      "lon": 100,
+      "location": "100 Main St",
+      "posterId": "0",
+      "category": "Furniture",
+      "description": "this is a chair",
+      "size": "5'*5'*4'",
+      "availableTime": [
+        "2020-07-15",
+        "2020-07-16"
+      ],
+      "status": "Pending",
+      "pickUpNGOId": "1",
+      "pickupTime": "2020-07-16 07:45"
+    },
+    {
+      "id": "1",
+      "urlToImage": "https://images.eq3.com/image-service/78f4d56d-5427-11ea-966f-0af5f9f3b9c4/COMPRESSED.jpg",
+      "lat": 100,
+      "lon": 100,
+      "location": "100 Main St",
+      "posterId": "0",
+      "category": "Furniture",
+      "description": "this is a desk",
+      "size": "8'*8'*4'",
+      "availableTime": [
+        "2020-07-15",
+        "2020-07-16"
+      ],
+      "status": "Pending",
+      "pickUpNGOId": "0",
+      "pickupTime": "2020-07-16 08:30"
+    },
+    {
+      "id": "2",
+      "urlToImage": "https://www.ikea.com/us/en/images/products/nordviken-chair-black__0714202_PE729964_S5.JPG",
+      "lat": 200,
+      "lon": 200,
+      "location": "200 Main St",
+      "posterId": "1",
+      "category": "Furniture",
+      "description": "this is a chair",
+      "size": "5'*5'*4'",
+      "availableTime": [
+        "2020-07-20",
+        "2020-07-21"
+      ],
+      "status": "Pending",
+      "pickUpNGOId": "1",
+      "pickupTime": "2020-07-20 15:30"
+    },
+    {
+      "id": "3",
+      "urlToImage": "https://images.homedepot-static.com/productImages/10105a5b-1959-4707-9fba-0677976f1d12/svn/brushed-nickel-hampton-bay-table-lamps-hw-t2824lstca-64_600.jpg",
+      "lat": 200,
+      "lon": 200,
+      "location": "200 Main St",
+      "posterId": "1",
+      "category": "Furniture",
+      "description": "this is a lamp",
+      "size": "3'*3'*2'",
+      "availableTime": [
+        "2020-07-20",
+        "2020-07-21"
+      ],
+      "status": "Pending",
+      "pickUpNGOId": "",
+      "pickupTime": ""
+    },
+    {
+      "id": "4",
+      "urlToImage": "http://placehold.it/120x120&text=image4",
+      "lat": 300,
+      "lon": 300,
+      "location": "300 Main St",
+      "posterId": "2",
+      "category": "Apparel",
+      "description": "this is a t-shirt",
+      "size": "3'*3'*2'",
+      "availableTime": [
+        "2020-07-25",
+        "2020-07-26"
+      ],
+      "status": "Pending",
+      "pickUpNGOId": "",
+      "pickupTime": ""
+    },
+    {
+      "id": "ZRRASgn"
+    },
+    {
+      "id": "jPNEcyI"
+    },
+    {
+      "id": "pIqBd2d"
+    },
+    {
+      "id": "t3cHCRf"
+    }
+  ],
+  "users": [
+    {
+      "id": 0,
+      "userType": "Individual",
+      "Name": "John Doe",
+      "email": "John@gmail.com",
+      "address": "100 Main St"
+    },
+    {
+      "id": 1,
+      "userType": "Individual",
+      "Name": "Bob Smith",
+      "email": "Bob@gmail.com",
+      "address": "200 Main St"
+    },
+    {
+      "id": 2,
+      "userType": "Individual",
+      "Name": "Charlie Johnson",
+      "email": "Charlie@gmail.com",
+      "address": "300 Main St"
+    },
+    {
+      "id": 3,
+      "userType": "NGO",
+      "Name": "NGO one",
+      "email": "John@gmail.com",
+      "address": "100 Main Road"
+    },
+    {
+      "id": 4,
+      "userType": "NGO",
+      "Name": "NGO two",
+      "email": "John@gmail.com",
+      "address": "200 Main Main Road"
+    }
+  ]
+}
