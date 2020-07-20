@@ -60,6 +60,7 @@ dependencies {
     releaseImplementation 'com.ashokvarma.android:gander-no-op:3.1.0'
     implementation 'com.facebook.stetho:stetho:1.5.1'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+
     implementation "androidx.room:room-runtime:2.2.5"
     annotationProcessor "androidx.room:room-compiler:2.2.5"
     annotationProcessor "android.arch.persistence.room:compiler:2.2.5"

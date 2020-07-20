@@ -105,11 +105,12 @@ public class PasswordSignInActivity extends BaseActivity implements
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         user = mAuth.getCurrentUser();
-        if (user != null) {
-            validateUserType(user);
-        } else {
-            updateUI(null);
-        }
+        updateUI(user);
+//        if (user != null) {
+//            validateUserType(user);
+//        } else {
+//            updateUI(null);
+//        }
     }
     // [END on_start_check_user]
 
