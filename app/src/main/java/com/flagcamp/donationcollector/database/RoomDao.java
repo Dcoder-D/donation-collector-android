@@ -26,5 +26,5 @@ public interface RoomDao {
     LiveData<List<AppUser>> getAppUser();
 
     @Delete
-    void deleteAppUser(AppUser... appUser);
+    void deleteAppUser(AppUser appUser);
 }

@@ -8,11 +8,13 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 
 import com.flagcamp.donationcollector.MainActivityNGO;
 import com.flagcamp.donationcollector.MainActivityUser;
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.databinding.ActivityPasswordsigninBinding;
+import com.flagcamp.donationcollector.repository.SignInRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,6 +28,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class PasswordSignInActivity extends BaseActivity implements
         View.OnClickListener {
@@ -43,6 +47,8 @@ public class PasswordSignInActivity extends BaseActivity implements
     private boolean isRegister;
     private ValueEventListener userListener;
     private AppUser appUser;
+    private SignInRepository repository;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,13 +75,17 @@ public class PasswordSignInActivity extends BaseActivity implements
         mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
         // [END initialize_database_ref]
 
+        repository = new SignInRepository();
+
         userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 AppUser appUser = dataSnapshot.getValue(AppUser.class);
                 setIsUser(appUser.isUser());
-                setAppUser(appUser);
+//                setAppUser(appUser);
                 if (isUser == isChooseUser) {
+                    // now we need to write appUser to the Room database
+                    repository.saveAppUser(appUser);
                     updateUI(user);
                 } else {
                     Snackbar.make(mBinding.snackbar, "Log in failed due to wrong type of user.",
@@ -92,6 +102,14 @@ public class PasswordSignInActivity extends BaseActivity implements
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
             }
         };
+
+        repository.getAppUser().observe(this, appUsers -> {
+            if (appUsers.size() > 0) {
+                appUser = appUsers.get(0);
+            } else {
+                appUser = null;
+            }
+        });
 
         isChooseUser = ((RadioButton) findViewById(R.id.radio_user)).isChecked();
 
