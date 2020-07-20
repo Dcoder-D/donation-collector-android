@@ -54,6 +54,9 @@ public class Item implements Serializable{
     @SerializedName("pickupTime")
     @Expose
     public String pickupTime;
+    @SerializedName("pickUpDate")
+    @Expose
+    public String pickUpDate;
 
 
     public static enum Category {

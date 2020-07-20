@@ -34,7 +34,8 @@ public class CalendarUserFragment extends Fragment {
         binding.calendarUser.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Log.d("DATE", month + "/" + dayOfMonth + "/" + year);
+                String date = month + 1 + "/" + dayOfMonth + "/" + year;
+                Log.d("DATE", date);
 
             }
         });

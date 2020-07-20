@@ -10,6 +10,7 @@ import android.widget.CalendarView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.flagcamp.donationcollector.databinding.FragmentCalendarNgoBinding;
 
@@ -34,7 +35,16 @@ public class CalendarNGOFragment extends Fragment {
         binding.calendarNGO.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Log.d("DATE", month + "/" + dayOfMonth + "/" + year);
+                String date = year + "-0" + (month + 1) + "-" + dayOfMonth;
+                Log.d("DATE", date);
+
+                CalendarNGOFragmentDirections.ActionTitleCalendarngoToScheduledpickup actionTitleCalendarngoToScheduledpickup =
+                        CalendarNGOFragmentDirections.actionTitleCalendarngoToScheduledpickup();
+                actionTitleCalendarngoToScheduledpickup.setDate(date);
+                NavHostFragment.findNavController(CalendarNGOFragment.this)
+                        .navigate(actionTitleCalendarngoToScheduledpickup);
+
+                //RecyclerView
 
             }
         });

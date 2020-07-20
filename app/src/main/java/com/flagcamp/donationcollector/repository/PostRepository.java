@@ -99,6 +99,32 @@ public class PostRepository {
         return statusEqualsLiveData;
     }
 
+        //TODO:getDateEquals()
+    public LiveData<List<Item>> getDateEquals(String pickUpDate) {
+        final MutableLiveData<List<Item>> dateEqualsLiveData = new MutableLiveData<>();
+        postApi.getDateEquals(pickUpDate).enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                if(response.isSuccessful()) {
+                    dateEqualsLiveData.setValue(response.body());
+                    Log.d("PostRepoDates", "Success");
+                    Log.d("PostRepoDates", response.body().toString());
+                } else {
+                    dateEqualsLiveData.setValue(null);
+                    Log.d("PostRepoDates", "not successful");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+                dateEqualsLiveData.setValue(null);
+                Log.d("getDateEquals", "Failed: " + t.toString());
+            }
+        });
+
+        return dateEqualsLiveData;
+    }
+
     public List<Item> getUserPostsList(String posterId) {
         List<Item> userPostsLiveData = new ArrayList<>();
         postApi.getUserPosts(posterId).enqueue(new Callback<List<Item>>() {
