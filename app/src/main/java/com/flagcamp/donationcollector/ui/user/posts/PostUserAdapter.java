@@ -49,6 +49,11 @@ public class PostUserAdapter extends RecyclerView.Adapter<PostUserAdapter.PostUs
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Steven Ding: commented this out so it does not conflict with Navigation.findNav... in PostUserFragment
+                // Duplicate Navigation.findNavController will crash the program.
+                // Comment: using the PostUserFragmentDirections.ActionTitlePoutUserToPostDetails may be better since it
+                // allows us to do argument safety check if we want to do that
+//                Navigation.findNavController(view).navigate(R.id.action_title_postuser_to_post_details);
                 mOnItemClickListener.onItemClick(item);
             }
         });
@@ -56,7 +61,6 @@ public class PostUserAdapter extends RecyclerView.Adapter<PostUserAdapter.PostUs
 
     @Override
     public int getItemCount() {
-
         return items.size();
     }
 
