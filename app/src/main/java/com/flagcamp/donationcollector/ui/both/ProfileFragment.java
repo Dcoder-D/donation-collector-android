@@ -52,9 +52,9 @@ public class ProfileFragment extends Fragment
         // retrieve data from database
 //        mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
         binding = FragmentProfileBinding.inflate(getLayoutInflater());
-
         binding.logoutButton.setOnClickListener(this);
         binding.changePassword.setOnClickListener(this);
+
     }
 
     @Override
@@ -63,7 +63,14 @@ public class ProfileFragment extends Fragment
         appUser = (AppUser) getActivity().getIntent().getSerializableExtra("AppUser");
         if (appUser != null) {
             Log.d(TAG, "Get appUser in Profile Fragment as" + appUser.toString());
+            if (appUser.isUser()){
+                binding.fullName.setText(appUser.getFirstName() + " " + appUser.getLastName());
+            } else {
+                binding.fullName.setText(appUser.getOrganizationName());
+            }
         }
+
+        binding.email.setText(appUser.getEmailAddress());
     }
 
     @Nullable
