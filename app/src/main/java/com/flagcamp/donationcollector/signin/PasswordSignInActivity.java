@@ -8,11 +8,13 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 
 import com.flagcamp.donationcollector.MainActivityNGO;
 import com.flagcamp.donationcollector.MainActivityUser;
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.databinding.ActivityPasswordsigninBinding;
+import com.flagcamp.donationcollector.repository.SignInRepository;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,6 +28,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class PasswordSignInActivity extends BaseActivity implements
         View.OnClickListener {
@@ -43,6 +47,8 @@ public class PasswordSignInActivity extends BaseActivity implements
     private boolean isRegister;
     private ValueEventListener userListener;
     private AppUser appUser;
+    private SignInRepository repository;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,14 +75,18 @@ public class PasswordSignInActivity extends BaseActivity implements
         mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
         // [END initialize_database_ref]
 
+        repository = new SignInRepository();
+
         userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 AppUser appUser = dataSnapshot.getValue(AppUser.class);
                 setIsUser(appUser.isUser());
-                setAppUser(appUser);
+//                setAppUser(appUser);
                 if (isUser == isChooseUser) {
-                    updateUI(user);
+                    // now we need to write appUser to the Room database
+                    repository.saveAppUser(appUser);
+                    updateUI(appUser);
                 } else {
                     Snackbar.make(mBinding.snackbar, "Log in failed due to wrong type of user.",
                             Snackbar.LENGTH_SHORT)
@@ -104,8 +114,17 @@ public class PasswordSignInActivity extends BaseActivity implements
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        user = mAuth.getCurrentUser();
-        updateUI(user);
+//        user = mAuth.getCurrentUser();
+//        updateUI(user);
+        repository.getAppUser().observe(this, appUsers -> {
+            if (appUsers.size() > 0) {
+                appUser = appUsers.get(0);
+
+            } else {
+                appUser = null;
+            }
+            updateUI(appUser);
+        });
 //        if (user != null) {
 //            validateUserType(user);
 //        } else {
@@ -181,13 +200,13 @@ public class PasswordSignInActivity extends BaseActivity implements
     }
 
 
-    private void updateUI(FirebaseUser user) {
+    private void updateUI(AppUser appUser) {
         hideProgressBar();
-        if (user != null) {
+        if (appUser != null) {
             // try to start the main activity here
             // and finish the login activity
 
-            Class thisClass = isUser ? MainActivityUser.class : MainActivityNGO.class;
+            Class thisClass = appUser.isUser() ? MainActivityUser.class : MainActivityNGO.class;
             Intent intent = new Intent(PasswordSignInActivity.this, thisClass);
 //                                .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra("AppUser", appUser);

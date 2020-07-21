@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.databinding.FragmentProfileBinding;
+import com.flagcamp.donationcollector.repository.SignInRepository;
 import com.flagcamp.donationcollector.signin.AppUser;
 import com.flagcamp.donationcollector.signin.PasswordSignInActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -91,6 +92,9 @@ public class ProfileFragment extends Fragment
         mAuth.signOut();
         // Google sign out
         mGoogleSignInClient.signOut();
+        // now we need to write appUser to the Room database
+        SignInRepository repository = new SignInRepository();
+        repository.deleteAppUser(appUser);
         Intent intent = new Intent(getActivity(), PasswordSignInActivity.class);
         startActivity(intent);
         getActivity().finish();
