@@ -68,9 +68,10 @@ public class ProfileFragment extends Fragment
             } else {
                 binding.fullName.setText(appUser.getOrganizationName());
             }
+            binding.email.setText(appUser.getEmailAddress());
         }
 
-        binding.email.setText(appUser.getEmailAddress());
+
     }
 
     @Nullable
