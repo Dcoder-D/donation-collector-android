@@ -86,7 +86,7 @@ public class PasswordSignInActivity extends BaseActivity implements
                 if (isUser == isChooseUser) {
                     // now we need to write appUser to the Room database
                     repository.saveAppUser(appUser);
-                    updateUI(user);
+                    updateUI(appUser);
                 } else {
                     Snackbar.make(mBinding.snackbar, "Log in failed due to wrong type of user.",
                             Snackbar.LENGTH_SHORT)
@@ -103,14 +103,6 @@ public class PasswordSignInActivity extends BaseActivity implements
             }
         };
 
-        repository.getAppUser().observe(this, appUsers -> {
-            if (appUsers.size() > 0) {
-                appUser = appUsers.get(0);
-            } else {
-                appUser = null;
-            }
-        });
-
         isChooseUser = ((RadioButton) findViewById(R.id.radio_user)).isChecked();
 
         // initialized the page to be the login page
@@ -122,8 +114,17 @@ public class PasswordSignInActivity extends BaseActivity implements
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        user = mAuth.getCurrentUser();
-        updateUI(user);
+//        user = mAuth.getCurrentUser();
+//        updateUI(user);
+        repository.getAppUser().observe(this, appUsers -> {
+            if (appUsers.size() > 0) {
+                appUser = appUsers.get(0);
+
+            } else {
+                appUser = null;
+            }
+            updateUI(appUser);
+        });
 //        if (user != null) {
 //            validateUserType(user);
 //        } else {
@@ -199,13 +200,13 @@ public class PasswordSignInActivity extends BaseActivity implements
     }
 
 
-    private void updateUI(FirebaseUser user) {
+    private void updateUI(AppUser appUser) {
         hideProgressBar();
-        if (user != null) {
+        if (appUser != null) {
             // try to start the main activity here
             // and finish the login activity
 
-            Class thisClass = isUser ? MainActivityUser.class : MainActivityNGO.class;
+            Class thisClass = appUser.isUser() ? MainActivityUser.class : MainActivityNGO.class;
             Intent intent = new Intent(PasswordSignInActivity.this, thisClass);
 //                                .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra("AppUser", appUser);
