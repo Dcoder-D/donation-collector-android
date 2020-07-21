@@ -67,7 +67,7 @@ public class PostUserFragment extends Fragment {
             @Override
             public void onItemClick(Item item) {
                 PostDetailsUserFragment.setItem(item);
-                Navigation.findNavController(view).navigate(R.id.action_title_postcenter_to_post_details);
+                Navigation.findNavController(view).navigate(R.id.action_title_postuser_to_post_details);
             }
         });
 
