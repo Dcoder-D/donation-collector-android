@@ -53,6 +53,7 @@ public class PostUserAdapter extends RecyclerView.Adapter<PostUserAdapter.PostUs
                 // Duplicate Navigation.findNavController will crash the program.
                 // Comment: using the PostUserFragmentDirections.ActionTitlePoutUserToPostDetails may be better since it
                 // allows us to do argument safety check if we want to do that
+
 //                Navigation.findNavController(view).navigate(R.id.action_title_postuser_to_post_details);
                 mOnItemClickListener.onItemClick(item);
             }
