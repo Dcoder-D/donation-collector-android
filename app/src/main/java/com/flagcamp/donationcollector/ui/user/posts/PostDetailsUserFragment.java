@@ -29,6 +29,7 @@ public class PostDetailsUserFragment extends Fragment {
     private static Item mitem;
     public PostDetailsUserFragment() {
     }
+
     public static void setItem(Item item) {
         mitem = item;
     }
