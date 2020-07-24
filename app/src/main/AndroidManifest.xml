@@ -49,7 +49,9 @@
 
         <activity
             android:name=".MainActivityUser"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan"
+            />
 
     </application>
 

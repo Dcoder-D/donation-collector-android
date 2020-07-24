@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -102,7 +103,7 @@ public class AlbumsFragment extends Fragment {
 
     //安卓版本大于4.4的处理方法
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void handImage(Intent data){
+    private void handImage(Intent data) {
         String path =null;
         Uri uri = data.getData();
         //根据不同的uri进行不同的解析
@@ -123,6 +124,12 @@ public class AlbumsFragment extends Fragment {
         }
         //展示图片
         displayImage(path);
+
+        // Pass the image path to post preview page
+        AlbumsFragmentDirections.ActionTitleAlbumsToPostPreview actionTitleAlbumsToPostPreview
+                = AlbumsFragmentDirections.actionTitleAlbumsToPostPreview();
+        actionTitleAlbumsToPostPreview.setImagePath(path);
+        NavHostFragment.findNavController(this).navigate(actionTitleAlbumsToPostPreview);
     }
 
 
