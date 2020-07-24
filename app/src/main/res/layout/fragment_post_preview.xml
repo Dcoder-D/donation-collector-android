@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ui.user.posts.PostPreviewFragment">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/albums_back_button"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/post_button"
+        android:text="post"
+        android:background="@color/light_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="0dp"
+        android:background="@drawable/back"
+        android:padding="8dp"
+        android:id="@+id/location_text"
+        app:layout_constraintTop_toBottomOf="@+id/albums_back_button"
+        android:text="Location"
+        android:textSize="25sp" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_baseline_add_location_24"
+        app:layout_constraintTop_toTopOf="@+id/location_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="80dp"
+        />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_baseline_arrow_right_alt_24"
+        app:layout_constraintTop_toTopOf="@+id/location_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="80dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="0dp"
+        android:id="@+id/location_display_text"
+        app:layout_constraintTop_toBottomOf="@+id/location_text"
+        android:text="Selected location"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="0dp"
+        android:background="@drawable/back"
+        android:padding="8dp"
+        android:id="@+id/schedule_text"
+        app:layout_constraintTop_toBottomOf="@+id/location_display_text"
+        android:text="Schedule"
+        android:textSize="25sp" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_baseline_calendar_today_24"
+        app:layout_constraintTop_toTopOf="@+id/schedule_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="80dp"
+        />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_baseline_arrow_right_alt_24"
+        app:layout_constraintTop_toTopOf="@+id/schedule_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="80dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="0dp"
+        android:id="@+id/schedule_display_text"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_text"
+        android:text="Selected schedule"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/category_input"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_display_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:text="Category"
+        android:background="@drawable/input_box_back" />
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/description_input"
+        app:layout_constraintTop_toBottomOf="@+id/category_input"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:text="Description"
+        android:background="@drawable/input_box_back" />
+
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/image_placeholder"
+        app:layout_constraintTop_toBottomOf="@id/description_input"
+        app:layout_constraintStart_toStartOf="@+id/description_input"
+        android:src="@drawable/ic_add_24px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_to_post_button"
+        app:layout_constraintTop_toBottomOf="@+id/description_input"
+        app:layout_constraintStart_toEndOf="@+id/image_placeholder"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="80dp"
+        android:padding="5dp"
+        android:text="Add to post"
+        android:background="@color/light_green" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_another_button"
+        app:layout_constraintTop_toBottomOf="@+id/add_to_post_button"
+        app:layout_constraintStart_toEndOf="@+id/image_placeholder"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="80dp"
+        android:padding="5dp"
+        android:text="Add another post"
+        android:background="@color/light_green" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/added_items_text"
+        app:layout_constraintTop_toBottomOf="@+id/image_placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Added Items"
+        android:layout_marginStart="40dp"
+        android:textSize="25sp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/added_items_recycler_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/added_items_text"
+        android:layout_marginTop="10dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

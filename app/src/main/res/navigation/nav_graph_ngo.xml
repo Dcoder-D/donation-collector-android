@@ -28,7 +28,7 @@
 <!--        </action>-->
         <action
             android:id="@+id/action_title_postcenter_to_location_selector"
-            app:destination="@+id/nav_location_selector"
+            app:destination="@+id/nav_location_selector_ngo"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right">
             <argument
@@ -50,8 +50,8 @@
 
     </fragment>
     <fragment
-        android:id="@+id/nav_location_selector"
-        android:name="com.flagcamp.donationcollector.ui.both.LocationSelectorFragment"
+        android:id="@+id/nav_location_selector_ngo"
+        android:name="com.flagcamp.donationcollector.ui.ngo.posts.LocationSelectorNGOFragment"
         android:label="Location Selector"
         tools:layout="@layout/fragment_location_selector" >
         <argument

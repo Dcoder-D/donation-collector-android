@@ -77,15 +77,22 @@ public class LocationSelectorFragment extends Fragment implements AdapterView.On
                 fullAddress = (aptNumber.equals("") || aptNumber.equals("") ? "" : (aptNumber + ", ")) + streetInput.getText().toString() + ", " + cityInput.getText().toString() + ", "
                         + state + " " + zipcodeInput.getText().toString();
                 testText.setText(fullAddress);
+
+                LocationSelectorFragmentDirections.ActionTitleLocationToPostPreview actionTitleLocationSelectorToPostcenter =
+                        LocationSelectorFragmentDirections.actionTitleLocationToPostPreview();
+                actionTitleLocationSelectorToPostcenter.setLocation(fullAddress);
+                NavHostFragment.findNavController(LocationSelectorFragment.this).navigate(actionTitleLocationSelectorToPostcenter);
             }
         });
+
+
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocationSelectorFragmentDirections.ActionTitleLocationSelectorToPostcenter actionTitleLocationSelectorToPostcenter =
-                        LocationSelectorFragmentDirections.actionTitleLocationSelectorToPostcenter();
-                actionTitleLocationSelectorToPostcenter.setLocation(fullAddress);
+                LocationSelectorFragmentDirections.ActionTitleLocationToPostPreview actionTitleLocationSelectorToPostcenter =
+                        LocationSelectorFragmentDirections.actionTitleLocationToPostPreview();
+                actionTitleLocationSelectorToPostcenter.setLocation(null);
                 NavHostFragment.findNavController(LocationSelectorFragment.this).navigate(actionTitleLocationSelectorToPostcenter);
             }
         });
