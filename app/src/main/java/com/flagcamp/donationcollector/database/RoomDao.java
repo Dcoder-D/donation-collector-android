@@ -25,6 +25,18 @@ public interface RoomDao {
     @Query("SELECT * FROM appUser")
     LiveData<List<AppUser>> getAppUser();
 
+    @Query("SELECT * FROM item WHERE status LIKE :keyword")
+    LiveData<List<Item>> getSpecificItems(String keyword);
+
+    @Query("UPDATE item SET status = :next WHERE status LIKE :prev")
+    void updateStatus(String next, String prev);
+
     @Delete
     void deleteAppUser(AppUser appUser);
+
+    @Query("DELETE FROM item")
+    void deleteAllItems();
+
+    @Query("DELETE FROM item WHERE status = :condition")
+    void deleteSelectedItems(String condition);
 }

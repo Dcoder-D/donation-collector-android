@@ -2,12 +2,14 @@ package com.flagcamp.donationcollector.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -55,8 +57,7 @@ public class Item implements Serializable{
     @Expose
     public String pickupTime;
 
-
-    public static enum Category {
+    public enum Category {
         Apparel, Electronics, Entertainment, Hobbies, Furniture;
     }
 
