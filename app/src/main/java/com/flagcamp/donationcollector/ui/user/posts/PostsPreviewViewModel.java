@@ -1,5 +1,6 @@
 package com.flagcamp.donationcollector.ui.user.posts;
 
+
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -34,4 +35,5 @@ public class PostsPreviewViewModel extends ViewModel {
     public void postAllAddedItem() {
         repository.postAllAddedItem();
     }
+
 }

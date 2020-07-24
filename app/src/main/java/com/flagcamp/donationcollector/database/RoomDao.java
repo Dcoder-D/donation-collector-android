@@ -39,4 +39,5 @@ public interface RoomDao {
 
     @Query("DELETE FROM item WHERE status = :condition")
     void deleteSelectedItems(String condition);
+
 }
