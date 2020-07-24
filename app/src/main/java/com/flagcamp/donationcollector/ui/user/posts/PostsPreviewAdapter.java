@@ -1,5 +1,7 @@
 package com.flagcamp.donationcollector.ui.user.posts;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,7 @@ public class PostsPreviewAdapter extends RecyclerView.Adapter<PostsPreviewAdapte
 
     private List<Item> items = new LinkedList<>();
 
+
     @NonNull
     @Override
     public PostsPreviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,7 +39,9 @@ public class PostsPreviewAdapter extends RecyclerView.Adapter<PostsPreviewAdapte
     @Override
     public void onBindViewHolder(@NonNull PostsPreviewHolder holder, int position) {
         Item item = items.get(position);
-        Picasso.get().load(item.urlToImage).into(holder.postImage);
+        Bitmap bitmap = BitmapFactory.decodeFile(item.urlToImage);
+        holder.postImage.setImageBitmap(bitmap);
+//        Picasso.get().load(item.urlToImage).into(holder.postImage);
         holder.postCategory.setText(item.category);
     }
 

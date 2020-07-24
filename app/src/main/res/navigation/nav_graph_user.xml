@@ -51,6 +51,52 @@
                 app:nullable="true" />
 
         </action>
+
+        <action
+            android:id="@+id/action_title_albums_to_posts_preview"
+            app:destination="@+id/nav_posts_preview">
+            <argument
+                android:name="imagePath"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_posts_preview"
+        android:name="com.flagcamp.donationcollector.ui.user.posts.PostsPreviewFragment"
+        tools:layout="@layout/fragment_posts_preview" >
+        <argument
+            android:name="imagePath"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <action
+            android:id="@+id/action_title_posts_preview_to_albums"
+            app:destination="@+id/nav_albums">
+        </action>
+
+        <action
+            android:id="@+id/action_title_posts_preview_to_post_user"
+            app:destination="@+id/nav_post_user">
+            <argument
+                android:name="postResponseMessage"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
+
+        <action
+            android:id="@+id/action_title_posts_preview_to_location"
+            app:destination="@+id/nav_location_selector_user">
+            <argument
+                android:name="from_location"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+
     </fragment>
 
     <fragment
@@ -113,6 +159,16 @@
                 app:nullable="true" />
         </action>
 
+        <action
+            android:id="@+id/action_title_location_to_posts_preview"
+            app:destination="@+id/nav_posts_preview">
+            <argument
+                android:name="location"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
+
     </fragment>
 
 
@@ -163,13 +219,5 @@
             android:id="@+id/action_nav_details_to_user"
             app:destination="@id/nav_post_user" />
     </fragment>
-
-    <fragment
-        android:id="@+id/nav_posts_preview"
-        android:name="com.flagcamp.donationcollector.ui.user.posts.PostsPreviewFragment"
-        tools:layout="@layout/fragment_posts_preview" >
-
-    </fragment>
-
 
 </navigation>

@@ -126,10 +126,10 @@ public class AlbumsFragment extends Fragment {
         displayImage(path);
 
         // Pass the image path to post preview page
-        AlbumsFragmentDirections.ActionTitleAlbumsToPostPreview actionTitleAlbumsToPostPreview
-                = AlbumsFragmentDirections.actionTitleAlbumsToPostPreview();
-        actionTitleAlbumsToPostPreview.setImagePath(path);
-        NavHostFragment.findNavController(this).navigate(actionTitleAlbumsToPostPreview);
+        AlbumsFragmentDirections.ActionTitleAlbumsToPostsPreview actionTitleAlbumsToPostsPreview
+                = AlbumsFragmentDirections.actionTitleAlbumsToPostsPreview();
+        actionTitleAlbumsToPostsPreview.setImagePath(path);
+        NavHostFragment.findNavController(this).navigate(actionTitleAlbumsToPostsPreview);
     }
 
 

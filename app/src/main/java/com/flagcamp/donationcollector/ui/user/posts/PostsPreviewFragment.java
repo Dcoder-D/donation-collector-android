@@ -1,5 +1,7 @@
 package com.flagcamp.donationcollector.ui.user.posts;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +40,8 @@ public class PostsPreviewFragment extends Fragment
     private static final String TAG = "PostsPreviewFragment";
     private PostsPreviewViewModel viewModel;
     private String category;
+    private String imagePath;
+    private ImageView addedImage;
 
     public PostsPreviewFragment() {
         // Required empty public constructor
@@ -59,6 +64,11 @@ public class PostsPreviewFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.categorySpinner.setOnItemSelectedListener(this);
+        addedImage = binding.addedImage;
+        imagePath = PostsPreviewFragmentArgs.fromBundle(getArguments()).getImagePath();
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+        addedImage.setImageBitmap(bitmap);
+
         // Creating adapter for spinner
         List<String> categories = getAllCategory();
 //        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
@@ -134,6 +144,7 @@ public class PostsPreviewFragment extends Fragment
                 }
                 Item item = new Item();
                 item.id = UUID.randomUUID().toString();
+                item.urlToImage = imagePath;
                 item.description = description;
                 item.category = category;
                 item.status = "added";
