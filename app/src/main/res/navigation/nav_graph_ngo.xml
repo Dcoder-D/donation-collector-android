@@ -106,9 +106,9 @@
     </fragment>
     <fragment
         android:id="@+id/nav_scheduled_pickup"
-        android:name="com.flagcamp.donationcollector.ui.both.calendar.ScheduledPickupFragment"
+        android:name="com.flagcamp.donationcollector.ui.ngo.calendar.NGOScheduledPickupFragment"
         android:label="Scheduled Pickup"
-        tools:layout="@layout/fragment_scheduled_pickup">
+        tools:layout="@layout/fragment_ngo_scheduled_pickup">
         <argument
             android:name="date"
             android:defaultValue="@null"

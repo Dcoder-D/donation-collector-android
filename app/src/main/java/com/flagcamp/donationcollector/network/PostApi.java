@@ -29,5 +29,5 @@ public interface PostApi {
 
     @GET("items")
     Call<List<Item>> getUserDateEquals(@Query("pickUpDate") String pickUpDate,
-                                      @Query("pickUpNGOId") String pickUpNGOID);
+                                      @Query("posterId") String posterId);
 }

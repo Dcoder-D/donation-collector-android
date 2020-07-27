@@ -1,4 +1,4 @@
-package com.flagcamp.donationcollector.ui.both.calendar;
+package com.flagcamp.donationcollector.ui.user.calendar;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -12,25 +12,25 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.flagcamp.donationcollector.databinding.FragmentScheduledPickupBinding;
-import com.flagcamp.donationcollector.model.Item;
+import com.flagcamp.donationcollector.databinding.FragmentUserScheduledPickupBinding;
+import com.flagcamp.donationcollector.databinding.FragmentUserScheduledPickupBinding;
 import com.flagcamp.donationcollector.repository.PostRepository;
 import com.flagcamp.donationcollector.repository.PostViewModelFactory;
-import com.flagcamp.donationcollector.ui.ngo.posts.PostCenterViewModel;
+import com.flagcamp.donationcollector.ui.both.calendar.ScheduledPickupAdapter;
+import com.flagcamp.donationcollector.ui.ngo.calendar.NGOScheduledPickupFragmentArgs;
+import com.flagcamp.donationcollector.ui.ngo.calendar.NGOScheduledPickupViewModel;
 
-import java.util.List;
+public class UserScheduledPickupFragment extends Fragment {
+    private FragmentUserScheduledPickupBinding binding;
+    private NGOScheduledPickupViewModel viewModel;
 
-public class ScheduledPickupFragment extends Fragment {
-    private FragmentScheduledPickupBinding binding;
-    private ScheduledPickupViewModel viewModel;
-
-    public ScheduledPickupFragment() {}
+    public UserScheduledPickupFragment() {}
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        return super.onCreateView(inflater, container, savedInstanceState);
-        binding = FragmentScheduledPickupBinding.inflate(inflater, container, false);
+        binding = FragmentUserScheduledPickupBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -40,8 +40,8 @@ public class ScheduledPickupFragment extends Fragment {
             return;
         }
 
-        String date = ScheduledPickupFragmentArgs.fromBundle(getArguments()).getDate();
-        String NGOId = ScheduledPickupFragmentArgs.fromBundle(getArguments()).getNGOId();
+        String date = UserScheduledPickupFragmentArgs.fromBundle(getArguments()).getDate();
+        String NGOId = NGOScheduledPickupFragmentArgs.fromBundle(getArguments()).getNGOId();
 
         ScheduledPickupAdapter scheduledPickupAdapter = new ScheduledPickupAdapter(this);
         binding.scheduledPickupRecyclerView.setAdapter(scheduledPickupAdapter);
@@ -51,7 +51,7 @@ public class ScheduledPickupFragment extends Fragment {
 
         //TODO: add to factory
         viewModel = new ViewModelProvider(this, new PostViewModelFactory(repository))
-                .get(ScheduledPickupViewModel.class);
+                .get(NGOScheduledPickupViewModel.class);
 
         //TODO: Get ID from
         viewModel.getNGODateEquals(date, NGOId).observe(getViewLifecycleOwner(), postResponse -> {
