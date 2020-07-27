@@ -23,7 +23,11 @@ public interface PostApi {
     @GET("items")
     Call<List<Item>> getDateEquals(@Query("pickUpDate") String pickUpDate);
 
-//    @GET("items")
-//    Call<List<Item>> getNGODateEquals(@Query("pickUpDate") String pickUpDate,
-//                                      @Query("pickUpNGOId") String pickUpNGOID);
+    @GET("items")
+    Call<List<Item>> getNGODateEquals(@Query("pickUpDate") String pickUpDate,
+                                      @Query("pickUpNGOId") String pickUpNGOID);
+
+    @GET("items")
+    Call<List<Item>> getUserDateEquals(@Query("pickUpDate") String pickUpDate,
+                                      @Query("pickUpNGOId") String pickUpNGOID);
 }

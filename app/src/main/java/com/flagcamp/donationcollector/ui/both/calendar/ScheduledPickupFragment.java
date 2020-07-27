@@ -41,6 +41,7 @@ public class ScheduledPickupFragment extends Fragment {
         }
 
         String date = ScheduledPickupFragmentArgs.fromBundle(getArguments()).getDate();
+        String NGOId = ScheduledPickupFragmentArgs.fromBundle(getArguments()).getNGOId();
 
         ScheduledPickupAdapter scheduledPickupAdapter = new ScheduledPickupAdapter(this);
         binding.scheduledPickupRecyclerView.setAdapter(scheduledPickupAdapter);
@@ -52,8 +53,8 @@ public class ScheduledPickupFragment extends Fragment {
         viewModel = new ViewModelProvider(this, new PostViewModelFactory(repository))
                 .get(ScheduledPickupViewModel.class);
 
-        //TODO: filter ID
-        viewModel.getDateEquals(date).observe(getViewLifecycleOwner(), postResponse -> {
+        //TODO: Get ID from
+        viewModel.getNGODateEquals(date, NGOId).observe(getViewLifecycleOwner(), postResponse -> {
             if(postResponse != null) {
                 Log.d("ScheduledPickupFragment", "Success");
                 Log.d("ScheduledPickupFragment", postResponse.toString());

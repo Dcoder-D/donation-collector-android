@@ -97,6 +97,11 @@
                 android:defaultValue="@null"
                 app:argType="string"
                 app:nullable="true" />
+            <argument
+                android:name="NGOId"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
         </action>
     </fragment>
     <fragment
@@ -106,6 +111,11 @@
         tools:layout="@layout/fragment_scheduled_pickup">
         <argument
             android:name="date"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="NGOId"
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />

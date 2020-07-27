@@ -16,7 +16,11 @@ public class ScheduledPickupViewModel extends ViewModel {
         this.repository = repository;
     }
 
-    public LiveData<List<Item>> getDateEquals(String date) {
-        return repository.getDateEquals(date);
+    public LiveData<List<Item>> getNGODateEquals(String date, String NGOId) {
+        return repository.getNGODateEquals(date, NGOId);
+    }
+
+    public LiveData<List<Item>> getUserDateEquals(String date, String posterId) {
+        return repository.getUserDateEquals(date, posterId);
     }
 }

@@ -111,7 +111,7 @@ public class PostRepository {
                     Log.d("PostRepoDates", response.body().toString());
                 } else {
                     dateEqualsLiveData.setValue(null);
-                    Log.d("PostRepoDates", "not successful");
+                    Log.d("PostRepoDates", "Failed");
                 }
             }
 
@@ -119,6 +119,56 @@ public class PostRepository {
             public void onFailure(Call<List<Item>> call, Throwable t) {
                 dateEqualsLiveData.setValue(null);
                 Log.d("getDateEquals", "Failed: " + t.toString());
+            }
+        });
+
+        return dateEqualsLiveData;
+    }
+
+    public LiveData<List<Item>> getNGODateEquals(String pickUpDate, String pickUpNGOID) {
+        final MutableLiveData<List<Item>> dateEqualsLiveData = new MutableLiveData<>();
+        postApi.getNGODateEquals(pickUpDate, pickUpNGOID).enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                if(response.isSuccessful()) {
+                    dateEqualsLiveData.setValue(response.body());
+                    Log.d("NGOPostRepoDates", "Success");
+                    Log.d("NGOPostRepoDates", response.body().toString());
+                } else {
+                    dateEqualsLiveData.setValue(null);
+                    Log.d("NGOPostRepoDates", "Failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+                dateEqualsLiveData.setValue(null);
+                Log.d("getNGODateEquals", "Failed: " + t.toString());
+            }
+        });
+
+        return dateEqualsLiveData;
+    }
+
+    public LiveData<List<Item>> getUserDateEquals(String pickUpDate, String posterId) {
+        final MutableLiveData<List<Item>> dateEqualsLiveData = new MutableLiveData<>();
+        postApi.getUserDateEquals(pickUpDate, posterId).enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                if(response.isSuccessful()) {
+                    dateEqualsLiveData.setValue(response.body());
+                    Log.d("UserPostRepoDates", "Success");
+                    Log.d("UserPostRepoDates", response.body().toString());
+                } else {
+                    dateEqualsLiveData.setValue(null);
+                    Log.d("UserPostRepoDates", "not successful");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+                dateEqualsLiveData.setValue(null);
+                Log.d("getUserDateEquals", "Failed: " + t.toString());
             }
         });
 
