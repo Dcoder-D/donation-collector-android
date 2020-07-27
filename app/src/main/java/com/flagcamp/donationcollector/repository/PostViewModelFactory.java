@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.flagcamp.donationcollector.ui.ngo.calendar.NGOScheduledPickupViewModel;
 import com.flagcamp.donationcollector.ui.ngo.posts.PostCenterViewModel;
 import com.flagcamp.donationcollector.ui.user.calendar.UserScheduledPickupViewModel;
+import com.flagcamp.donationcollector.ui.user.posts.PostDetailsUserViewModel;
 import com.flagcamp.donationcollector.ui.user.posts.PostUserViewModel;
+import com.flagcamp.donationcollector.ui.user.posts.PostsPreviewViewModel;
 
 public class PostViewModelFactory implements ViewModelProvider.Factory {
 
@@ -28,6 +30,10 @@ public class PostViewModelFactory implements ViewModelProvider.Factory {
             return (T) new NGOScheduledPickupViewModel(repository);
         } else if (modelClass.isAssignableFrom(UserScheduledPickupViewModel.class)) {
             return (T) new UserScheduledPickupViewModel(repository);
+        } else if(modelClass.isAssignableFrom(PostDetailsUserViewModel.class)) {
+            return (T) new PostDetailsUserViewModel(repository);
+        } else if(modelClass.isAssignableFrom(PostsPreviewViewModel.class)) {
+            return (T) new PostsPreviewViewModel(repository);
         } else {
             throw new IllegalStateException("Unkown ViewModel");
         }

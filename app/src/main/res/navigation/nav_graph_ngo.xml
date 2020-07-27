@@ -10,20 +10,30 @@
         android:label="Items"
         tools:layout="@layout/fragment_post_center">
         <argument
-            android:name="dummy"
+            android:name="location"
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
+<!--        <action-->
+<!--            android:id="@+id/action_title_postcenter_to_location_selector"-->
+<!--            app:destination="@+id/nav_location_selector_ngo"-->
+<!--            app:enterAnim="@android:anim/slide_in_left"-->
+<!--            app:exitAnim="@android:anim/slide_out_right">-->
+<!--            <argument-->
+<!--                android:name="dummy"-->
+<!--                android:defaultValue="@null"-->
+<!--                app:argType="string"-->
+<!--                app:nullable="true" />-->
+<!--        </action>-->
         <action
             android:id="@+id/action_title_postcenter_to_location_selector"
             app:destination="@+id/nav_location_selector_ngo"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right">
             <argument
-                android:name="dummy"
-                android:defaultValue="@null"
+                android:name="from_location"
                 app:argType="string"
-                app:nullable="true" />
+                app:nullable="false" />
         </action>
         <action
             android:id="@+id/action_title_postcenter_to_post_details"
@@ -44,17 +54,16 @@
         android:label="Location Selector"
         tools:layout="@layout/fragment_location_selector_ngo">
         <argument
-            android:name="dummy"
-            android:defaultValue="@null"
+            android:name="from_location"
             app:argType="string"
-            app:nullable="true" />
+            app:nullable="false" />
         <action
             android:id="@+id/action_title_location_selector_to_postcenter"
             app:destination="@+id/nav_post_center"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left">
             <argument
-                android:name="dummy"
+                android:name="location"
                 android:defaultValue="@null"
                 app:argType="string"
                 app:nullable="true" />

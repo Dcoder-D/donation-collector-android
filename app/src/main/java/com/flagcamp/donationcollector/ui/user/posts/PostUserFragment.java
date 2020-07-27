@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -55,13 +56,20 @@ public class PostUserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         addIcon = view.findViewById(R.id.post_user_add_icon);
 
         PostUserAdapter postUserAdapter = new PostUserAdapter();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         binding.postRecyclerView.setLayoutManager(linearLayoutManager);
         binding.postRecyclerView.setAdapter(postUserAdapter);
+
+        postUserAdapter.setOnItemClickListener(new PostUserAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Item item) {
+                PostDetailsUserFragment.setItem(item);
+                Navigation.findNavController(view).navigate(R.id.action_title_postuser_to_post_details);
+            }
+        });
 
         PostRepository repository = new PostRepository(getContext());
         viewModel = new ViewModelProvider(this, new PostViewModelFactory(repository)).get(PostUserViewModel.class);

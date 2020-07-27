@@ -6,13 +6,16 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.room.Dao;
 
 import com.flagcamp.donationcollector.DonationCollectorApplication;
 import com.flagcamp.donationcollector.database.AppDatabase;
+import com.flagcamp.donationcollector.database.RoomDao;
 import com.flagcamp.donationcollector.model.Item;
 import com.flagcamp.donationcollector.model.PostResponse;
 import com.flagcamp.donationcollector.network.PostApi;
 import com.flagcamp.donationcollector.network.RetrofitClient;
+import com.flagcamp.donationcollector.signin.AppUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +28,13 @@ public class PostRepository {
 
     private final PostApi postApi;
     private final AppDatabase database;
+    private final RoomDao dao;
     private AsyncTask asyncTask;
 
     public PostRepository(Context context) {
         postApi = RetrofitClient.newInstance(context).create(PostApi.class);
         database = DonationCollectorApplication.getDatabase();
+        dao = database.dao();
     }
 
     public LiveData<List<Item>> getUserPosts(String posterId) {
@@ -197,9 +202,103 @@ public class PostRepository {
         });
         return userPostsLiveData;
     }
+    public Boolean deletePost(String itemId) {
+        final Boolean[] deleteRes = {false};
+        postApi.deletePost(itemId).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.isSuccessful()) {
+                    deleteRes[0] = true;
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                deleteRes[0] = false;
+            }
+        });
+
+        return deleteRes[0];
+    }
+
+    // connect Room database for PostsPreviewFragment
+    public void addItemAsAdded(Item item) {
+        new InsertAsyncTask(dao).execute(item);
+    }
+
+    public LiveData<List<Item>> getAddedItems() {
+        return dao.getSpecificItems("added");
+    }
+
+    public void postAllAddedItem() {
+        // first, post all added items to backend service
+        // TODO: POST all items to backend
+        // if the post is success, change all item status to pending from added
+        // assume success, change all item status from added to pending
+        deleteAddedItems();
+    }
+
+    private void deleteAddedItems() {
+        new DeleteAsyncTask(dao, "added").execute();
+    }
+
+    public void deleteAllItems() {
+        new DeleteAsyncTask(dao, "").execute();
+    }
 
 //    public static void main(String[] args) {
 //        PostRepository postRepository = new PostRepository();
 //        postRepository.getUserPosts("0");
 //    }
+
+    private static class InsertAsyncTask extends AsyncTask<Item, Void, Void>{
+        RoomDao dao;
+
+        public InsertAsyncTask(RoomDao dao) {
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(Item... items) {
+            dao.saveItem(items[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateAsyncTask extends AsyncTask<Void, Void, Void>{
+        RoomDao dao;
+        String next, prev;
+
+        public UpdateAsyncTask(RoomDao dao, String next, String prev) {
+            this.dao = dao;
+            this.next = next;
+            this.prev = prev;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            dao.updateStatus(next, prev);
+            return null;
+        }
+    }
+
+    private static class DeleteAsyncTask extends AsyncTask<Void, Void, Void>{
+        RoomDao dao;
+        String status;
+
+        public DeleteAsyncTask(RoomDao dao, String status) {
+            this.dao = dao;
+            this.status = status;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (status.equals("")) {
+                dao.deleteAllItems();
+            } else {
+                dao.deleteSelectedItems(status);
+            }
+            return null;
+        }
+    }
 }

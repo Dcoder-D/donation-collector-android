@@ -9,27 +9,28 @@
         android:id="@+id/nav_post_user"
         android:name="com.flagcamp.donationcollector.ui.user.posts.PostUserFragment"
         android:label="Items"
-        tools:layout="@layout/fragment_post_user">
-        <!--        <argument-->
-        <!--            android:name="dummy"-->
-        <!--            android:defaultValue="@null"-->
-        <!--            app:argType="string"-->
-        <!--            app:nullable="true" />-->
-        <!--        <action-->
-        <!--            android:id="@+id/action_title_postcenter_to_post_details"-->
-        <!--            app:destination="@+id/nav_post_details_ngo"-->
-        <!--            app:enterAnim="@android:anim/slide_in_left"-->
-        <!--            app:exitAnim="@android:anim/slide_out_right" >-->
-        <!--            <argument-->
-        <!--                android:name="dummy"-->
-        <!--                android:defaultValue="@null"-->
-        <!--                app:argType="string"-->
-        <!--                app:nullable="true" />-->
-        <!--        </action>-->
+        tools:layout="@layout/fragment_post_user" >
+        <argument
+            android:name="postResponseMessage"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_title_postuser_to_post_details"
+            app:destination="@+id/nav_post_details_user"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" >
+<!--            <argument-->
+<!--                android:name="dummy"-->
+<!--                android:defaultValue="@null"-->
+<!--                app:argType="string"-->
+<!--                app:nullable="true" />-->
+        </action>
 
         <action
             android:id="@+id/action_nav_post_user_to_nav_albums"
             app:destination="@id/nav_albums" />
+
     </fragment>
     <fragment
         android:id="@+id/nav_albums"
@@ -39,7 +40,136 @@
         <action
             android:id="@+id/action_nav_albums_to_nav_post_user"
             app:destination="@id/nav_post_user" />
+        <action
+            android:id="@+id/action_title_albums_to_post_preview"
+            app:destination="@+id/nav_post_preview">
+            <argument
+                android:name="imagePath"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+
+        </action>
+
+        <action
+            android:id="@+id/action_title_albums_to_posts_preview"
+            app:destination="@+id/nav_posts_preview">
+            <argument
+                android:name="imagePath"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_posts_preview"
+        android:name="com.flagcamp.donationcollector.ui.user.posts.PostsPreviewFragment"
+        tools:layout="@layout/fragment_posts_preview" >
+        <argument
+            android:name="imagePath"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+
+        <action
+            android:id="@+id/action_title_posts_preview_to_albums"
+            app:destination="@+id/nav_albums">
+        </action>
+
+        <action
+            android:id="@+id/action_title_posts_preview_to_post_user"
+            app:destination="@+id/nav_post_user">
+            <argument
+                android:name="postResponseMessage"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
+
+        <action
+            android:id="@+id/action_title_posts_preview_to_location"
+            app:destination="@+id/nav_location_selector_user">
+            <argument
+                android:name="from_location"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_post_preview"
+        android:name="com.flagcamp.donationcollector.ui.user.posts.PostPreviewFragment"
+        android:label="PostPreview"
+        tools:layout="@layout/fragment_post_preview" >
+        <argument
+            android:name="imagePath"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="location"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_title_post_preview_to_albums"
+            app:destination="@+id/nav_albums">
+        </action>
+
+        <action
+            android:id="@+id/action_title_post_preview_to_post_user"
+            app:destination="@+id/nav_post_user">
+            <argument
+                android:name="postResponseMessage"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
+
+        <action
+            android:id="@+id/action_title_post_preview_to_location"
+            app:destination="@+id/nav_location_selector_user">
+            <argument
+                android:name="from_location"
+                app:argType="string"
+                app:nullable="false" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_location_selector_user"
+        android:name="com.flagcamp.donationcollector.ui.both.LocationSelectorFragment"
+        android:label="LocationSelecter"
+        tools:layout="@layout/fragment_location_selector">
+        <argument
+            android:name="from_location"
+            app:argType="string"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_title_location_to_post_preview"
+            app:destination="@+id/nav_post_preview">
+            <argument
+                android:name="location"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
+
+        <action
+            android:id="@+id/action_title_location_to_posts_preview"
+            app:destination="@+id/nav_posts_preview">
+            <argument
+                android:name="location"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
+
+    </fragment>
+
 
     <fragment
         android:id="@+id/nav_calendar_user"
@@ -113,6 +243,15 @@
             app:enterAnim="@android:anim/slide_out_right"
             app:exitAnim="@android:anim/slide_in_left"></action>
 
+    </fragment>
+    <fragment
+        android:id="@+id/nav_post_details_user"
+        android:name="com.flagcamp.donationcollector.ui.user.posts.PostDetailsUserFragment"
+        android:label="DetailsUser"
+        tools:layout="@layout/fragment_post_details_user" >
+        <action
+            android:id="@+id/action_nav_details_to_user"
+            app:destination="@id/nav_post_user" />
     </fragment>
 
 </navigation>

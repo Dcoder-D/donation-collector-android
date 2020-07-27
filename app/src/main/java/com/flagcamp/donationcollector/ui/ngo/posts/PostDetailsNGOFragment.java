@@ -1,6 +1,7 @@
 package com.flagcamp.donationcollector.ui.ngo.posts;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +14,21 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.databinding.FragmentPostDetailsNgoBinding;
+import com.flagcamp.donationcollector.model.Item;
+import com.squareup.picasso.Picasso;
 
 public class PostDetailsNGOFragment extends Fragment {
 
     FragmentPostDetailsNgoBinding binding;
     Button backButton;
     Button confirmButtion;
+    private static Item mitem;
 
     public PostDetailsNGOFragment() {
 
+    }
+    public static void setItem(Item item) {
+        mitem = item;
     }
 
     @Nullable
@@ -35,8 +42,8 @@ public class PostDetailsNGOFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        backButton = view.findViewById(R.id.post_details_ngo_back_button);
-        confirmButtion = view.findViewById(R.id.post_details_ngo_schedule_button);
+        backButton = binding.postDetailsNgoBackButton;
+        confirmButtion = binding.postDetailsNgoScheduleButton;
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,5 +64,17 @@ public class PostDetailsNGOFragment extends Fragment {
                 NavHostFragment.findNavController(PostDetailsNGOFragment.this).navigate(actionTitlePostDetailsToPostcenter);
             }
         });
+
+
+        mitem = PostDetailsNGOFragmentArgs.fromBundle(getArguments()).getPost();
+
+        if(mitem != null) {
+            Picasso.get().load(mitem.urlToImage).into(binding.postDetailsUserImg);
+            binding.category.setText(mitem.category);
+            binding.size.setText("Size: " + mitem.size);
+            binding.address.setText(mitem.location);
+        }else {
+            throw new IllegalArgumentException("has no info to show details");
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.flagcamp.donationcollector.ui.ngo.posts;
+package com.flagcamp.donationcollector.ui.both;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -19,16 +18,10 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.flagcamp.donationcollector.R;
+import com.flagcamp.donationcollector.databinding.FragmentLocationSelectorBinding;
 
-import com.flagcamp.donationcollector.databinding.FragmentLocationSelectorNgoBinding;
-import com.flagcamp.donationcollector.ui.both.LocationSelectorFragment;
-import com.flagcamp.donationcollector.ui.both.LocationSelectorFragmentArgs;
-import com.flagcamp.donationcollector.ui.both.LocationSelectorFragmentDirections;
-
-public class LocationSelectorNGOFragment extends Fragment implements AdapterView.OnItemSelectedListener {
-
-    private FragmentLocationSelectorNgoBinding binding;
-    Button confirmButton;
+public class LocationSelectorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+    private FragmentLocationSelectorBinding binding;
     EditText streetInput;
     EditText aptNumberInput;
     EditText cityInput;
@@ -40,21 +33,26 @@ public class LocationSelectorNGOFragment extends Fragment implements AdapterView
     Button cancelButton;
     String fullAddress;
 
-    public LocationSelectorNGOFragment() {
+    public LocationSelectorFragment() {
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        return super.onCreateView(inflater, container, savedInstanceState);
-        binding = FragmentLocationSelectorNgoBinding.inflate(inflater, container, false);
+        binding = FragmentLocationSelectorBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+//        super.onViewCreated(view, savedInstanceState);
         String fromLocation = LocationSelectorFragmentArgs.fromBundle(getArguments()).getFromLocation();
         streetInput = binding.streetInput;
         aptNumberInput = binding.aptNumberInput;
@@ -64,6 +62,7 @@ public class LocationSelectorNGOFragment extends Fragment implements AdapterView
         testText = binding.testText;
         doneButton = binding.doneButton;
         cancelButton = binding.cancelButton;
+
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.states_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -78,6 +77,11 @@ public class LocationSelectorNGOFragment extends Fragment implements AdapterView
                 fullAddress = (aptNumber.equals("") || aptNumber.equals("") ? "" : (aptNumber + ", ")) + streetInput.getText().toString() + ", " + cityInput.getText().toString() + ", "
                         + state + " " + zipcodeInput.getText().toString();
                 testText.setText(fullAddress);
+
+                LocationSelectorFragmentDirections.ActionTitleLocationToPostPreview actionTitleLocationSelectorToPostcenter =
+                        LocationSelectorFragmentDirections.actionTitleLocationToPostPreview();
+                actionTitleLocationSelectorToPostcenter.setLocation(fullAddress);
+                NavHostFragment.findNavController(LocationSelectorFragment.this).navigate(actionTitleLocationSelectorToPostcenter);
             }
         });
 
@@ -86,10 +90,10 @@ public class LocationSelectorNGOFragment extends Fragment implements AdapterView
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocationSelectorNGOFragmentDirections.ActionTitleLocationSelectorToPostcenter actionTitleLocationSelectorToPostcenter
-                        = LocationSelectorNGOFragmentDirections.actionTitleLocationSelectorToPostcenter();
+                LocationSelectorFragmentDirections.ActionTitleLocationToPostPreview actionTitleLocationSelectorToPostcenter =
+                        LocationSelectorFragmentDirections.actionTitleLocationToPostPreview();
                 actionTitleLocationSelectorToPostcenter.setLocation(null);
-                NavHostFragment.findNavController(LocationSelectorNGOFragment.this).navigate(actionTitleLocationSelectorToPostcenter);
+                NavHostFragment.findNavController(LocationSelectorFragment.this).navigate(actionTitleLocationSelectorToPostcenter);
             }
         });
     }
