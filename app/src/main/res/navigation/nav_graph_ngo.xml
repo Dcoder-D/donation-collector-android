@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@+id/nav_post_center"
-    >
+    app:startDestination="@+id/nav_post_center">
     <fragment
         android:id="@+id/nav_post_center"
         android:name="com.flagcamp.donationcollector.ui.ngo.posts.PostCenterFragment"
         android:label="Items"
-        tools:layout="@layout/fragment_post_center" >
+        tools:layout="@layout/fragment_post_center">
         <argument
             android:name="location"
             android:defaultValue="@null"
@@ -40,7 +39,7 @@
             android:id="@+id/action_title_postcenter_to_post_details"
             app:destination="@+id/nav_post_details_ngo"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" >
+            app:exitAnim="@android:anim/slide_out_right">
             <argument
                 android:name="post"
                 android:defaultValue="@null"
@@ -53,7 +52,7 @@
         android:id="@+id/nav_location_selector_ngo"
         android:name="com.flagcamp.donationcollector.ui.ngo.posts.LocationSelectorNGOFragment"
         android:label="Location Selector"
-        tools:layout="@layout/fragment_location_selector" >
+        tools:layout="@layout/fragment_location_selector_ngo">
         <argument
             android:name="from_location"
             app:argType="string"
@@ -79,7 +78,7 @@
             android:name="post"
             android:defaultValue="@null"
             app:argType="com.flagcamp.donationcollector.model.Item"
-            app:nullable="true"  />
+            app:nullable="true" />
         <action
             android:id="@+id/action_title_post_details_to_postcenter"
             app:destination="@+id/nav_post_center"
@@ -96,37 +95,73 @@
         android:id="@+id/nav_calendar_ngo"
         android:name="com.flagcamp.donationcollector.ui.ngo.calendar.CalendarNGOFragment"
         android:label="Calendar"
-        tools:layout="@layout/fragment_calendar_ngo" />
+        tools:layout="@layout/fragment_calendar_ngo">
+        <action
+            android:id="@+id/action_title_calendarngo_to_scheduledpickup"
+            app:destination="@+id/nav_scheduled_pickup"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right">
+            <argument
+                android:name="date"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+            <argument
+                android:name="NGOId"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/nav_scheduled_pickup"
+        android:name="com.flagcamp.donationcollector.ui.ngo.calendar.NGOScheduledPickupFragment"
+        android:label="Scheduled Pickup"
+        tools:layout="@layout/fragment_ngo_scheduled_pickup">
+        <argument
+            android:name="date"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="NGOId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_title_scheduledpickup_to_calendarngo"
+            app:destination="@+id/nav_calendar_ngo"
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_in_left">
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.flagcamp.donationcollector.ui.both.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_title_profile_to_login"
             app:destination="@+id/nav_login"
             app:enterAnim="@android:anim/slide_out_right"
-            app:exitAnim="@android:anim/slide_in_left">
-        </action>
+            app:exitAnim="@android:anim/slide_in_left"></action>
         <action
             android:id="@+id/action_title_profile_to_change_password"
             app:destination="@+id/nav_change_password"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left">
-        </action>
+            app:exitAnim="@anim/slide_out_left"></action>
     </fragment>
 
     <fragment
         android:id="@+id/nav_change_password"
         android:name="com.flagcamp.donationcollector.ui.both.ChangePasswordFragment"
         android:label="Change Password"
-        tools:layout="@layout/fragment_change_password" >
+        tools:layout="@layout/fragment_change_password">
         <action
             android:id="@+id/action_title_change_password_to_profile"
             app:destination="@+id/nav_profile"
             app:enterAnim="@android:anim/slide_out_right"
-            app:exitAnim="@android:anim/slide_in_left">
-        </action>
+            app:exitAnim="@android:anim/slide_in_left"></action>
 
     </fragment>
 

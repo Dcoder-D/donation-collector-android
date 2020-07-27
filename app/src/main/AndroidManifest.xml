@@ -45,8 +45,8 @@
         </activity>
         <activity
             android:name=".MainActivityNGO"
-            android:launchMode="singleTop" />
-
+            android:launchMode="singleTop" >
+        </activity>
         <activity
             android:name=".MainActivityUser"
             android:launchMode="singleTop"

@@ -16,6 +16,7 @@
       ],
       "status": "Pending",
       "pickUpNGOId": "1",
+      "pickUpDate": "2020-07-16",
       "pickupTime": "2020-07-16 07:45"
     },
     {
@@ -34,6 +35,7 @@
       ],
       "status": "Pending",
       "pickUpNGOId": "0",
+      "pickUpDate": "2020-07-16",
       "pickupTime": "2020-07-16 08:30"
     },
     {
@@ -52,6 +54,7 @@
       ],
       "status": "Pending",
       "pickUpNGOId": "1",
+      "pickUpDate": "2020-07-20",
       "pickupTime": "2020-07-20 15:30"
     },
     {
@@ -70,6 +73,7 @@
       ],
       "status": "Pending",
       "pickUpNGOId": "",
+      "pickUpDate": "",
       "pickupTime": ""
     },
     {

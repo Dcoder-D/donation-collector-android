@@ -21,8 +21,19 @@ public interface PostApi {
     @GET("items")
     Call<List<Item>> getStatusEquals(@Query("status") String status);
 
+
+    @GET("items")
+    Call<List<Item>> getDateEquals(@Query("pickUpDate") String pickUpDate);
+
+    @GET("items")
+    Call<List<Item>> getNGODateEquals(@Query("pickUpDate") String pickUpDate,
+                                      @Query("pickUpNGOId") String pickUpNGOID);
+
+    @GET("items")
+    Call<List<Item>> getUserDateEquals(@Query("pickUpDate") String pickUpDate,
+                                      @Query("posterId") String posterId);
+
     @POST("items")
     Call<List<Item>> deletePost(@Query("itemId") String itemId);
-
 
 }
