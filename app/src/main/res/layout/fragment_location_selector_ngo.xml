@@ -1,32 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context="ui.ngo.posts.LocationSelectorNGOFragment">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/cancel_button"
+        android:text="Cancel"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/location_confirm_ngo_button"
-        android:text="confirm"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="0dp"
+        android:background="@null" />
 
-
-
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:layout_marginStart="30dp"
+        android:id="@+id/done_button"
+        android:text="Done"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="Location Selector NGO"
-        android:textSize="30sp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="0dp"
+        android:background="@color/light_green" />
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/street_text"
+        android:textSize="13sp"
+        android:text="Street Address:"
+        app:layout_constraintTop_toBottomOf="@+id/cancel_button"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp" />
+
+    <EditText
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/street_input"
+        android:text="Type in Street Address"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@+id/done_button"
+        app:layout_constraintStart_toEndOf="@+id/street_text"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp" />
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/apt_number_text"
+        android:textSize="13sp"
+        android:text="Apartment number:"
+        app:layout_constraintTop_toBottomOf="@+id/street_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp" />
+
+    <EditText
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/apt_number_input"
+        android:text="Type in Apartment number (Optional)"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@+id/street_text"
+        app:layout_constraintStart_toEndOf="@+id/apt_number_text"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp" />
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/city_text"
+        android:textSize="13sp"
+        android:text="City:"
+        app:layout_constraintTop_toBottomOf="@+id/apt_number_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp" />
+
+    <EditText
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/city_input"
+        android:text="Type in City"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@+id/apt_number_text"
+        app:layout_constraintStart_toEndOf="@+id/city_text"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp" />
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/state_text"
+        android:textSize="13sp"
+        android:text="State:"
+        app:layout_constraintTop_toBottomOf="@+id/city_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp" />
+
+    <Spinner
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/state_input"
+        android:textSize="13sp"
+        android:background="@color/blue_grey_500"
+        app:layout_constraintTop_toBottomOf="@+id/city_text"
+        app:layout_constraintStart_toEndOf="@+id/state_text"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp" />
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/zipcode_text"
+        android:textSize="13sp"
+        android:text="Zip code:"
+        app:layout_constraintTop_toBottomOf="@+id/state_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp" />
+
+    <EditText
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/zipcode_input"
+        android:text="Type in Zip code"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@+id/state_text"
+        app:layout_constraintStart_toEndOf="@+id/zipcode_text"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp" />
+
+    <TextView
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/test_text"
+        android:text="The inputed address"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/zipcode_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,16 +1,23 @@
 package com.flagcamp.donationcollector.signin;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
 public class AppUser implements Serializable {
-    private String firstName;
-    private String lastName;
-    private String emailAddress;
-    private String phone;
-    private String organizationName;
-    private String uid;
-    private boolean isUser;
+    public String firstName;
+    public String lastName;
+    public String emailAddress;
+    public String phone;
+    public String organizationName;
+    @NonNull
+    @PrimaryKey
+    public String uid;
+    public boolean isUser;
 
     public AppUser() {
         // Default constructor required for calls to DataSnapshot.getValue(AppUser.class)
