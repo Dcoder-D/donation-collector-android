@@ -202,9 +202,9 @@ public class PostRepository {
         });
         return userPostsLiveData;
     }
-    public Boolean deletePost(String itemId) {
+    public Boolean deletePost(String itemId, String posterId) {
         final Boolean[] deleteRes = {false};
-        postApi.deletePost(itemId).enqueue(new Callback() {
+        postApi.deletePost(itemId, posterId).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()) {
@@ -219,6 +219,24 @@ public class PostRepository {
         });
 
         return deleteRes[0];
+    }
+    public Boolean confirmPickUp(String itemId, String ngoId){
+        final Boolean[] confirmRes = {false};
+        postApi.confirmPickUp(itemId, ngoId).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.isSuccessful()) {
+                    confirmRes[0] = true;
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                confirmRes[0] = false;
+            }
+        });
+
+        return confirmRes[0];
     }
 
     // connect Room database for PostsPreviewFragment

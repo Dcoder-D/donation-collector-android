@@ -48,7 +48,7 @@ public class PostDetailsUserFragment extends Fragment {
 
         if(mitem != null) {
             Picasso.get().load(mitem.urlToImage).into(binding.postDetailsUserImg);
-            binding.category.setText(mitem.category);
+            binding.category.setText(mitem.description);
             binding.size.setText("Size: " + mitem.size);
             String status = mitem.status;
             if (status.equals("Pending")) {
@@ -79,7 +79,7 @@ public class PostDetailsUserFragment extends Fragment {
         binding.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!ViewModel.deletePost(mitem.id)) {
+                if (!ViewModel.deletePost(mitem.id, mitem.posterId)) {
                     System.out.println("delete failed!!!");
                 }
                 Navigation.findNavController(v).navigate(R.id.action_nav_details_to_user);

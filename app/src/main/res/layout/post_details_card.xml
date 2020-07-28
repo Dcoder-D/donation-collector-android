@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="7dp"
+    app:cardElevation="6dp"
+    android:layout_width="375dp"
+    android:layout_height="100dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/details_card_date_prefix"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Available Date: "
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp" />
+        <TextView
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/details_available_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="100 Main St, A City, NY"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/details_card_time_prefix"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_card_date_prefix"
+            android:text="Prefer Time: "
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp" />
+        <TextView
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/details_available_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_available_date"
+            android:text="00:00 - 23:59"
+            android:layout_marginStart="130dp"
+            android:layout_marginTop="10dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
