@@ -8,7 +8,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import retrofit2.http.POST;
+import retrofit2.http.DELETE;
 
 public interface PostApi {
 
@@ -33,7 +33,10 @@ public interface PostApi {
     Call<List<Item>> getUserDateEquals(@Query("pickUpDate") String pickUpDate,
                                       @Query("posterId") String posterId);
 
-    @POST("items")
-    Call<List<Item>> deletePost(@Query("itemId") String itemId);
-
+    @DELETE("items")
+    Call deletePost(@Query("itemId") String itemId,
+                                @Query("userId") String posterId);
+    @GET("confirmPickUp")
+    Call confirmPickUp(@Query("itemId") String itemId,
+                                @Query("ngoId") String ngoId);
 }
