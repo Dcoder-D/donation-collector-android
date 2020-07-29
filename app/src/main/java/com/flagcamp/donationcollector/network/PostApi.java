@@ -20,7 +20,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
-import retrofit2.http.DELETE;
+import retrofit2.http.POST;
 
 public interface PostApi {
 
@@ -56,9 +56,6 @@ public interface PostApi {
     Call<List<Item>> getUserDateEquals(@Query("pickUpDate") String pickUpDate,
                                       @Query("posterId") String posterId);
 
-    @DELETE("items")
-    Call deletePost(@Query("itemId") String itemId,
-                                @Query("userId") String posterId);
     @GET("confirmPickUp")
     Call confirmPickUp(@Query("itemId") String itemId,
                                 @Query("ngoId") String ngoId);
