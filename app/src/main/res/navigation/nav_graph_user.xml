@@ -72,7 +72,16 @@
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
-
+        <argument
+            android:name="location"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="schedules"
+            android:defaultValue="@null"
+            app:argType="string[]"
+            app:nullable="true" />
         <action
             android:id="@+id/action_title_posts_preview_to_albums"
             app:destination="@+id/nav_albums">
@@ -95,47 +104,31 @@
                 android:name="from_location"
                 app:argType="string"
                 app:nullable="false" />
-        </action>
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_post_preview"
-        android:name="com.flagcamp.donationcollector.ui.user.posts.PostPreviewFragment"
-        android:label="PostPreview"
-        tools:layout="@layout/fragment_post_preview" >
-        <argument
-            android:name="imagePath"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="location"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
-        <action
-            android:id="@+id/action_title_post_preview_to_albums"
-            app:destination="@+id/nav_albums">
-        </action>
-
-        <action
-            android:id="@+id/action_title_post_preview_to_post_user"
-            app:destination="@+id/nav_post_user">
             <argument
-                android:name="postResponseMessage"
+                android:name="imagePath"
                 android:defaultValue="@null"
                 app:argType="string"
+                app:nullable="true" />
+            <argument
+                android:name="schedules"
+                android:defaultValue="@null"
+                app:argType="string[]"
                 app:nullable="true" />
         </action>
 
         <action
-            android:id="@+id/action_title_post_preview_to_location"
-            app:destination="@+id/nav_location_selector_user">
+            android:id="@+id/action_title_posts_preview_posts_schedule"
+            app:destination="@+id/nav_posts_shcedule">
             <argument
-                android:name="from_location"
+                android:name="imagePath"
+                android:defaultValue="@null"
                 app:argType="string"
-                app:nullable="false" />
+                app:nullable="true" />
+            <argument
+                android:name="location"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
         </action>
 
     </fragment>
@@ -149,16 +142,16 @@
             android:name="from_location"
             app:argType="string"
             app:nullable="false" />
-        <action
-            android:id="@+id/action_title_location_to_post_preview"
-            app:destination="@+id/nav_post_preview">
-            <argument
-                android:name="location"
-                android:defaultValue="@null"
-                app:argType="string"
-                app:nullable="true" />
-        </action>
-
+        <argument
+            android:name="imagePath"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="schedules"
+            android:defaultValue="@null"
+            app:argType="string[]"
+            app:nullable="true" />
         <action
             android:id="@+id/action_title_location_to_posts_preview"
             app:destination="@+id/nav_posts_preview">
@@ -167,8 +160,53 @@
                 android:defaultValue="@null"
                 app:argType="string"
                 app:nullable="true" />
+            <argument
+                android:name="imagePath"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+            <argument
+                android:name="schedules"
+                android:defaultValue="@null"
+                app:argType="string[]"
+                app:nullable="true" />
         </action>
+    </fragment>
 
+    <fragment
+        android:id="@+id/nav_posts_shcedule"
+        android:name="com.flagcamp.donationcollector.ui.user.posts.PostsScheduleFragment"
+        android:label="PostsSchedule"
+        tools:layout="@layout/fragment_posts_shcedule">
+        <argument
+            android:name="imagePath"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="location"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_title_posts_schedule_to_posts_preview"
+            app:destination="@+id/nav_posts_preview">
+            <argument
+                android:name="schedules"
+                android:defaultValue="@null"
+                app:argType="string[]"
+                app:nullable="true" />
+            <argument
+                android:name="imagePath"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+            <argument
+                android:name="location"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
     </fragment>
 
 

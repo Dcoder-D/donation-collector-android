@@ -20,6 +20,7 @@ public class SignInRepository {
     private final AppDatabase database;
     private final RoomDao dao;
     private LiveData<List<AppUser>> appUsers;
+    private List<AppUser> appUsersList;
 
     enum Operation {
         WRITE,
@@ -30,6 +31,7 @@ public class SignInRepository {
         database = DonationCollectorApplication.getDatabase();
         dao = database.dao();
         appUsers = dao.getAppUser();
+//        appUsersList = dao.getAppUserList();
     }
 
     public void saveAppUser(AppUser appUser) {
@@ -43,6 +45,13 @@ public class SignInRepository {
     public LiveData<List<AppUser>> getAppUser() {
         return appUsers;
     }
+
+//    public List<AppUser> getAppUsersList() {
+////        database = DonationCollectorApplication.getDatabase();
+////        dao = database.dao();
+//        return dao.getAppUserList();
+////        return appUsersList;
+//    }
 
     private static class InsertAsyncTask extends AsyncTask<AppUser, Void, Void>{
         RoomDao dao;
@@ -66,4 +75,14 @@ public class SignInRepository {
             return null;
         }
     }
+
+//    private static class ReadAsyncTask extends  AsyncTask<Void, Void, List<AppUser>> {
+//
+//        @Override
+//        protected List<AppUser> doInBackground(Void... voids) {
+//            return null;
+//        }
+//    }
+
+
 }

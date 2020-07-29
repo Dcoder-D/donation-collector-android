@@ -1,5 +1,6 @@
 package com.flagcamp.donationcollector.ui.ngo.posts;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,10 @@ public class PostCenterAdapter extends RecyclerView.Adapter<PostCenterAdapter.Po
 
     private List<Item> items = new ArrayList<>();
     Fragment fragment;
+    private Context context;
 
-    public PostCenterAdapter(Fragment fragment) {
+    public PostCenterAdapter(Fragment fragment, Context context) {
+        this.context = context;
         this.fragment = fragment;
     }
 
@@ -43,11 +46,16 @@ public class PostCenterAdapter extends RecyclerView.Adapter<PostCenterAdapter.Po
     @Override
     public void onBindViewHolder(@NonNull PostCenterViewHolder holder, int position) {
         Item item = items.get(position);
+
+//        Picasso.with(context).load(item.urlToImage).into(holder.postImage);
+
         Picasso.get().load(item.urlToImage).into(holder.postImage);
+
+
         holder.postCategory.setText(item.category);
         holder.postLocation.setText(item.location);
         holder.postStatus.setText(item.status);
-        holder.postStatus.setBackgroundResource(item.status.equals("Pending") ? R.color.light_blue : R.color.light_green);
+        holder.postStatus.setBackgroundResource(item.status.toLowerCase().equals("pending") ? R.color.light_blue : R.color.light_green);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

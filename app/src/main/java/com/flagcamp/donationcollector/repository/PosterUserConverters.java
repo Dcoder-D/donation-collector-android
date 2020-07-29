@@ -7,19 +7,18 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
-public class Converters {
+public class PosterUserConverters {
     @TypeConverter
-    public static List<String> fromString(String value) {
-        Type listType = new TypeToken<List<String>>() {}.getType();
-        return new Gson().fromJson(value, listType);
+    public static PosterUser fromString(String value) {
+        Type postUserType = new TypeToken<PosterUser>(){}.getType();
+        return new Gson().fromJson(value, postUserType);
     }
 
     @TypeConverter
-    public static String fromList(List<String> list) {
+    public static String fromPosterUser(PosterUser posterUser) {
         Gson gson = new Gson();
-        String json = gson.toJson(list);
+        String json = gson.toJson(posterUser);
         return json;
     }
 }

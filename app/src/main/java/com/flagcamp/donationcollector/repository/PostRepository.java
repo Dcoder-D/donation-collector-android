@@ -12,14 +12,24 @@ import com.flagcamp.donationcollector.DonationCollectorApplication;
 import com.flagcamp.donationcollector.database.AppDatabase;
 import com.flagcamp.donationcollector.database.RoomDao;
 import com.flagcamp.donationcollector.model.Item;
+import com.flagcamp.donationcollector.model.Location;
+import com.flagcamp.donationcollector.model.PostBody;
+import com.flagcamp.donationcollector.model.PostItem;
 import com.flagcamp.donationcollector.model.PostResponse;
 import com.flagcamp.donationcollector.network.PostApi;
 import com.flagcamp.donationcollector.network.RetrofitClient;
 import com.flagcamp.donationcollector.signin.AppUser;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,6 +47,99 @@ public class PostRepository {
         dao = database.dao();
     }
 
+//    public LiveData<List<Location>> getAllLocation() {
+//        return dao.getAllLocation();
+//    }
+//
+//    public void deleteAllLocation() {
+//        dao.deleteAllLocation();
+//    }
+//
+//    public void insertLocation(Location location) {
+//        dao.saveLocation(location);
+//    }
+
+    public Response createPost(List<PostItem> items, List<String> imagePaths) {
+//        MultipartBody.Part[] fileParts = new MultipartBody.Part[files.length];
+//        for(int i = 0; i < fileParts.length; i++) {
+//            fileParts[i] = MultipartBody.Part.createFormData("image" + i, files[i].getName(), RequestBody.create(MediaType.parse("image/*"), files[i]));
+//        }
+
+        final Response[] myResponse = new Response[1];
+
+        PostBody postBody = new PostBody();
+        postBody.TestText = items;
+
+        RequestBody postBodyText = RequestBody.create(MediaType.parse("text/plain"), postBody.toString());
+
+        Log.d("PostRepository", "postBodyText: " + postBody.toString());
+
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put("TestText", postBodyText);
+
+        File[] files = new File[imagePaths.size()];
+        for(int i = 0; i < imagePaths.size(); i++) {
+            files[i] = new File(imagePaths.get(i));
+//            RequestBody imageBody = RequestBody.create(MediaType.parse("image/png"), files[i]);
+//            params.put(String.format("image%d\"; filename=\"f%d.png\"" , i,  i), imageBody);
+//
+//            Log.d("PostRepository", "imageBody: " + imageBody.toString());
+        }
+
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), files[0]);
+        MultipartBody.Part fileBody = MultipartBody.Part.createFormData("image", files[0].getName(), requestFile);
+
+        Log.d("PostRepository", "file: " + files[0].getName() + ", " + requestFile.toString());
+
+
+        postApi.createPost(postBodyText, fileBody).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()) {
+                    myResponse[0] = response;
+                    Log.d("PostRepository", "createPost is successful with code: " + response.code());
+                    if(response.code() == 200 || response.code() == 201) {
+                        Log.d("PostRepository", "create Post returns " + response.code() + response.message());
+                    }
+                } else {
+                    myResponse[0] = response;
+                    Log.d("PostRepository", "createPost unSuccessful with code: " + response.code() + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("createPost", t.toString());
+            }
+
+        });
+        deleteAddedItems();
+        return myResponse[0];
+    }
+
+    public LiveData<List<Item>> getPostsByLocation(String location, String distance) {
+        final MutableLiveData<List<Item>> postsByLocation = new MutableLiveData<>();
+        postApi.getPostsByLocation(location, distance).enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                if(response.isSuccessful()) {
+                    postsByLocation.setValue(response.body());
+                    Log.d("getPostsByLocation", response.body().toString());
+                } else {
+                    postsByLocation.setValue(null);
+                    Log.d("getPostsByLocation", "response unsuccessful, " + response.code() + ", " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+                Log.d("getPostsByLocation", "error: " + t.toString());
+                postsByLocation.setValue(null);
+            }
+        });
+        return postsByLocation;
+    }
+
     public LiveData<List<Item>> getUserPosts(String posterId) {
         final MutableLiveData<List<Item>> userPostsLiveData = new MutableLiveData<>();
         postApi.getUserPosts(posterId).enqueue(new Callback<List<Item>>() {
@@ -50,6 +153,7 @@ public class PostRepository {
                 } else {
                     userPostsLiveData.setValue(null);
                 }
+
             }
 
             @Override
@@ -126,9 +230,9 @@ public class PostRepository {
         });
         return userPostsLiveData;
     }
-    public Boolean deletePost(String itemId) {
+    public Boolean deletePost(String userId, String itemId) {
         final Boolean[] deleteRes = {false};
-        postApi.deletePost(itemId).enqueue(new Callback() {
+        postApi.deletePost(userId, itemId).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()) {

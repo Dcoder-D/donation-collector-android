@@ -69,6 +69,7 @@ public class PostDetailsNGOFragment extends Fragment {
         mitem = PostDetailsNGOFragmentArgs.fromBundle(getArguments()).getPost();
 
         if(mitem != null) {
+
             Picasso.get().load(mitem.urlToImage).into(binding.postDetailsUserImg);
             binding.category.setText(mitem.category);
             binding.size.setText("Size: " + mitem.size);

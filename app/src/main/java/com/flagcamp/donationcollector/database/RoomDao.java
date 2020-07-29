@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.flagcamp.donationcollector.model.Item;
+import com.flagcamp.donationcollector.model.Location;
 import com.flagcamp.donationcollector.signin.AppUser;
 
 import java.util.List;
@@ -25,6 +26,9 @@ public interface RoomDao {
     @Query("SELECT * FROM appUser")
     LiveData<List<AppUser>> getAppUser();
 
+    @Query("SELECT * FROM appUser")
+    List<AppUser> getAppUserList();
+
     @Query("SELECT * FROM item WHERE status LIKE :keyword")
     LiveData<List<Item>> getSpecificItems(String keyword);
 
@@ -39,5 +43,14 @@ public interface RoomDao {
 
     @Query("DELETE FROM item WHERE status = :condition")
     void deleteSelectedItems(String condition);
+
+//    @Query("SELECT * FROM location")
+//    LiveData<List<Location>> getAllLocation();
+//
+//    @Query("DELETE FROM location")
+//    void deleteAllLocation();
+//
+//    @Insert
+//    void saveLocation(Location location);
 
 }

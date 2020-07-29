@@ -16,7 +16,7 @@ import java.util.List;
 public class Item implements Serializable{
     @NonNull
     @PrimaryKey
-    @SerializedName("id")
+    @SerializedName("itemId")
     @Expose
     public String id;
     @SerializedName("urlToImage")
@@ -24,36 +24,46 @@ public class Item implements Serializable{
     public String urlToImage;
     @SerializedName("lat")
     @Expose
-    public Integer lat;
+    public Double lat;
     @SerializedName("lon")
     @Expose
-    public Integer lon;
-    @SerializedName("location")
+    public Double lon;
+    @SerializedName("NGOUser")
+    @Expose
+    public NGOUser ngoUser;
+    @SerializedName("postUser")
+    @Expose
+    public PosterUserReceived posterUser;
+    @SerializedName("address")
     @Expose
     public String location;
-    @SerializedName("posterId")
-    @Expose
-    public String posterId;
+//    @SerializedName("posterId")
+//    @Expose
+//    public String posterId;
 //    String posterName;
-    @SerializedName("pickUpNGOId")
-    @Expose
-    public String pickUpNGOId;
-//    String NGOName;
+//    @SerializedName("pickUpNGOId")
+//    @Expose
+//    public String pickUpNGOId;
+////    String NGOName;
     @SerializedName("category")
     @Expose
     public String category;
+    @SerializedName("itemName")
+    @Expose
+    public String itemName;
     @SerializedName("description")
     @Expose
     public String description;
     @SerializedName("size")
     @Expose
     public String size;
-    @SerializedName("availableTime")
+    @SerializedName("schedule")
     @Expose
     public List<String> availableTime;
     @SerializedName("status")
+    @Expose
     public String status;
-    @SerializedName("pickupTime")
+    @SerializedName("pickUpDate")
     @Expose
     public String pickupTime;
 
