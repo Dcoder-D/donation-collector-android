@@ -20,7 +20,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
-import retrofit2.http.POST;
+import retrofit2.http.DELETE;
 
 public interface PostApi {
 
@@ -36,10 +36,31 @@ public interface PostApi {
     @GET("items")
     Call<List<Item>> getStatusEquals(@Query("status") String status);
 
+
     @POST("deleteItem")
     Call<List<Item>> deletePost(@Query("userId") String userId, @Query("itemId") String itemId);
 
     @Multipart
     @POST("createPost")
     Call<ResponseBody> createPost(@Part("TestText") RequestBody TestText, @Part MultipartBody.Part file);
+
+
+    @GET("items")
+    Call<List<Item>> getDateEquals(@Query("pickUpDate") String pickUpDate);
+
+    @GET("items")
+    Call<List<Item>> getNGODateEquals(@Query("pickUpDate") String pickUpDate,
+                                      @Query("pickUpNGOId") String pickUpNGOID);
+
+    @GET("items")
+    Call<List<Item>> getUserDateEquals(@Query("pickUpDate") String pickUpDate,
+                                      @Query("posterId") String posterId);
+
+    @DELETE("items")
+    Call deletePost(@Query("itemId") String itemId,
+                                @Query("userId") String posterId);
+    @GET("confirmPickUp")
+    Call confirmPickUp(@Query("itemId") String itemId,
+                                @Query("ngoId") String ngoId);
+
 }

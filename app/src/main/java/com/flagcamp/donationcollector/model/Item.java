@@ -66,6 +66,9 @@ public class Item implements Serializable{
     @SerializedName("pickUpDate")
     @Expose
     public String pickupTime;
+    @SerializedName("pickUpDate")
+    @Expose
+    public String pickUpDate;
 
     public enum Category {
         Apparel, Electronics, Entertainment, Hobbies, Furniture;
