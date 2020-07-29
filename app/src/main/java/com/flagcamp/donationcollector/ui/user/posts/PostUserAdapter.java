@@ -1,5 +1,7 @@
 package com.flagcamp.donationcollector.ui.user.posts;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.model.Item;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
@@ -23,6 +27,11 @@ public class PostUserAdapter extends RecyclerView.Adapter<PostUserAdapter.PostUs
 
     private List<Item> items = new ArrayList<>();
     private OnItemClickListener mOnItemClickListener;
+    private Context context;
+
+    public PostUserAdapter(Context context) {
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -40,11 +49,14 @@ public class PostUserAdapter extends RecyclerView.Adapter<PostUserAdapter.PostUs
         @Override
     public void onBindViewHolder(@NonNull PostUserViewHolder holder, int position) {
         Item item = items.get(position);
+
         Picasso.get().load(item.urlToImage).into(holder.postImage);
+
+
         holder.postCategory.setText(item.category);
         holder.postLocation.setText(item.location);
         holder.postStatus.setText(item.status);
-        holder.postStatus.setBackgroundResource(item.status.equals("Pending") ? R.color.light_blue : R.color.light_green);
+        holder.postStatus.setBackgroundResource(item.status.toLowerCase().equals("pending") ? R.color.light_blue : R.color.light_green);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

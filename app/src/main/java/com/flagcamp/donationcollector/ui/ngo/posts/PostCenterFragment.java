@@ -28,6 +28,8 @@ public class PostCenterFragment extends Fragment {
     private PostCenterViewModel viewModel;
     private static FragmentPostCenterBinding binding;
     ImageView mapIcon;
+    private String location;
+    private String distance;
 
 
     public PostCenterFragment() {
@@ -48,6 +50,27 @@ public class PostCenterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mapIcon = view.findViewById(R.id.post_center_map_icon);
 
+        PostRepository repository = new PostRepository(getContext());
+
+//        repository.getAllLocation().observe(getViewLifecycleOwner(), response -> {
+//            location = response.get(0).location;
+//            if(location == null) {
+//                location = "235 Grand St, Jersey City, NJ 07302";
+//            }
+//            distance = response.get(0).distance;
+//            if(distance == null) {
+//                distance = "100";
+//            }
+//        });
+
+        location = PostCenterFragmentArgs.fromBundle(getArguments()).getLocation();
+        if(location == null) {
+            location = "235 Grand St, Jersey City, NJ 07302";
+        }
+        distance = PostCenterFragmentArgs.fromBundle(getArguments()).getDistance();
+        if(distance == null) {
+            distance = "100";
+        }
 
         mapIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,16 +84,19 @@ public class PostCenterFragment extends Fragment {
             }
         });
 
-        PostCenterAdapter postCenterAdapter = new PostCenterAdapter(this);
+        PostCenterAdapter postCenterAdapter = new PostCenterAdapter(this, getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         binding.postRecyclerView.setLayoutManager(linearLayoutManager);
         binding.postRecyclerView.setAdapter(postCenterAdapter);
 
-        PostRepository repository = new PostRepository(getContext());
+
+
+
+
         viewModel = new ViewModelProvider(this, new PostViewModelFactory(repository)).get(PostCenterViewModel.class);
 
 
-        viewModel.getStatusEquals("Pending").observe(getViewLifecycleOwner(), postResponse -> {
+        viewModel.getPostsByLocation(location, distance).observe(getViewLifecycleOwner(), postResponse -> {
             if(postResponse != null) {
                 Log.d("PostCenterFragment", postResponse.toString());
                 postCenterAdapter.setItems(postResponse);

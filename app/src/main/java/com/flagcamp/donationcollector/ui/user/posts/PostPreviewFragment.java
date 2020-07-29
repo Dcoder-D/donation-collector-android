@@ -49,8 +49,8 @@ public class PostPreviewFragment extends Fragment {
         locationText = binding.locationText;
         selectedLocation = binding.locationDisplayText;
 
-        imagePath = PostPreviewFragmentArgs.fromBundle(getArguments()).getImagePath();
-        location = PostPreviewFragmentArgs.fromBundle(getArguments()).getLocation();
+//        imagePath = PostPreviewFragmentArgs.fromBundle(getArguments()).getImagePath();
+//        location = PostPreviewFragmentArgs.fromBundle(getArguments()).getLocation();
 
         if(location != null) {
             selectedLocation.setText(location);
@@ -61,27 +61,27 @@ public class PostPreviewFragment extends Fragment {
 
 
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavHostFragment.findNavController(PostPreviewFragment.this).navigate(R.id.action_title_post_preview_to_albums);
-            }
-        });
-
-        addAnotherPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavHostFragment.findNavController(PostPreviewFragment.this).navigate(R.id.action_title_post_preview_to_albums);
-            }
-        });
-
-        locationText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PostPreviewFragmentDirections.ActionTitlePostPreviewToLocation actionTitlePostPreviewToLocation
-                        = PostPreviewFragmentDirections.actionTitlePostPreviewToLocation("PostPreviewFragment");
-                NavHostFragment.findNavController(PostPreviewFragment.this).navigate(actionTitlePostPreviewToLocation);
-            }
-        });
+//        backButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                NavHostFragment.findNavController(PostPreviewFragment.this).navigate(R.id.action_title_post_preview_to_albums);
+//            }
+//        });
+//
+//        addAnotherPost.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                NavHostFragment.findNavController(PostPreviewFragment.this).navigate(R.id.action_title_post_preview_to_albums);
+//            }
+//        });
+//
+//        locationText.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                PostPreviewFragmentDirections.ActionTitlePostPreviewToLocation actionTitlePostPreviewToLocation
+//                        = PostPreviewFragmentDirections.actionTitlePostPreviewToLocation("PostPreviewFragment");
+//                NavHostFragment.findNavController(PostPreviewFragment.this).navigate(actionTitlePostPreviewToLocation);
+//            }
+//        });
     }
 }

@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
     private static final String API_KEY = "199f93ee0e234c8d952b8620aac052ad";
-    private static final String BASE_URL = "http://10.0.2.2:3000/";
+    private static final String BASE_URL = "http://34.72.82.177/donationcollector/";
     private static final String NEWS_BASE_URL = "https://newsapi.org/v2/";
 
     public static Retrofit newInstance(Context context) {
@@ -42,7 +42,11 @@ public class RetrofitClient {
             Request original = chain.request();
             Request request = original
                     .newBuilder()
-//                    .header("X-Api-Key", API_KEY)
+                    .addHeader("Host", "<calculated when request is sent>")
+                    .addHeader("User-Agent", "PostmanRuntime/7.24.0")
+                    .addHeader("Accept", "*/*")
+                    .addHeader("Accept-Encoding", "gzip, deflate, br")
+                    .addHeader("Connection", "keep-alive")
                     .build();
             return chain.proceed(request);
         }

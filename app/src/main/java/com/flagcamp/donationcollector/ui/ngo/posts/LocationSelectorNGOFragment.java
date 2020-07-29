@@ -21,6 +21,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.flagcamp.donationcollector.R;
 
 import com.flagcamp.donationcollector.databinding.FragmentLocationSelectorNgoBinding;
+import com.flagcamp.donationcollector.model.Location;
+import com.flagcamp.donationcollector.repository.LocationRepository;
+import com.flagcamp.donationcollector.repository.PostRepository;
 import com.flagcamp.donationcollector.ui.both.LocationSelectorFragment;
 import com.flagcamp.donationcollector.ui.both.LocationSelectorFragmentArgs;
 import com.flagcamp.donationcollector.ui.both.LocationSelectorFragmentDirections;
@@ -30,12 +33,13 @@ public class LocationSelectorNGOFragment extends Fragment implements AdapterView
     private FragmentLocationSelectorNgoBinding binding;
     Button confirmButton;
     EditText streetInput;
-    EditText aptNumberInput;
     EditText cityInput;
     Spinner stateSpinner;
     EditText zipcodeInput;
     TextView testText;
     String state;
+    EditText distanceInput;
+    String distance;
     Button doneButton;
     Button cancelButton;
     String fullAddress;
@@ -57,11 +61,10 @@ public class LocationSelectorNGOFragment extends Fragment implements AdapterView
         super.onViewCreated(view, savedInstanceState);
         String fromLocation = LocationSelectorFragmentArgs.fromBundle(getArguments()).getFromLocation();
         streetInput = binding.streetInput;
-        aptNumberInput = binding.aptNumberInput;
         cityInput = binding.cityInput;
         stateSpinner = (Spinner) binding.stateInput;
         zipcodeInput = binding.zipcodeInput;
-        testText = binding.testText;
+        distanceInput = binding.distanceInput;
         doneButton = binding.doneButton;
         cancelButton = binding.cancelButton;
 
@@ -73,11 +76,23 @@ public class LocationSelectorNGOFragment extends Fragment implements AdapterView
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Done Button", aptNumberInput.getText().toString());
-                String aptNumber = aptNumberInput.getText().toString().equals("Type in Apartment number (Optional)") ? "" : aptNumberInput.getText().toString();
-                fullAddress = (aptNumber.equals("") || aptNumber.equals("") ? "" : (aptNumber + ", ")) + streetInput.getText().toString() + ", " + cityInput.getText().toString() + ", "
+                fullAddress = streetInput.getText().toString() + ", " + cityInput.getText().toString() + ", "
                         + state + " " + zipcodeInput.getText().toString();
-                testText.setText(fullAddress);
+                distance = distanceInput.getText().toString();
+                LocationSelectorNGOFragmentDirections.ActionTitleLocationSelectorToPostcenter actionTitleLocationSelectorToPostcenter =
+                        LocationSelectorNGOFragmentDirections.actionTitleLocationSelectorToPostcenter();
+                actionTitleLocationSelectorToPostcenter.setLocation(fullAddress);
+                actionTitleLocationSelectorToPostcenter.setDistance(distance);
+
+                Location location = new Location();
+                location.location = fullAddress;
+                location.distance = distance;
+
+//                PostRepository repository = new PostRepository(getContext());
+//                repository.deleteAllLocation();
+//                repository.insertLocation(location);
+
+                NavHostFragment.findNavController(LocationSelectorNGOFragment.this).navigate(actionTitleLocationSelectorToPostcenter);
             }
         });
 

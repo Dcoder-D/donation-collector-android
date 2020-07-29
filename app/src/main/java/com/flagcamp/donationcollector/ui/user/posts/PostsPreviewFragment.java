@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
@@ -25,13 +26,19 @@ import android.widget.Toast;
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.databinding.FragmentPostsPreviewBinding;
 import com.flagcamp.donationcollector.model.Item;
+import com.flagcamp.donationcollector.model.PostItem;
 import com.flagcamp.donationcollector.repository.PostRepository;
 import com.flagcamp.donationcollector.repository.PostViewModelFactory;
+import com.flagcamp.donationcollector.repository.SignInRepository;
+import com.flagcamp.donationcollector.signin.AppUser;
 import com.flagcamp.donationcollector.ui.ngo.posts.PostCenterAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+
+import retrofit2.Response;
 
 public class PostsPreviewFragment extends Fragment
         implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -42,6 +49,14 @@ public class PostsPreviewFragment extends Fragment
     private String category;
     private String imagePath;
     private ImageView addedImage;
+    private TextView displayLocation;
+    private String location;
+    private TextView displaySchedule;
+    private List<String> schedules;
+    private String[] schedulesArray;
+    private List<PostItem> postItemList;
+    private List<String> imagesPath;
+    private AppUser[] appUsers;
 
     public PostsPreviewFragment() {
         // Required empty public constructor
@@ -65,9 +80,30 @@ public class PostsPreviewFragment extends Fragment
         super.onViewCreated(view, savedInstanceState);
         binding.categorySpinner.setOnItemSelectedListener(this);
         addedImage = binding.addedImage;
+        postItemList = new ArrayList<>();
+        appUsers = new AppUser[1];
+        imagesPath = new ArrayList<>();
+
         imagePath = PostsPreviewFragmentArgs.fromBundle(getArguments()).getImagePath();
-        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-        addedImage.setImageBitmap(bitmap);
+        if(imagePath != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            addedImage.setImageBitmap(bitmap);
+        }
+
+
+        displayLocation = binding.locationDisplayText;
+        displaySchedule = binding.scheduleDisplayText;
+
+        location = PostsPreviewFragmentArgs.fromBundle(getArguments()).getLocation();
+        if(location != null) {
+            displayLocation.setText(location);
+        }
+
+        schedulesArray = PostsPreviewFragmentArgs.fromBundle(getArguments()).getSchedules();
+        if(schedulesArray != null) {
+            schedules = Arrays.asList(schedulesArray);
+            displaySchedule.setText(schedules.toString());
+        }
 
         // Creating adapter for spinner
         List<String> categories = getAllCategory();
@@ -97,7 +133,8 @@ public class PostsPreviewFragment extends Fragment
         binding.addLocationButton.setOnClickListener(this);
         binding.addScheduleButton.setOnClickListener(this);
         binding.addNewItemButton.setOnClickListener(this);
-        binding.postAllItemButton.setOnClickListener(this);
+
+        binding.addAnotherPhoto.setOnClickListener(this);
 
 
         PostsPreviewAdapter postsPreviewAdapter = new PostsPreviewAdapter();
@@ -108,12 +145,43 @@ public class PostsPreviewFragment extends Fragment
         PostRepository repository = new PostRepository(getContext());
         viewModel = new ViewModelProvider(this, new PostViewModelFactory(repository)).get(PostsPreviewViewModel.class);
         // display the added items in recycler view
+
+        SignInRepository signInRepository = new SignInRepository();
+        signInRepository.getAppUser().observe(getViewLifecycleOwner(), response -> {
+            if(response != null) {
+                appUsers[0] = response.get(0);
+            } else {
+
+            }
+        });
+
         viewModel.getAddedItems().observe(getViewLifecycleOwner(), items -> {
             if (items != null) {
                 Log.d(TAG, "In Posts Preview Recycler View");
                 postsPreviewAdapter.setItems(items);
+                setPostItemsList(items);
             } else {
                 Log.d(TAG, "No PostsPreview response");
+            }
+        });
+
+        binding.postAllItemButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Response myResponse;
+                if(postItemList != null) {
+                    myResponse = viewModel.postAllAddedItem(postItemList, imagesPath);
+                    if(myResponse != null) {
+                        Toast.makeText(getContext(), myResponse.message(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d("PostsPreviewFragment", "myResponse null");
+                    }
+
+                } else {
+                    Toast.makeText(getContext(), "postItemList still empty", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -127,6 +195,16 @@ public class PostsPreviewFragment extends Fragment
         result.add("Hobbies");
         result.add("Furniture");
         return result;
+    }
+
+    public void setPostItemsList(List<Item> items) {
+        postItemList.clear();
+        imagesPath.clear();
+        for(Item item: items) {
+            imagesPath.add(item.urlToImage);
+            PostItem postItem = new PostItem(item, appUsers[0]);
+            postItemList.add(postItem);
+        }
     }
 
     @Override
@@ -148,17 +226,33 @@ public class PostsPreviewFragment extends Fragment
                 item.description = description;
                 item.category = category;
                 item.status = "added";
+                item.availableTime = schedules;
+                item.location = location;
                 addItemAsAdded(item);
                 break;
             case R.id.add_location_button:
                 // TODO: add location here
+                PostsPreviewFragmentDirections.ActionTitlePostsPreviewToLocation actionTitlePostsPreviewToLocation =
+                        PostsPreviewFragmentDirections.actionTitlePostsPreviewToLocation("PostsPreviewFragment");
+                actionTitlePostsPreviewToLocation.setImagePath(imagePath);
+                actionTitlePostsPreviewToLocation.setSchedules(schedulesArray);
+                NavHostFragment.findNavController(PostsPreviewFragment.this).navigate(actionTitlePostsPreviewToLocation);
                 break;
             case R.id.add_schedule_button:
                 // TODO: add schedule here
+                PostsPreviewFragmentDirections.ActionTitlePostsPreviewPostsSchedule actionTitlePostsPreviewPostsSchedule =
+                        PostsPreviewFragmentDirections.actionTitlePostsPreviewPostsSchedule();
+                actionTitlePostsPreviewPostsSchedule.setImagePath(imagePath);
+                actionTitlePostsPreviewPostsSchedule.setLocation(location);
+                NavHostFragment.findNavController(PostsPreviewFragment.this).navigate(actionTitlePostsPreviewPostsSchedule);
                 break;
             case R.id.post_all_item_button:
                 // TODO: post all items to backend
-                postAllAddedItem();
+                Response myResponse = postAllAddedItem();
+                Toast.makeText(getContext(), myResponse.message(), Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.add_another_photo:
+                NavHostFragment.findNavController(PostsPreviewFragment.this).navigate(R.id.action_title_posts_preview_to_albums);
                 break;
         }
     }
@@ -167,8 +261,34 @@ public class PostsPreviewFragment extends Fragment
         viewModel.addItemAsAdded(item);
     }
 
-    private void postAllAddedItem() {
-        viewModel.postAllAddedItem();
+    private Response postAllAddedItem() {
+        List<Item> items = new ArrayList<>();
+        PostRepository repository = new PostRepository(getContext());
+        PostsPreviewViewModel localViewModel = new ViewModelProvider(PostsPreviewFragment.this, new PostViewModelFactory(repository)).get(PostsPreviewViewModel.class);
+        localViewModel.getAddedItems().observe(getViewLifecycleOwner(), response -> {
+            if(response != null) {
+                Log.d("getAdditems", response.toString());
+                items.addAll(response);
+            } else {
+                Log.d("getAdditems", "null response");
+            }
+
+        });
+
+
+        List<String> imagesPath = new ArrayList<>();
+        List<PostItem> postItems = new ArrayList<>();
+        SignInRepository signInRepository = new SignInRepository();
+        AppUser[] appUsers = new AppUser[1];
+        signInRepository.getAppUser().observe(getViewLifecycleOwner(), response -> {
+            appUsers[0] = response.get(0);
+        });
+        for(Item item: items) {
+            imagesPath.add(item.urlToImage);
+            PostItem postItem = new PostItem(item, appUsers[0]);
+            postItems.add(postItem);
+        }
+        return viewModel.postAllAddedItem(postItems, imagesPath);
     }
 
     @Override

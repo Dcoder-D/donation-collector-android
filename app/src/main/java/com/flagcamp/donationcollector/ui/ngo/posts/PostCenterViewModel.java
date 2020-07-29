@@ -19,4 +19,8 @@ public class PostCenterViewModel extends ViewModel {
     public LiveData<List<Item>> getStatusEquals(String status) {
         return repository.getStatusEquals(status);
     }
+
+    public LiveData<List<Item>> getPostsByLocation(String location, String distance) {
+        return repository.getPostsByLocation(location, distance);
+    }
 }

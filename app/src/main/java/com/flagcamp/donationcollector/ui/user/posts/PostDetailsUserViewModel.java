@@ -12,7 +12,8 @@ public class PostDetailsUserViewModel extends ViewModel {
         this.repository = repository;
     }
 
-    public Boolean deletePost(String itemId, String posterId) {
-        return repository.deletePost(itemId, posterId);
+    public Boolean deletePost(String userId, String itemId) {
+        return repository.deletePost(userId, itemId);
+
     }
 }

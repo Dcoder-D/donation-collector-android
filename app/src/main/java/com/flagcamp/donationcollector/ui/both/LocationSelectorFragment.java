@@ -32,6 +32,8 @@ public class LocationSelectorFragment extends Fragment implements AdapterView.On
     Button doneButton;
     Button cancelButton;
     String fullAddress;
+    String imagePath;
+    String[] schedulesArray;
 
     public LocationSelectorFragment() {
 
@@ -63,6 +65,8 @@ public class LocationSelectorFragment extends Fragment implements AdapterView.On
         doneButton = binding.doneButton;
         cancelButton = binding.cancelButton;
 
+        imagePath = LocationSelectorFragmentArgs.fromBundle(getArguments()).getImagePath();
+        schedulesArray = LocationSelectorFragmentArgs.fromBundle(getArguments()).getSchedules();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.states_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -73,15 +77,17 @@ public class LocationSelectorFragment extends Fragment implements AdapterView.On
             @Override
             public void onClick(View v) {
                 Log.d("Done Button", aptNumberInput.getText().toString());
-                String aptNumber = aptNumberInput.getText().toString().equals("Type in Apartment number (Optional)") ? "" : aptNumberInput.getText().toString();
+                String aptNumber = aptNumberInput.getText().toString().equals("(Optional)") ? "" : aptNumberInput.getText().toString();
                 fullAddress = (aptNumber.equals("") || aptNumber.equals("") ? "" : (aptNumber + ", ")) + streetInput.getText().toString() + ", " + cityInput.getText().toString() + ", "
                         + state + " " + zipcodeInput.getText().toString();
                 testText.setText(fullAddress);
 
-                LocationSelectorFragmentDirections.ActionTitleLocationToPostPreview actionTitleLocationSelectorToPostcenter =
-                        LocationSelectorFragmentDirections.actionTitleLocationToPostPreview();
-                actionTitleLocationSelectorToPostcenter.setLocation(fullAddress);
-                NavHostFragment.findNavController(LocationSelectorFragment.this).navigate(actionTitleLocationSelectorToPostcenter);
+                LocationSelectorFragmentDirections.ActionTitleLocationToPostsPreview actionTitleLocationToPostsPreview =
+                        LocationSelectorFragmentDirections.actionTitleLocationToPostsPreview();
+                actionTitleLocationToPostsPreview.setLocation(fullAddress);
+                actionTitleLocationToPostsPreview.setImagePath(imagePath);
+                actionTitleLocationToPostsPreview.setSchedules(schedulesArray);
+                NavHostFragment.findNavController(LocationSelectorFragment.this).navigate(actionTitleLocationToPostsPreview);
             }
         });
 
@@ -90,10 +96,10 @@ public class LocationSelectorFragment extends Fragment implements AdapterView.On
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocationSelectorFragmentDirections.ActionTitleLocationToPostPreview actionTitleLocationSelectorToPostcenter =
-                        LocationSelectorFragmentDirections.actionTitleLocationToPostPreview();
-                actionTitleLocationSelectorToPostcenter.setLocation(null);
-                NavHostFragment.findNavController(LocationSelectorFragment.this).navigate(actionTitleLocationSelectorToPostcenter);
+                LocationSelectorFragmentDirections.ActionTitleLocationToPostsPreview actionTitleLocationSelectorToPostsPreview =
+                        LocationSelectorFragmentDirections.actionTitleLocationToPostsPreview();
+                actionTitleLocationSelectorToPostsPreview.setLocation(null);
+                NavHostFragment.findNavController(LocationSelectorFragment.this).navigate(actionTitleLocationSelectorToPostsPreview);
             }
         });
     }

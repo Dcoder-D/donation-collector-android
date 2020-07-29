@@ -9,9 +9,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.flagcamp.donationcollector.model.Item;
+import com.flagcamp.donationcollector.model.PostItem;
 import com.flagcamp.donationcollector.repository.PostRepository;
+import com.flagcamp.donationcollector.repository.SignInRepository;
+import com.flagcamp.donationcollector.signin.AppUser;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Response;
 
 public class PostsPreviewViewModel extends ViewModel {
     // need a viewModel to do following things:
@@ -32,8 +38,9 @@ public class PostsPreviewViewModel extends ViewModel {
         return repository.getAddedItems();
     }
 
-    public void postAllAddedItem() {
-        repository.postAllAddedItem();
+    public Response postAllAddedItem(List<PostItem> postItems, List<String> imagesPath) {
+        Response myResponse = repository.createPost(postItems, imagesPath);
+        return myResponse;
     }
 
 }

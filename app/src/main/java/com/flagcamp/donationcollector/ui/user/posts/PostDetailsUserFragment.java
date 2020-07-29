@@ -20,6 +20,8 @@ import com.flagcamp.donationcollector.databinding.FragmentPostDetailsUserBinding
 import com.flagcamp.donationcollector.model.Item;
 import com.flagcamp.donationcollector.repository.PostRepository;
 import com.flagcamp.donationcollector.repository.PostViewModelFactory;
+import com.flagcamp.donationcollector.repository.SignInRepository;
+import com.flagcamp.donationcollector.signin.AppUser;
 import com.squareup.picasso.Picasso;
 
 public class PostDetailsUserFragment extends Fragment {
@@ -47,17 +49,23 @@ public class PostDetailsUserFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if(mitem != null) {
+
+
             Picasso.get().load(mitem.urlToImage).into(binding.postDetailsUserImg);
-            binding.category.setText(mitem.description);
+
+//            Picasso.with(getContext()).load(mitem.urlToImage).into(binding.postDetailsUserImg);
+
+            binding.category.setText(mitem.category);
+
             binding.size.setText("Size: " + mitem.size);
             String status = mitem.status;
-            if (status.equals("Pending")) {
+            if (status.toLowerCase().equals("pending")) {
                 binding.status.setText("Pending");
                 binding.status.setBackgroundResource(R.color.light_blue);
                 binding.status.setGravity(Gravity.CENTER);
             }else{
                 String time = mitem.pickupTime;
-                String ngoName = mitem.pickUpNGOId;
+                String ngoName = mitem.ngoUser.ngoName;
                 String s = "Scheduled\nDate: " + time + "\nOrganization: " + ngoName;
                 binding.status.setText(s);
                 binding.status.setBackgroundResource(R.color.light_green);
@@ -75,11 +83,19 @@ public class PostDetailsUserFragment extends Fragment {
 
 
         PostRepository repository = new PostRepository(getContext());
+        SignInRepository signInRepository = new SignInRepository();
+//        AppUser appUser = signInRepository.getAppUser().getValue().get(0);
+        AppUser appUser[] = new AppUser[1];
+        signInRepository.getAppUser().observe(getViewLifecycleOwner(), response -> {
+            appUser[0] = response.get(0);
+        });
+//        AppUser appUser = signInRepository.getAppUsersList().get(0);
         ViewModel = new ViewModelProvider(this, new PostViewModelFactory(repository)).get(PostDetailsUserViewModel.class);
         binding.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!ViewModel.deletePost(mitem.id, mitem.posterId)) {
+                if (!ViewModel.deletePost(appUser[0].getUid(), mitem.id)) {
+
                     System.out.println("delete failed!!!");
                 }
                 Navigation.findNavController(v).navigate(R.id.action_nav_details_to_user);
