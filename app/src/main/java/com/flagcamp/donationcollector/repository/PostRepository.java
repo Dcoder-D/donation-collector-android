@@ -164,6 +164,29 @@ public class PostRepository {
         return userPostsLiveData;
     }
 
+    public LiveData<List<Item>> getNGOPosts(String ngoId) {
+        final MutableLiveData<List<Item>> ngoPostsLiveData = new MutableLiveData<>();
+        postApi.getNGOPosts(ngoId).enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                if(response.isSuccessful()) {
+                    ngoPostsLiveData.setValue(response.body());
+                    Log.d("getNGOPosts", response.body().toString());
+                } else {
+                    ngoPostsLiveData.setValue(null);
+                    Log.d("getNGOPosts", "not successful, code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+                ngoPostsLiveData.setValue(null);
+                Log.d("getNGOPosts", "failed, " + t.toString());
+            }
+        });
+        return ngoPostsLiveData;
+    }
+
     public LiveData<List<Item>> getNGOPickUp(String pickUpNGOId) {
         final MutableLiveData<List<Item>> userPostsLiveData = new MutableLiveData<>();
         postApi.getNGOPickUp(pickUpNGOId).enqueue(new Callback<List<Item>>() {
@@ -209,30 +232,6 @@ public class PostRepository {
     }
 
         //TODO:getDateEquals()
-    public LiveData<List<Item>> getDateEquals(String pickUpDate) {
-        final MutableLiveData<List<Item>> dateEqualsLiveData = new MutableLiveData<>();
-        postApi.getDateEquals(pickUpDate).enqueue(new Callback<List<Item>>() {
-            @Override
-            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                if(response.isSuccessful()) {
-                    dateEqualsLiveData.setValue(response.body());
-                    Log.d("PostRepoDates", "Success");
-                    Log.d("PostRepoDates", response.body().toString());
-                } else {
-                    dateEqualsLiveData.setValue(null);
-                    Log.d("PostRepoDates", "Failed");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Item>> call, Throwable t) {
-                dateEqualsLiveData.setValue(null);
-                Log.d("getDateEquals", "Failed: " + t.toString());
-            }
-        });
-
-        return dateEqualsLiveData;
-    }
 
     public LiveData<List<Item>> getNGODateEquals(String pickUpDate, String pickUpNGOID) {
         final MutableLiveData<List<Item>> dateEqualsLiveData = new MutableLiveData<>();
@@ -284,29 +283,6 @@ public class PostRepository {
         return dateEqualsLiveData;
     }
 
-    public List<Item> getUserPostsList(String posterId) {
-        List<Item> userPostsLiveData = new ArrayList<>();
-        postApi.getUserPosts(posterId).enqueue(new Callback<List<Item>>() {
-            @Override
-            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-                if(response.isSuccessful()) {
-                    userPostsLiveData.addAll(response.body());
-//                    Log.d(response.body().toString());
-                    System.out.println(response.body());
-                    Log.d("response", response.body().toString());
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Item>> call, Throwable t) {
-
-            }
-        });
-        return userPostsLiveData;
-    }
-
     public Boolean deletePost(String userId, String itemId) {
         final Boolean[] deleteRes = {false};
         postApi.deletePost(userId, itemId).enqueue(new Callback() {
@@ -326,22 +302,27 @@ public class PostRepository {
 
         return deleteRes[0];
     }
-    public Boolean confirmPickUp(String itemId, String ngoId){
+    public Boolean confirmPickUp(String itemId, String ngoId, String ngoName, String pickUpDate){
         final Boolean[] confirmRes = {false};
-        postApi.confirmPickUp(itemId, ngoId).enqueue(new Callback() {
+        postApi.confirmPickUp(itemId, ngoId, ngoName, pickUpDate).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()) {
                     confirmRes[0] = true;
+                    Log.d("PostRepository", "confirmPickUp successful, code: " + response.code());
+                } else {
+                    confirmRes[0] = false;
+                    Log.d("PostRepository", "confirmPickUp not successful, code: " + response.code() + ", message: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
+                Log.d("PostRepository", "confirmPickUp failure,  " + t.toString());
                 confirmRes[0] = false;
+
             }
         });
-
         return confirmRes[0];
     }
 

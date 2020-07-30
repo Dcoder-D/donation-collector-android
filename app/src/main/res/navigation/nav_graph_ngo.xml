@@ -19,17 +19,16 @@
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="dummy"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
 <!--        <action-->
 <!--            android:id="@+id/action_title_postcenter_to_location_selector"-->
 <!--            app:destination="@+id/nav_location_selector_ngo"-->
 <!--            app:enterAnim="@android:anim/slide_in_left"-->
 <!--            app:exitAnim="@android:anim/slide_out_right">-->
-<!--            <argument-->
-<!--                android:name="dummy"-->
-<!--                android:defaultValue="@null"-->
-<!--                app:argType="string"-->
-<!--                app:nullable="true" />-->
-<!--        </action>-->
         <action
             android:id="@+id/action_title_postcenter_to_location_selector"
             app:destination="@+id/nav_location_selector_ngo"
@@ -115,6 +114,15 @@
                 android:name="NGOId"
                 android:defaultValue="@null"
                 app:argType="string"
+                app:nullable="true" />
+        </action>
+        <action
+            android:id="@+id/action_title_calendarngo_to_post_details"
+            app:destination="@+id/nav_post_details_ngo">
+            <argument
+                android:name="post"
+                android:defaultValue="@null"
+                app:argType="com.flagcamp.donationcollector.model.Item"
                 app:nullable="true" />
         </action>
     </fragment>
