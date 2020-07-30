@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -98,8 +99,17 @@ public class PostDetailsNGOFragment extends Fragment {
                 String dateTime = input.toString();
                 if (dateTime.length() >= 10 && isDateValid(dateTime.substring(0, 10))) {
                     appUser = (AppUser) getActivity().getIntent().getSerializableExtra("AppUser");
+                    String itemId = mitem.id;
                     String ngoId = appUser.getUid();
-                    naviToCenter();
+                    String ngoName = appUser.getOrganizationName();
+                    String pickUpDate = dateTime;
+                    boolean response = viewModel.confirmPickUp(itemId, ngoId, ngoName, pickUpDate);
+                    if(response) {
+                        Toast.makeText(getContext(), "Schedule successful", Toast.LENGTH_SHORT).show();
+                        naviToCenter();
+                    } else {
+                        Toast.makeText(getContext(), "Schedule not successful", Toast.LENGTH_SHORT).show();
+                    }
 //                    if (viewModel.confirmPickUp(mitem.id, ngoId)) {
 //                        naviToCenter();
 //                    } else {
@@ -145,6 +155,7 @@ public class PostDetailsNGOFragment extends Fragment {
         }
         return false;
     }
+
     private void naviToCenter(){
         PostDetailsNGOFragmentDirections.ActionTitlePostDetailsToPostcenter actionTitlePostDetailsToPostcenter =
                 PostDetailsNGOFragmentDirections.actionTitlePostDetailsToPostcenter();

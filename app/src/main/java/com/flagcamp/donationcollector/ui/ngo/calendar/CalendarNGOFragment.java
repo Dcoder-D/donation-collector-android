@@ -15,18 +15,23 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.flagcamp.donationcollector.databinding.FragmentCalendarNgoBinding;
+import com.flagcamp.donationcollector.model.Item;
 import com.flagcamp.donationcollector.repository.PostRepository;
 import com.flagcamp.donationcollector.repository.PostViewModelFactory;
+import com.flagcamp.donationcollector.repository.SignInRepository;
+import com.flagcamp.donationcollector.signin.AppUser;
 import com.flagcamp.donationcollector.ui.both.calendar.ScheduledPickupAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CalendarNGOFragment extends Fragment {
     private FragmentCalendarNgoBinding binding;
     private NGOScheduledPickupViewModel viewModel;
+    private List<Item> ngoPosts;
 
     public CalendarNGOFragment() {
 
@@ -68,6 +73,8 @@ public class CalendarNGOFragment extends Fragment {
 
         PostRepository repository = new PostRepository(getContext());
 
+        SignInRepository signInRepository = new SignInRepository();
+
         //TODO: add to factory
         viewModel = new ViewModelProvider(this, new PostViewModelFactory(repository))
                 .get(NGOScheduledPickupViewModel.class);
@@ -77,15 +84,33 @@ public class CalendarNGOFragment extends Fragment {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String todaysDate = df.format(c);
 
-        //TODO: Get ID from
-        viewModel.getNGODateEquals(todaysDate, "1").observe(getViewLifecycleOwner(), postResponse -> {
-            if(postResponse != null) {
-                Log.d("ScheduledPickupFragment", "Success");
-                Log.d("ScheduledPickupFragment", postResponse.toString());
-                scheduledPickupAdapter.setItems(postResponse);
+//        viewModel.getNGODateEquals(todaysDate, "1").observe(getViewLifecycleOwner(), postResponse -> {
+//            if(postResponse != null) {
+//                Log.d("ScheduledPickupFragment", "Success");
+//                Log.d("ScheduledPickupFragment", postResponse.toString());
+//                scheduledPickupAdapter.setItems(postResponse);
+//            } else {
+//                Log.d("ScheduledPickupFragment", "Null postResponse");
+//            }
+//        });
+
+        signInRepository.getAppUser().observe(getViewLifecycleOwner(), response -> {
+            if(response != null) {
+                AppUser appUser = response.get(0);
+                viewModel.getNGOPosts(appUser.getUid()).observe(getViewLifecycleOwner(), itemResponse -> {
+                    if(itemResponse != null) {
+                        Log.d("CalendarNGOFragment", "response returns: " + itemResponse.toString());
+                        scheduledPickupAdapter.setItems(itemResponse);
+                    } else {
+                        Log.d("CalendarNGOFragment", "response returns null");
+                        scheduledPickupAdapter.setItems(null);
+                    }
+                });
             } else {
-                Log.d("ScheduledPickupFragment", "Null postResponse");
+
             }
         });
+
+
     }
 }

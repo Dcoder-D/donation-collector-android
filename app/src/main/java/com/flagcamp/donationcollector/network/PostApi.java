@@ -27,6 +27,9 @@ public interface PostApi {
     @GET("userPosts")
     Call<List<Item>> getUserPosts(@Query("userId") String posterId);
 
+    @GET("ngoPosts")
+    Call<List<Item>> getNGOPosts(@Query("ngoId") String ngoId);
+
     @GET("searchPostsNGO")
     Call<List<Item>> getPostsByLocation(@Query("address") String location, @Query("distance") String distance);
 
@@ -56,8 +59,7 @@ public interface PostApi {
     Call<List<Item>> getUserDateEquals(@Query("pickUpDate") String pickUpDate,
                                       @Query("posterId") String posterId);
 
-    @GET("confirmPickUp")
-    Call confirmPickUp(@Query("itemId") String itemId,
-                                @Query("ngoId") String ngoId);
+    @POST("schedulePickUp")
+    Call<ResponseBody> confirmPickUp(@Query("itemId") String itemId, @Query("ngoId") String ngoId, @Query("ngoName") String organizationName, @Query("pickUpDate") String pickUpDate);
 
 }

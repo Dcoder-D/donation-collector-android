@@ -8,10 +8,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.model.Item;
+import com.flagcamp.donationcollector.ui.ngo.calendar.CalendarNGOFragmentDirections;
 import com.flagcamp.donationcollector.ui.ngo.posts.PostCenterAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -47,8 +49,18 @@ public class ScheduledPickupAdapter extends RecyclerView.Adapter<ScheduledPickup
         holder.postCategory.setText(item.category);
         holder.postLocation.setText(item.location);
         holder.postStatus.setText(item.status);
-        holder.postStatus.setBackgroundResource(item.status.equals("Pending") ?
+        holder.postStatus.setBackgroundResource(item.status.toLowerCase().equals("pending") ?
                 R.color.light_blue : R.color.light_green);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                CalendarNGOFragmentDirections.ActionTitleCalendarngoToPostDetails actionTitleCalendarngoToPostDetails =
+                        CalendarNGOFragmentDirections.actionTitleCalendarngoToPostDetails();
+                actionTitleCalendarngoToPostDetails.setPost(item);
+                NavHostFragment.findNavController(fragment).navigate(actionTitleCalendarngoToPostDetails);
+            }
+        });
     }
 
     @Override

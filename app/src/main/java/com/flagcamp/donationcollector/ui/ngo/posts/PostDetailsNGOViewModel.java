@@ -12,7 +12,7 @@ public class PostDetailsNGOViewModel extends ViewModel {
         this.repository = repository;
     }
 
-    public Boolean confirmPickUp(String itemId, String ngoId) {
-        return repository.confirmPickUp(itemId, ngoId);
+    public Boolean confirmPickUp(String itemId, String ngoId, String ngoName, String pickUpDate) {
+        return repository.confirmPickUp(itemId, ngoId, ngoName, pickUpDate);
     }
 }

@@ -170,16 +170,16 @@ public class PostsPreviewFragment extends Fragment
             @Override
             public void onClick(View v) {
                 Response myResponse;
-                if(postItemList != null) {
+                if(postItemList != null && postItemList.size() != 0) {
                     myResponse = viewModel.postAllAddedItem(postItemList, imagesPath);
                     if(myResponse != null) {
-                        Toast.makeText(getContext(), myResponse.message(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), myResponse.message() + "post successful!", Toast.LENGTH_SHORT).show();
                     } else {
                         Log.d("PostsPreviewFragment", "myResponse null");
                     }
 
                 } else {
-                    Toast.makeText(getContext(), "postItemList still empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "post item still empty", Toast.LENGTH_SHORT).show();
                 }
 
             }
