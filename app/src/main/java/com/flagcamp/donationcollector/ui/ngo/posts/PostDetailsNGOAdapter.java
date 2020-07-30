@@ -18,6 +18,7 @@ public class PostDetailsNGOAdapter extends RecyclerView.Adapter<PostDetailsNGOAd
 
     private List<String> dates = new ArrayList<>();
     Fragment fragment;
+    String status;
 
     public PostDetailsNGOAdapter(Fragment fragment) {
         this.fragment = fragment;
@@ -30,7 +31,8 @@ public class PostDetailsNGOAdapter extends RecyclerView.Adapter<PostDetailsNGOAd
         return new PostDetailsNGOViewHolder(view);
     }
 
-    public void setDates(List<String> availableTimes) {
+    public void setDates(String status, List<String> availableTimes) {
+        this.status = status;
         this.dates.clear();
         this.dates.addAll(availableTimes);
         notifyDataSetChanged();
@@ -39,7 +41,14 @@ public class PostDetailsNGOAdapter extends RecyclerView.Adapter<PostDetailsNGOAd
     @Override
     public void onBindViewHolder(@NonNull PostDetailsNGOViewHolder holder, int position) {
         String date = dates.get(position);
-        holder.availableDate.setText(date);
+        if(status.equals("PENDING")) {
+            holder.availableDate.setText(date);
+        }else if (status.equals("SCHEDULED")) {
+            holder.availableDate.setText(date.substring(0,10));
+            holder.datePrefix.setText("Pick-up Date:");
+            holder.timePrefix.setText("Pick-up Time:");
+            //holder.pickupTime.setText(date.substring(11,16));
+        }
     }
 
     @Override
@@ -49,13 +58,20 @@ public class PostDetailsNGOAdapter extends RecyclerView.Adapter<PostDetailsNGOAd
     }
 
     public static class PostDetailsNGOViewHolder extends RecyclerView.ViewHolder {
+        TextView datePrefix;
         TextView availableDate;
+        TextView timePrefix;
+        TextView pickupTime;
+
         //TextView availableTime;
 
         public PostDetailsNGOViewHolder(@NonNull View itemView) {
 
             super(itemView);
+            datePrefix = itemView.findViewById(R.id.details_card_date_prefix);
             availableDate = itemView.findViewById(R.id.details_available_date);
+            timePrefix = itemView.findViewById(R.id.details_card_time_prefix);
+            pickupTime = itemView.findViewById(R.id.details_available_time);
         }
     }
 }

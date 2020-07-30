@@ -14,6 +14,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -40,8 +41,8 @@ public interface PostApi {
     Call<List<Item>> getStatusEquals(@Query("status") String status);
 
 
-    @POST("deleteItem")
-    Call<List<Item>> deletePost(@Query("userId") String userId, @Query("itemId") String itemId);
+    @DELETE("deleteItem")
+    Call<ResponseBody> deletePost(@Query("userId") String userId, @Query("itemId") String itemId);
 
     @Multipart
     @POST("createPost")
@@ -60,6 +61,10 @@ public interface PostApi {
                                       @Query("posterId") String posterId);
 
     @POST("schedulePickUp")
-    Call<ResponseBody> confirmPickUp(@Query("itemId") String itemId, @Query("ngoId") String ngoId, @Query("ngoName") String organizationName, @Query("pickUpDate") String pickUpDate);
+    Call<ResponseBody> schedulePickUp(@Query("itemId") String itemId, @Query("ngoId") String ngoId,
+                                      @Query("ngoName") String organizationName, @Query("pickUpDate") String pickUpDate);
+
+    @GET("confirmPickUp")
+    Call<ResponseBody> confirmPickUp(@Query("itemId") String itemId, @Query("ngoId") String ngoId);
 
 }
