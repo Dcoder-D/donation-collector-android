@@ -302,9 +302,33 @@ public class PostRepository {
 
         return deleteRes[0];
     }
-    public Boolean confirmPickUp(String itemId, String ngoId, String ngoName, String pickUpDate){
+    public Boolean schedulePickUp(String itemId, String ngoId, String ngoName, String pickUpDate){
         final Boolean[] confirmRes = {false};
-        postApi.confirmPickUp(itemId, ngoId, ngoName, pickUpDate).enqueue(new Callback() {
+        postApi.schedulePickUp(itemId, ngoId, ngoName, pickUpDate).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.isSuccessful()) {
+                    confirmRes[0] = true;
+                    Log.d("PostRepository", "schedulePickUp successful, code: " + response.code());
+                } else {
+                    confirmRes[0] = false;
+                    Log.d("PostRepository", "schedulePickUp not successful, code: " + response.code() + ", message: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.d("PostRepository", "schedulePickUp failure,  " + t.toString());
+                confirmRes[0] = false;
+
+            }
+        });
+        return confirmRes[0];
+    }
+
+    public Boolean confirmPickUp(String itemId, String ngoId){
+        final Boolean[] confirmRes = {false};
+        postApi.confirmPickUp(itemId, ngoId).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()) {
@@ -325,7 +349,6 @@ public class PostRepository {
         });
         return confirmRes[0];
     }
-
     // connect Room database for PostsPreviewFragment
     public void addItemAsAdded(Item item) {
         new InsertAsyncTask(dao).execute(item);
