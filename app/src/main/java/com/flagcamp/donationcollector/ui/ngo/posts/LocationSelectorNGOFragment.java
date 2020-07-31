@@ -1,5 +1,6 @@
 package com.flagcamp.donationcollector.ui.ngo.posts;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -68,7 +70,29 @@ public class LocationSelectorNGOFragment extends Fragment implements AdapterView
         doneButton = binding.doneButton;
         cancelButton = binding.cancelButton;
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.states_array, android.R.layout.simple_spinner_item);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.states_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                getResources().getStringArray(R.array.states_array)) {
+            @Override
+            public boolean isEnabled(int position) {
+                return position != 0;
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stateSpinner.setAdapter(adapter);
         stateSpinner.setOnItemSelectedListener(this);
@@ -76,9 +100,25 @@ public class LocationSelectorNGOFragment extends Fragment implements AdapterView
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fullAddress = streetInput.getText().toString() + ", " + cityInput.getText().toString() + ", "
-                        + state + " " + zipcodeInput.getText().toString();
+                String street = streetInput.getText().toString();
+                String city = cityInput.getText().toString();
+                String zipcode = zipcodeInput.getText().toString();
+                if (street.length() == 0 || city.length() == 0 || zipcode.length() == 0) {
+                    Toast.makeText(getContext(), "Please enter your full address", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (state.equals("Select a state")) {
+                    Toast.makeText(getContext(), "Please select a state", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                fullAddress = street + ", " + city + ", "
+                        + state + " " + zipcode;
+
                 distance = distanceInput.getText().toString();
+                if (distance.length() == 0) {
+                    Toast.makeText(getContext(), "Please enter a distance", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 LocationSelectorNGOFragmentDirections.ActionTitleLocationSelectorToPostcenter actionTitleLocationSelectorToPostcenter =
                         LocationSelectorNGOFragmentDirections.actionTitleLocationSelectorToPostcenter();
                 actionTitleLocationSelectorToPostcenter.setLocation(fullAddress);
