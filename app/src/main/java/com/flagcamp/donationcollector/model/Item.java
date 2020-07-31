@@ -75,11 +75,23 @@ public class Item implements Serializable{
         Pending, Scheduled, Collected;
     }
 
-    @NonNull
     @Override
     public String toString() {
-        return "Item {" +
-                "id='" + id + "'" +
-                ", urlToImage='" + urlToImage + "'}";
+        return "Item{" +
+                "id='" + id + '\'' +
+                ", urlToImage='" + urlToImage + '\'' +
+                ", lat=" + lat +
+                ", lon=" + lon +
+                ", ngoUser=" + ngoUser +
+                ", posterUser=" + posterUser +
+                ", location='" + location + '\'' +
+                ", category='" + category + '\'' +
+                ", itemName='" + itemName + '\'' +
+                ", description='" + description + '\'' +
+                ", size='" + size + '\'' +
+                ", availableTime=" + availableTime +
+                ", status='" + status + '\'' +
+                ", pickupTime='" + pickupTime + '\'' +
+                '}';
     }
 }

@@ -23,6 +23,7 @@ import com.flagcamp.donationcollector.signin.AppUser;
 import com.flagcamp.donationcollector.ui.both.calendar.ScheduledPickupAdapter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -48,16 +49,28 @@ public class CalendarNGOFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ngoPosts = new ArrayList<>();
         binding.calendarNGO.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                String date = year + "-0" + (month + 1) + "-" + dayOfMonth;
+//                String date = year + "-0" + (month + 1) + "-" + dayOfMonth;
+                month += 1;
+                String date = year + (month < 10 ? "-0" + String.valueOf(month) : String.valueOf(month)) + (dayOfMonth < 10 ? "-0" + String.valueOf(dayOfMonth) : String.valueOf(dayOfMonth));
                 Log.d("DATE", date);
 
                 CalendarNGOFragmentDirections.ActionTitleCalendarngoToScheduledpickup actionTitleCalendarngoToScheduledpickup =
                         CalendarNGOFragmentDirections.actionTitleCalendarngoToScheduledpickup();
                 actionTitleCalendarngoToScheduledpickup.setDate(date);
                 //TODO: fix hardcoded NGOId
+                List<Item> scheduledItems = new ArrayList<>();
+                for(Item item: ngoPosts) {
+                    if(item.pickupTime.equals(date)) {
+                        scheduledItems.add(item);
+                    }
+                }
+
+                new NGOScheduledPickupFragment().setScheduledItems(scheduledItems);
+
                 actionTitleCalendarngoToScheduledpickup.setNGOId("0");
                 NavHostFragment.findNavController(CalendarNGOFragment.this)
                         .navigate(actionTitleCalendarngoToScheduledpickup);
@@ -101,6 +114,8 @@ public class CalendarNGOFragment extends Fragment {
                     if(itemResponse != null) {
                         Log.d("CalendarNGOFragment", "response returns: " + itemResponse.toString());
                         scheduledPickupAdapter.setItems(itemResponse);
+                        ngoPosts.clear();
+                        ngoPosts.addAll(itemResponse);
                     } else {
                         Log.d("CalendarNGOFragment", "response returns null");
                         scheduledPickupAdapter.setItems(null);

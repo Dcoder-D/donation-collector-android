@@ -13,8 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.model.Item;
+import com.flagcamp.donationcollector.ui.ngo.calendar.CalendarNGOFragment;
 import com.flagcamp.donationcollector.ui.ngo.calendar.CalendarNGOFragmentDirections;
+import com.flagcamp.donationcollector.ui.ngo.calendar.NGOScheduledPickupFragment;
+import com.flagcamp.donationcollector.ui.ngo.calendar.NGOScheduledPickupFragmentDirections;
 import com.flagcamp.donationcollector.ui.ngo.posts.PostCenterAdapter;
+import com.flagcamp.donationcollector.ui.user.calendar.CalendarUserFragment;
+import com.flagcamp.donationcollector.ui.user.calendar.UserScheduledPickupFragment;
+import com.flagcamp.donationcollector.ui.user.posts.PostDetailsUserFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -55,10 +61,23 @@ public class ScheduledPickupAdapter extends RecyclerView.Adapter<ScheduledPickup
 
             @Override
             public void onClick(View v) {
-                CalendarNGOFragmentDirections.ActionTitleCalendarngoToPostDetails actionTitleCalendarngoToPostDetails =
-                        CalendarNGOFragmentDirections.actionTitleCalendarngoToPostDetails();
-                actionTitleCalendarngoToPostDetails.setPost(item);
-                NavHostFragment.findNavController(fragment).navigate(actionTitleCalendarngoToPostDetails);
+                if(fragment.getClass().isAssignableFrom(NGOScheduledPickupFragment.class)) {
+                    NGOScheduledPickupFragmentDirections.ActionTitleScheduledpickupToPostDetails actionTitleScheduledpickupToPostDetails =
+                            NGOScheduledPickupFragmentDirections.actionTitleScheduledpickupToPostDetails();
+                    actionTitleScheduledpickupToPostDetails.setPost(item);
+                    NavHostFragment.findNavController(fragment).navigate(actionTitleScheduledpickupToPostDetails);
+                } else if(fragment.getClass().isAssignableFrom(CalendarNGOFragment.class)) {
+                    CalendarNGOFragmentDirections.ActionTitleCalendarngoToPostDetails actionTitleCalendarngoToPostDetails =
+                            CalendarNGOFragmentDirections.actionTitleCalendarngoToPostDetails();
+                    actionTitleCalendarngoToPostDetails.setPost(item);
+                    NavHostFragment.findNavController(fragment).navigate(actionTitleCalendarngoToPostDetails);
+                } else if(fragment.getClass().isAssignableFrom(CalendarUserFragment.class)) {
+                    PostDetailsUserFragment.setItem(item);
+                    NavHostFragment.findNavController(fragment).navigate(R.id.action_title_calendaruser_to_post_details);
+                } else  if(fragment.getClass().isAssignableFrom(UserScheduledPickupFragment.class)) {
+                    PostDetailsUserFragment.setItem(item);
+                    NavHostFragment.findNavController(fragment).navigate(R.id.action_title_scheduledpickup_user_to_post_details);
+                };
             }
         });
     }

@@ -19,4 +19,8 @@ public class UserScheduledPickupViewModel extends ViewModel {
     public LiveData<List<Item>> getUserDateEquals(String date, String posterId) {
         return repository.getUserDateEquals(date, posterId);
     }
+
+    public LiveData<List<Item>> getUserPosts(String posterId) {
+        return repository.getUserPosts(posterId);
+    }
 }

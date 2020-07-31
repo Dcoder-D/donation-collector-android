@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ public class PostsScheduleFragment extends Fragment implements View.OnClickListe
     private String imagePath;
     private String location;
     private StringBuilder sb;
+    private DatePicker picker;
 
     @Nullable
     @Override
@@ -39,7 +41,7 @@ public class PostsScheduleFragment extends Fragment implements View.OnClickListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        scheduleInput = binding.scheduleInput;
+        picker = binding.datePicker1;
         displaySchedule = binding.displayShcedule;
 
         imagePath = PostsScheduleFragmentArgs.fromBundle(getArguments()).getImagePath();
@@ -58,7 +60,10 @@ public class PostsScheduleFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.schedule_add_schedule_button:
-                String date = scheduleInput.getText().toString();
+                String month = String.valueOf(picker.getMonth());
+                String day = String.valueOf(picker.getDayOfMonth());
+                String year = String.valueOf(picker.getYear());
+                String date = year + "-" + (month.length() < 2 ? "0" + month : month) + "-" + (day.length() < 2 ? "0" + day : day);
                 if(!isValidDate(date)) {
                     Toast.makeText(getContext(), "The date format is not correct", Toast.LENGTH_SHORT).show();
                     return;

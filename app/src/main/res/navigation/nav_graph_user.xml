@@ -230,6 +230,10 @@
                 app:argType="string"
                 app:nullable="true" />
         </action>
+        <action
+            android:id="@+id/action_title_calendaruser_to_post_details"
+            app:destination="@+id/nav_post_details_user">
+        </action>
     </fragment>
     <fragment
         android:id="@+id/nav_scheduled_pickup"
@@ -251,6 +255,11 @@
             app:destination="@+id/nav_calendar_user"
             app:enterAnim="@android:anim/slide_out_right"
             app:exitAnim="@android:anim/slide_in_left">
+        </action>
+        <action
+            android:id="@+id/action_title_scheduledpickup_user_to_post_details"
+            app:destination="@+id/nav_post_details_user">
+
         </action>
     </fragment>
     <fragment
