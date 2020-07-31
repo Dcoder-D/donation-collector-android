@@ -16,19 +16,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.flagcamp.donationcollector.databinding.FragmentCalendarNgoBinding;
 import com.flagcamp.donationcollector.databinding.FragmentCalendarUserBinding;
+import com.flagcamp.donationcollector.model.Item;
 import com.flagcamp.donationcollector.repository.PostRepository;
 import com.flagcamp.donationcollector.repository.PostViewModelFactory;
+import com.flagcamp.donationcollector.repository.SignInRepository;
 import com.flagcamp.donationcollector.ui.both.calendar.ScheduledPickupAdapter;
 import com.flagcamp.donationcollector.ui.ngo.calendar.NGOScheduledPickupViewModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CalendarUserFragment extends Fragment {
     private FragmentCalendarUserBinding binding;
     private UserScheduledPickupViewModel viewModel;
+    private List<Item> scheduledItems;
 
     public CalendarUserFragment() {
     }
@@ -44,10 +49,12 @@ public class CalendarUserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        scheduledItems = new ArrayList<>();
         binding.calendarUser.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                String date = year + "-0" + (month + 1) + "-" + dayOfMonth;
+                month += 1;
+                String date = year + (month < 10 ? "-0" + String.valueOf(month) : String.valueOf(month)) + (dayOfMonth < 10 ? "-0" + String.valueOf(dayOfMonth) : String.valueOf(dayOfMonth));
                 Log.d("DATE", date);
 
                 CalendarUserFragmentDirections.ActionTitleCalendaruserToScheduledpickup actionTitleCalendaruserToScheduledpickup =
@@ -78,15 +85,19 @@ public class CalendarUserFragment extends Fragment {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String todaysDate = df.format(c);
 
-        //TODO: Get ID from
-        viewModel.getUserDateEquals(todaysDate, "1").observe(getViewLifecycleOwner(), postResponse -> {
-            if(postResponse != null) {
-                Log.d("ScheduledPickupFragment", "Success");
-                Log.d("ScheduledPickupFragment", postResponse.toString());
-                scheduledPickupAdapter.setItems(postResponse);
-            } else {
-                Log.d("ScheduledPickupFragment", "Null postResponse");
+        SignInRepository signInRepository = new SignInRepository();
+        signInRepository.getAppUser().observe(getViewLifecycleOwner(), response -> {
+            if(response != null) {
+                viewModel.getUserPosts(response.get(0).getUid()).observe(getViewLifecycleOwner(), posts -> {
+                    for(Item item: posts) {
+                        if(item.status.toLowerCase().equals("scheduled")) {
+                            scheduledItems.add(item);
+                        }
+                    }
+                    scheduledPickupAdapter.setItems(scheduledItems);
+                });
             }
         });
+
     }
 }
