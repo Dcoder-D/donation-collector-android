@@ -46,7 +46,7 @@ public class PostDetailsNGOAdapter extends RecyclerView.Adapter<PostDetailsNGOAd
         }else if (status.equals("SCHEDULED")) {
             holder.availableDate.setText(date.substring(0,10));
             holder.datePrefix.setText("Pick-up Date:");
-            holder.timePrefix.setText("Pick-up Time:");
+            //holder.timePrefix.setText("Pick-up Time:");
             //holder.pickupTime.setText(date.substring(11,16));
         }
     }
@@ -60,18 +60,17 @@ public class PostDetailsNGOAdapter extends RecyclerView.Adapter<PostDetailsNGOAd
     public static class PostDetailsNGOViewHolder extends RecyclerView.ViewHolder {
         TextView datePrefix;
         TextView availableDate;
-        TextView timePrefix;
-        TextView pickupTime;
+        //TextView timePrefix;
+        //TextView pickupTime;
 
-        //TextView availableTime;
 
         public PostDetailsNGOViewHolder(@NonNull View itemView) {
 
             super(itemView);
             datePrefix = itemView.findViewById(R.id.details_card_date_prefix);
             availableDate = itemView.findViewById(R.id.details_available_date);
-            timePrefix = itemView.findViewById(R.id.details_card_time_prefix);
-            pickupTime = itemView.findViewById(R.id.details_available_time);
+            //timePrefix = itemView.findViewById(R.id.details_card_time_prefix);
+            //pickupTime = itemView.findViewById(R.id.details_available_time);
         }
     }
 }
