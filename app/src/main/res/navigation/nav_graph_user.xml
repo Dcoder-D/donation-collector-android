@@ -20,17 +20,19 @@
             app:destination="@+id/nav_post_details_user"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" >
-<!--            <argument-->
-<!--                android:name="dummy"-->
-<!--                android:defaultValue="@null"-->
-<!--                app:argType="string"-->
-<!--                app:nullable="true" />-->
         </action>
-
         <action
             android:id="@+id/action_nav_post_user_to_nav_albums"
             app:destination="@id/nav_albums" />
-
+        <action
+            android:id="@+id/action_title_post_user_to_posts_preview"
+            app:destination="@+id/nav_posts_preview">
+            <argument
+                android:name="imagePath"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/nav_albums"
@@ -40,17 +42,16 @@
         <action
             android:id="@+id/action_nav_albums_to_nav_post_user"
             app:destination="@id/nav_post_user" />
-        <action
-            android:id="@+id/action_title_albums_to_post_preview"
-            app:destination="@+id/nav_post_preview">
-            <argument
-                android:name="imagePath"
-                android:defaultValue="@null"
-                app:argType="string"
-                app:nullable="true" />
+<!--        <action-->
+<!--            android:id="@+id/action_title_albums_to_post_preview"-->
+<!--            app:destination="@+id/nav_post_preview">-->
+<!--            <argument-->
+<!--                android:name="imagePath"-->
+<!--                android:defaultValue="@null"-->
+<!--                app:argType="string"-->
+<!--                app:nullable="true" />-->
 
-        </action>
-
+<!--        </action>-->
         <action
             android:id="@+id/action_title_albums_to_posts_preview"
             app:destination="@+id/nav_posts_preview">
@@ -85,6 +86,9 @@
             android:id="@+id/action_title_posts_preview_to_albums"
             app:destination="@+id/nav_albums">
         </action>
+        <action
+            android:id="@+id/action_title_post_preview_to_post_user"
+            app:destination="@+id/nav_post_preview" />
 
         <action
             android:id="@+id/action_title_posts_preview_to_post_user"
@@ -95,7 +99,6 @@
                 app:argType="string"
                 app:nullable="true" />
         </action>
-
         <action
             android:id="@+id/action_title_posts_preview_to_location"
             app:destination="@+id/nav_location_selector_user">

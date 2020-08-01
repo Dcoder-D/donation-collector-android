@@ -121,16 +121,16 @@ public class PostDetailsNGOFragment extends Fragment {
                                 String date = year + "-" + sMonthOfYear + "-" + sDayOfMonth;
                                 editText.setText(date);
 
-                                //show time picker dialog after date is set.
-                                new TimePickerDialog(getContext(),android.R.style.Theme_DeviceDefault_Light_Dialog,new TimePickerDialog.OnTimeSetListener() {
-                                    @Override
-                                    public void onTimeSet(TimePicker view, int hourOfDay, int minute)
-                                    {
-                                        String sHourOfDay = dateTimeToString(hourOfDay);
-                                        String sMinute = dateTimeToString(minute);
-                                        editText.setText(date + "  " + sHourOfDay + " : " + sMinute);
-                                    }
-                                }, hour, minute, true).show();
+//                                //show time picker dialog after date is set.
+//                                new TimePickerDialog(getContext(),android.R.style.Theme_DeviceDefault_Light_Dialog,new TimePickerDialog.OnTimeSetListener() {
+//                                    @Override
+//                                    public void onTimeSet(TimePicker view, int hourOfDay, int minute)
+//                                    {
+//                                        String sHourOfDay = dateTimeToString(hourOfDay);
+//                                        String sMinute = dateTimeToString(minute);
+//                                        editText.setText(date + "  " + sHourOfDay + " : " + sMinute);
+//                                    }
+//                                }, hour, minute, true).show();
                             }
                         }, year, month, day).show();
             }
@@ -166,13 +166,14 @@ public class PostDetailsNGOFragment extends Fragment {
     private void confirmPickUp() {
         String itemId = mitem.id;
         String ngoId = appUser.getUid();
-        boolean response = viewModel.confirmPickUp(itemId, ngoId);
-        if (response) {
-            Toast.makeText(getContext(), "Pick-up completes.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Network error, please try again.", Toast.LENGTH_SHORT).show();
-        }
-        naviToCenter();
+        viewModel.confirmPickUp(itemId, ngoId).observe(getViewLifecycleOwner(), response -> {
+            if (response != null && response.isSuccessful()) {
+                Toast.makeText(getContext(), "Pick-up completes.", Toast.LENGTH_SHORT).show();
+                naviToCenter();
+            } else {
+                Toast.makeText(getContext(), "Network error, please try again.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void schedulePickUp() {
@@ -183,13 +184,15 @@ public class PostDetailsNGOFragment extends Fragment {
             String ngoId = appUser.getUid();
             String ngoName = appUser.getOrganizationName();
             String pickUpDate = dateTime;
-            boolean response = viewModel.schedulePickUp(itemId, ngoId, ngoName, pickUpDate);
-            if (response) {
-                Toast.makeText(getContext(), "Schedule successful", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), "Schedule not successful", Toast.LENGTH_SHORT).show();
-            }
-            naviToCenter();
+            viewModel.schedulePickUp(itemId, ngoId, ngoName, pickUpDate).observe(getViewLifecycleOwner(), response -> {
+                if (response != null && response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Schedule successful", Toast.LENGTH_SHORT).show();
+                    naviToCenter();
+                } else {
+                    Toast.makeText(getContext(), "Schedule not successful", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         } else {
             new AlertDialog.Builder(getContext())
                     .setTitle("Error!")

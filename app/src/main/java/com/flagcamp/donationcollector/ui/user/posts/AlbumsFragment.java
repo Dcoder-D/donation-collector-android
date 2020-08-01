@@ -51,26 +51,28 @@ public class AlbumsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        binding.imagePlaceholder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //动态申请权限
-                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission
-                        .WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-                    ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                }else{
-                    //执行启动相册的方法
-                    openAlbum();
-                }
-            }
-        });
+//        binding.imagePlaceholder.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //动态申请权限
+//                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission
+//                        .WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+//                    ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+//                }else{
+//                    //执行启动相册的方法
+//                    openAlbum();
+//                }
+//            }
+//        });
 
-        binding.albumsBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_nav_albums_to_nav_post_user);
-            }
-        });
+        openAlbum();
+
+//        binding.albumsBackButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Navigation.findNavController(v).navigate(R.id.action_nav_albums_to_nav_post_user);
+//            }
+//        });
     }
 
     //获取权限的结果
@@ -123,7 +125,7 @@ public class AlbumsFragment extends Fragment {
             path = uri.getPath();
         }
         //展示图片
-        displayImage(path);
+//        displayImage(path);
 
         // Pass the image path to post preview page
         AlbumsFragmentDirections.ActionTitleAlbumsToPostsPreview actionTitleAlbumsToPostsPreview
@@ -137,7 +139,7 @@ public class AlbumsFragment extends Fragment {
     private void handImageLow(Intent data){
         Uri uri = data.getData();
         String path = getImagePath(uri,null);
-        displayImage(path);
+//        displayImage(path);
     }
 
     //content类型的uri获取图片路径的方法
@@ -154,10 +156,10 @@ public class AlbumsFragment extends Fragment {
     }
 
     //根据路径展示图片的方法
-    private void displayImage(String imagePath){
-        if (imagePath != null){
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-            binding.imagePlaceholder.setImageBitmap(bitmap);
-        }
-    }
+//    private void displayImage(String imagePath){
+//        if (imagePath != null){
+//            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+//            binding.imagePlaceholder.setImageBitmap(bitmap);
+//        }
+//    }
 }

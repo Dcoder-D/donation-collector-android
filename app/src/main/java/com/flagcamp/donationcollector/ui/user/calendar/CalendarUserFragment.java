@@ -54,7 +54,7 @@ public class CalendarUserFragment extends Fragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 month += 1;
-                String date = year + (month < 10 ? "-0" + String.valueOf(month) : String.valueOf(month)) + (dayOfMonth < 10 ? "-0" + String.valueOf(dayOfMonth) : String.valueOf(dayOfMonth));
+                String date = year + "-" + (month < 10 ? "0" + String.valueOf(month) : String.valueOf(month)) + "-" + (dayOfMonth < 10 ? "0" + String.valueOf(dayOfMonth) : String.valueOf(dayOfMonth));
                 Log.d("DATE", date);
 
                 CalendarUserFragmentDirections.ActionTitleCalendaruserToScheduledpickup actionTitleCalendaruserToScheduledpickup =

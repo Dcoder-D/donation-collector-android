@@ -50,9 +50,9 @@ public class PostsPreviewFragment extends Fragment
     private String imagePath;
     private ImageView addedImage;
     private TextView displayLocation;
-    private String location;
+    private static String location;
     private TextView displaySchedule;
-    private List<String> schedules;
+    private static List<String> schedules;
     private String[] schedulesArray;
     private List<PostItem> postItemList;
     private List<String> imagesPath;
@@ -94,14 +94,21 @@ public class PostsPreviewFragment extends Fragment
         displayLocation = binding.locationDisplayText;
         displaySchedule = binding.scheduleDisplayText;
 
-        location = PostsPreviewFragmentArgs.fromBundle(getArguments()).getLocation();
+        String locationArg = PostsPreviewFragmentArgs.fromBundle(getArguments()).getLocation();
+        if(locationArg != null) {
+            location = locationArg;
+        }
         if(location != null) {
             displayLocation.setText(location);
         }
 
         schedulesArray = PostsPreviewFragmentArgs.fromBundle(getArguments()).getSchedules();
-        if(schedulesArray != null) {
+        if(schedulesArray != null && schedulesArray.length > 0) {
             schedules = Arrays.asList(schedulesArray);
+
+        }
+
+        if(schedules != null) {
             displaySchedule.setText(schedules.toString());
         }
 
@@ -150,18 +157,17 @@ public class PostsPreviewFragment extends Fragment
         signInRepository.getAppUser().observe(getViewLifecycleOwner(), response -> {
             if(response != null) {
                 appUsers[0] = response.get(0);
+                viewModel.getAddedItems().observe(getViewLifecycleOwner(), items -> {
+                    if (items != null) {
+                        Log.d(TAG, "In Posts Preview Recycler View");
+                        postsPreviewAdapter.setItems(items);
+                        setPostItemsList(items);
+                    } else {
+                        Log.d(TAG, "No PostsPreview response");
+                    }
+                });
             } else {
 
-            }
-        });
-
-        viewModel.getAddedItems().observe(getViewLifecycleOwner(), items -> {
-            if (items != null) {
-                Log.d(TAG, "In Posts Preview Recycler View");
-                postsPreviewAdapter.setItems(items);
-                setPostItemsList(items);
-            } else {
-                Log.d(TAG, "No PostsPreview response");
             }
         });
 

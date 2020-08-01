@@ -119,14 +119,17 @@ public class LocationSelectorNGOFragment extends Fragment implements AdapterView
                     Toast.makeText(getContext(), "Please enter a distance", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                PostCenterFragment.setLocationDistance(fullAddress, distance);
+
                 LocationSelectorNGOFragmentDirections.ActionTitleLocationSelectorToPostcenter actionTitleLocationSelectorToPostcenter =
                         LocationSelectorNGOFragmentDirections.actionTitleLocationSelectorToPostcenter();
                 actionTitleLocationSelectorToPostcenter.setLocation(fullAddress);
                 actionTitleLocationSelectorToPostcenter.setDistance(distance);
 
-                Location location = new Location();
-                location.location = fullAddress;
-                location.distance = distance;
+//                Location location = new Location();
+//                location.location = fullAddress;
+//                location.distance = distance;
 
 //                PostRepository repository = new PostRepository(getContext());
 //                repository.deleteAllLocation();

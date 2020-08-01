@@ -60,7 +60,7 @@ public class PostsScheduleFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.schedule_add_schedule_button:
-                String month = String.valueOf(picker.getMonth());
+                String month = String.valueOf(picker.getMonth() + 1);
                 String day = String.valueOf(picker.getDayOfMonth());
                 String year = String.valueOf(picker.getYear());
                 String date = year + "-" + (month.length() < 2 ? "0" + month : month) + "-" + (day.length() < 2 ? "0" + day : day);

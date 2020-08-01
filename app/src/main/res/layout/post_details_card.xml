@@ -5,7 +5,7 @@
     app:cardCornerRadius="7dp"
     app:cardElevation="6dp"
     android:layout_width="375dp"
-    android:layout_height="70dp"
+    android:layout_height="40dp"
     android:layout_margin="10dp"
     android:background="@drawable/background">
 
@@ -34,26 +34,26 @@
             android:layout_marginStart="130dp"
             android:layout_marginTop="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/details_card_time_prefix"
-            android:gravity="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/details_card_date_prefix"
-            android:text="Prefer Time: "
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp" />
-        <TextView
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:id="@+id/details_available_time"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/details_available_date"
-            android:text="00:00 - 23:59"
-            android:layout_marginStart="130dp"
-            android:layout_marginTop="10dp" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/details_card_time_prefix"-->
+<!--            android:gravity="center"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/details_card_date_prefix"-->
+<!--            android:text="Prefer Time: "-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:layout_marginTop="10dp" />-->
+<!--        <TextView-->
+<!--            android:layout_width="210dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:id="@+id/details_available_time"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/details_available_date"-->
+<!--            android:text="00:00 - 23:59"-->
+<!--            android:layout_marginStart="130dp"-->
+<!--            android:layout_marginTop="10dp" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
