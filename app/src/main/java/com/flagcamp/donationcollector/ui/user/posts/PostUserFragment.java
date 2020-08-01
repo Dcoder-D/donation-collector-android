@@ -41,6 +41,7 @@ import com.flagcamp.donationcollector.model.Item;
 import com.flagcamp.donationcollector.repository.SignInRepository;
 import com.flagcamp.donationcollector.signin.AppUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -95,7 +96,13 @@ public class PostUserFragment extends Fragment {
                 viewModel.getUserPosts(appUsers[0].getUid()).observe(getViewLifecycleOwner(), postResponse -> {
                     if(postResponse != null) {
                         Log.d("PostUserFragment", postResponse.toString());
-                        postUserAdapter.setItems(postResponse);
+                        List<Item> notCollectedItems = new ArrayList<>();
+                        for(Item item: postResponse) {
+                            if(!item.status.toLowerCase().equals("collected")) {
+                                notCollectedItems.add(item);
+                            }
+                        }
+                        postUserAdapter.setItems(notCollectedItems);
                     } else {
                         Log.d("PostUserFragment", "Null postResponse");
                     }

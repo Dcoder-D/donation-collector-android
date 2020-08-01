@@ -36,6 +36,7 @@ public class ProfileFragment extends Fragment
     private FirebaseAuth mAuth;
 //    private DatabaseReference mDatabase;
     private AppUser appUser;
+    private SignInRepository signInRepository;
 
 
 
@@ -56,22 +57,30 @@ public class ProfileFragment extends Fragment
         binding = FragmentProfileBinding.inflate(getLayoutInflater());
         binding.logoutButton.setOnClickListener(this);
         binding.changePassword.setOnClickListener(this);
+        signInRepository = new SignInRepository();
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        appUser = (AppUser) getActivity().getIntent().getSerializableExtra("AppUser");
-        if (appUser != null) {
-            Log.d(TAG, "Get appUser in Profile Fragment as" + appUser.toString());
-            if (appUser.isUser()){
-                binding.fullName.setText(appUser.getFirstName() + " " + appUser.getLastName());
-            } else {
-                binding.fullName.setText(appUser.getOrganizationName());
+
+        signInRepository.getAppUser().observe(getViewLifecycleOwner(), response -> {
+//            appUser = (AppUser) getActivity().getIntent().getSerializableExtra("AppUser");
+            if(response != null && response.size() > 0) {
+                appUser = response.get(0);
+                if (appUser != null) {
+                    Log.d(TAG, "Get appUser in Profile Fragment as" + appUser.toString());
+                    if (appUser.isUser()){
+                        binding.fullName.setText(appUser.getFirstName() + " " + appUser.getLastName());
+                    } else {
+                        binding.fullName.setText(appUser.getOrganizationName());
+                    }
+                    binding.email.setText(appUser.getEmailAddress());
+                }
             }
-            binding.email.setText(appUser.getEmailAddress());
-        }
+        });
+
 
 
     }
