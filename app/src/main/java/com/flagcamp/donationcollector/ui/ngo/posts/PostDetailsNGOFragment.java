@@ -121,16 +121,16 @@ public class PostDetailsNGOFragment extends Fragment {
                                 String date = year + "-" + sMonthOfYear + "-" + sDayOfMonth;
                                 editText.setText(date);
 
-                                //show time picker dialog after date is set.
-                                new TimePickerDialog(getContext(),android.R.style.Theme_DeviceDefault_Light_Dialog,new TimePickerDialog.OnTimeSetListener() {
-                                    @Override
-                                    public void onTimeSet(TimePicker view, int hourOfDay, int minute)
-                                    {
-                                        String sHourOfDay = dateTimeToString(hourOfDay);
-                                        String sMinute = dateTimeToString(minute);
-                                        editText.setText(date + "  " + sHourOfDay + " : " + sMinute);
-                                    }
-                                }, hour, minute, true).show();
+//                                //show time picker dialog after date is set.
+//                                new TimePickerDialog(getContext(),android.R.style.Theme_DeviceDefault_Light_Dialog,new TimePickerDialog.OnTimeSetListener() {
+//                                    @Override
+//                                    public void onTimeSet(TimePicker view, int hourOfDay, int minute)
+//                                    {
+//                                        String sHourOfDay = dateTimeToString(hourOfDay);
+//                                        String sMinute = dateTimeToString(minute);
+//                                        editText.setText(date + "  " + sHourOfDay + " : " + sMinute);
+//                                    }
+//                                }, hour, minute, true).show();
                             }
                         }, year, month, day).show();
             }
