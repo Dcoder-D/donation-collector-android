@@ -109,6 +109,7 @@
     <string name="desc_custom_sign_in_activity">Customized Signing in, signing out, and revoking access.</string>
 
     <string-array name="states_array">
+        <item>Select a state</item>
         <item>AL</item>
         <item>AK</item>
         <item>AS</item>

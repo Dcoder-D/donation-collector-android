@@ -35,20 +35,22 @@
         android:id="@+id/street_text"
         android:textSize="13sp"
         android:text="Street Address:"
-        app:layout_constraintTop_toBottomOf="@+id/cancel_button"
+        app:layout_constraintTop_toTopOf="@id/street_input"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="20dp" />
 
     <EditText
-        android:layout_width="230dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/street_input"
         android:textSize="13sp"
-        app:layout_constraintTop_toBottomOf="@+id/done_button"
-        app:layout_constraintStart_toEndOf="@+id/street_text"
+        app:layout_constraintTop_toBottomOf="@id/done_button"
+        app:layout_constraintStart_toEndOf="@id/street_text"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp" />
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"/>
 
     <TextView
         android:layout_width="120dp"
@@ -56,21 +58,23 @@
         android:id="@+id/apt_number_text"
         android:textSize="13sp"
         android:text="Apartment number:"
-        app:layout_constraintTop_toBottomOf="@+id/street_text"
+        app:layout_constraintTop_toTopOf="@id/apt_number_input"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="20dp" />
 
     <EditText
-        android:layout_width="230dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/apt_number_input"
-        android:text="(Optional)"
+        android:hint="(Optional)"
         android:textSize="13sp"
-        app:layout_constraintTop_toBottomOf="@+id/street_text"
-        app:layout_constraintStart_toEndOf="@+id/apt_number_text"
+        app:layout_constraintTop_toBottomOf="@id/street_input"
+        app:layout_constraintStart_toEndOf="@id/apt_number_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp" />
+        android:layout_marginEnd="20dp" />
 
     <TextView
         android:layout_width="120dp"
@@ -78,9 +82,9 @@
         android:id="@+id/city_text"
         android:textSize="13sp"
         android:text="City:"
-        app:layout_constraintTop_toBottomOf="@+id/apt_number_text"
+        app:layout_constraintTop_toTopOf="@id/city_input"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="20dp" />
 
     <EditText
@@ -88,10 +92,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/city_input"
         android:textSize="13sp"
-        app:layout_constraintTop_toBottomOf="@+id/apt_number_text"
-        app:layout_constraintStart_toEndOf="@+id/city_text"
+        app:layout_constraintTop_toBottomOf="@id/apt_number_input"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp" />
+        android:layout_marginEnd="20dp" />
 
     <TextView
         android:layout_width="120dp"
@@ -99,21 +103,20 @@
         android:id="@+id/state_text"
         android:textSize="13sp"
         android:text="State:"
-        app:layout_constraintTop_toBottomOf="@+id/city_text"
+        app:layout_constraintTop_toTopOf="@id/state_input"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp" />
 
     <Spinner
-        android:layout_width="60dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/state_input"
-        android:textSize="13sp"
-        android:background="@color/blue_grey_500"
-        app:layout_constraintTop_toBottomOf="@+id/city_text"
-        app:layout_constraintStart_toEndOf="@+id/state_text"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="20dp" />
+        android:textSize="10sp"
+        app:layout_constraintTop_toBottomOf="@id/city_input"
+        app:layout_constraintStart_toStartOf="@id/city_input"
+        app:layout_constraintEnd_toEndOf="@id/city_input"
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="120dp"
@@ -121,9 +124,9 @@
         android:id="@+id/zipcode_text"
         android:textSize="13sp"
         android:text="Zip code:"
-        app:layout_constraintTop_toBottomOf="@+id/state_text"
+        app:layout_constraintTop_toTopOf="@id/zipcode_input"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="20dp" />
 
     <EditText
@@ -131,21 +134,23 @@
         android:layout_height="wrap_content"
         android:id="@+id/zipcode_input"
         android:textSize="13sp"
-        app:layout_constraintTop_toBottomOf="@+id/state_text"
-        app:layout_constraintStart_toEndOf="@+id/zipcode_text"
+        app:layout_constraintTop_toBottomOf="@id/state_input"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp" />
+        android:layout_marginEnd="20dp" />
 
     <TextView
-        android:layout_width="380dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/test_text"
         android:text="The inputed address"
         android:textSize="13sp"
-        app:layout_constraintTop_toBottomOf="@id/zipcode_text"
+        app:layout_constraintTop_toBottomOf="@id/zipcode_input"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="20dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
