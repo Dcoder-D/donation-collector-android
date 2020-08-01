@@ -99,6 +99,8 @@ public class LocationSelectorFragment extends Fragment implements AdapterView.On
                 LocationSelectorFragmentDirections.ActionTitleLocationToPostsPreview actionTitleLocationSelectorToPostsPreview =
                         LocationSelectorFragmentDirections.actionTitleLocationToPostsPreview();
                 actionTitleLocationSelectorToPostsPreview.setLocation(null);
+                actionTitleLocationSelectorToPostsPreview.setImagePath(imagePath);
+                actionTitleLocationSelectorToPostsPreview.setSchedules(schedulesArray);
                 NavHostFragment.findNavController(LocationSelectorFragment.this).navigate(actionTitleLocationSelectorToPostsPreview);
             }
         });

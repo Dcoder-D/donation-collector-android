@@ -46,8 +46,10 @@ public interface PostApi {
 
     @Multipart
     @POST("createPost")
-    Call<ResponseBody> createPost(@Part("TestText") RequestBody TestText, @Part MultipartBody.Part file);
+    Call<ResponseBody> createPost(@Part("TestText") RequestBody TestText, @Part MultipartBody.Part[] file);
 
+    @POST("createRoute")
+    Call<ResponseBody> createRoute(@Body RequestBody body);
 
     @GET("items")
     Call<List<Item>> getDateEquals(@Query("pickUpDate") String pickUpDate);

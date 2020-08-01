@@ -79,14 +79,17 @@ public class LocationSelectorNGOFragment extends Fragment implements AdapterView
                 fullAddress = streetInput.getText().toString() + ", " + cityInput.getText().toString() + ", "
                         + state + " " + zipcodeInput.getText().toString();
                 distance = distanceInput.getText().toString();
+
+                PostCenterFragment.setLocationDistance(fullAddress, distance);
+
                 LocationSelectorNGOFragmentDirections.ActionTitleLocationSelectorToPostcenter actionTitleLocationSelectorToPostcenter =
                         LocationSelectorNGOFragmentDirections.actionTitleLocationSelectorToPostcenter();
                 actionTitleLocationSelectorToPostcenter.setLocation(fullAddress);
                 actionTitleLocationSelectorToPostcenter.setDistance(distance);
 
-                Location location = new Location();
-                location.location = fullAddress;
-                location.distance = distance;
+//                Location location = new Location();
+//                location.location = fullAddress;
+//                location.distance = distance;
 
 //                PostRepository repository = new PostRepository(getContext());
 //                repository.deleteAllLocation();

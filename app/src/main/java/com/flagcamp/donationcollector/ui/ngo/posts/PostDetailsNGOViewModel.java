@@ -1,8 +1,11 @@
 package com.flagcamp.donationcollector.ui.ngo.posts;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.flagcamp.donationcollector.repository.PostRepository;
+
+import retrofit2.Response;
 
 
 public class PostDetailsNGOViewModel extends ViewModel {
@@ -12,10 +15,10 @@ public class PostDetailsNGOViewModel extends ViewModel {
         this.repository = repository;
     }
 
-    public Boolean schedulePickUp(String itemId, String ngoId, String ngoName, String pickUpDate) {
+    public LiveData<Response> schedulePickUp(String itemId, String ngoId, String ngoName, String pickUpDate) {
         return repository.schedulePickUp(itemId, ngoId, ngoName, pickUpDate);
     }
-    public Boolean confirmPickUp(String itemId, String ngoId) {
+    public LiveData<Response> confirmPickUp(String itemId, String ngoId) {
         return repository.confirmPickUp(itemId, ngoId);
     }
 }

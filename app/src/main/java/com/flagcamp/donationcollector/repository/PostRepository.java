@@ -21,6 +21,7 @@ import com.flagcamp.donationcollector.network.RetrofitClient;
 import com.flagcamp.donationcollector.signin.AppUser;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,10 +61,7 @@ public class PostRepository {
 //    }
 
     public Response createPost(List<PostItem> items, List<String> imagePaths) {
-//        MultipartBody.Part[] fileParts = new MultipartBody.Part[files.length];
-//        for(int i = 0; i < fileParts.length; i++) {
-//            fileParts[i] = MultipartBody.Part.createFormData("image" + i, files[i].getName(), RequestBody.create(MediaType.parse("image/*"), files[i]));
-//        }
+//
 
         final Response[] myResponse = new Response[1];
 
@@ -89,10 +87,16 @@ public class PostRepository {
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), files[0]);
         MultipartBody.Part fileBody = MultipartBody.Part.createFormData("image", files[0].getName(), requestFile);
 
+
+        MultipartBody.Part[] fileParts = new MultipartBody.Part[files.length];
+        for(int i = 0; i < fileParts.length; i++) {
+            fileParts[i] = MultipartBody.Part.createFormData("image" + i, files[i].getName(), RequestBody.create(MediaType.parse("image/jpg"), files[i]));
+        }
+
         Log.d("PostRepository", "file: " + files[0].getName() + ", " + requestFile.toString());
 
 
-        postApi.createPost(postBodyText, fileBody).enqueue(new Callback<ResponseBody>() {
+        postApi.createPost(postBodyText, fileParts).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
@@ -115,6 +119,45 @@ public class PostRepository {
         });
         deleteAddedItems();
         return myResponse[0];
+    }
+
+    public LiveData<ResponseBody> createRoute(RequestBody body) {
+        final MutableLiveData<ResponseBody> routeData = new MutableLiveData<>();
+        final ResponseBody[] responseBodies = new ResponseBody[1];
+
+        postApi.createRoute(body).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()) {
+                    Log.d("PostRepository", "createRoute successfull with code: " + response.code());
+                    if(response.body() != null) {
+                        responseBodies[0] = response.body();
+                        routeData.setValue(response.body());
+                        try {
+                            Log.d("PostRepository", "createRoute response body: " + responseBodies[0].string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        routeData.setValue(null);
+                        Log.d("PostRepository", "createRoute response body is null");
+                    }
+
+
+                } else {
+                    Log.d("PostRepository", "createRoute not successful with code: " + response.code());
+                    routeData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                routeData.setValue(null);
+                Log.d("PostRepository", "createRoute failed, " + t.toString());
+            }
+        });
+//        return responseBodies[0].toString();
+        return routeData;
     }
 
     public LiveData<List<Item>> getPostsByLocation(String location, String distance) {
@@ -283,35 +326,40 @@ public class PostRepository {
         return dateEqualsLiveData;
     }
 
-    public Boolean deletePost(String userId, String itemId) {
-        final Boolean[] deleteRes = {false};
-        postApi.deletePost(userId, itemId).enqueue(new Callback() {
-
+    public LiveData<Response> deletePost(String userId, String itemId) {
+        final MutableLiveData<Response> deletePostResponse = new MutableLiveData<>();
+        Log.d("PostRepository", "userId: " + userId + ", itemId: " + itemId);
+        postApi.deletePost(userId, itemId).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
-                    deleteRes[0] = true;
+                    deletePostResponse.setValue(response);
+                    Log.d("PostRepository", "deletePostResponse success with code: " + response.code());
+                } else {
+                    deletePostResponse.setValue(response);
+                    Log.d("PostResitory", "deletePostResponse unsuccessful with code: " + response.code());
                 }
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
-                deleteRes[0] = false;
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                deletePostResponse.setValue(null);
+                Log.d("PostRepository", "failed with throwable: " + t.toString());
             }
         });
 
-        return deleteRes[0];
+        return deletePostResponse;
     }
-    public Boolean schedulePickUp(String itemId, String ngoId, String ngoName, String pickUpDate){
-        final Boolean[] confirmRes = {false};
+    public LiveData<Response> schedulePickUp(String itemId, String ngoId, String ngoName, String pickUpDate){
+        final MutableLiveData<Response> schedulePickUpResponse = new MutableLiveData<>();
         postApi.schedulePickUp(itemId, ngoId, ngoName, pickUpDate).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()) {
-                    confirmRes[0] = true;
+                    schedulePickUpResponse.setValue(response);
                     Log.d("PostRepository", "schedulePickUp successful, code: " + response.code());
                 } else {
-                    confirmRes[0] = false;
+                    schedulePickUpResponse.setValue(response);
                     Log.d("PostRepository", "schedulePickUp not successful, code: " + response.code() + ", message: " + response.message());
                 }
             }
@@ -319,23 +367,23 @@ public class PostRepository {
             @Override
             public void onFailure(Call call, Throwable t) {
                 Log.d("PostRepository", "schedulePickUp failure,  " + t.toString());
-                confirmRes[0] = false;
+                schedulePickUpResponse.setValue(null);
 
             }
         });
-        return confirmRes[0];
+        return schedulePickUpResponse;
     }
 
-    public Boolean confirmPickUp(String itemId, String ngoId){
-        final Boolean[] confirmRes = {false};
+    public LiveData<Response> confirmPickUp(String itemId, String ngoId){
+        final MutableLiveData<Response> confirmPickUpResponse = new MutableLiveData<>();
         postApi.confirmPickUp(itemId, ngoId).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 if(response.isSuccessful()) {
-                    confirmRes[0] = true;
+                    confirmPickUpResponse.setValue(response);
                     Log.d("PostRepository", "confirmPickUp successful, code: " + response.code());
                 } else {
-                    confirmRes[0] = false;
+                    confirmPickUpResponse.setValue(response);
                     Log.d("PostRepository", "confirmPickUp not successful, code: " + response.code() + ", message: " + response.message());
                 }
             }
@@ -343,11 +391,11 @@ public class PostRepository {
             @Override
             public void onFailure(Call call, Throwable t) {
                 Log.d("PostRepository", "confirmPickUp failure,  " + t.toString());
-                confirmRes[0] = false;
+                confirmPickUpResponse.setValue(null);
 
             }
         });
-        return confirmRes[0];
+        return confirmPickUpResponse;
     }
     // connect Room database for PostsPreviewFragment
     public void addItemAsAdded(Item item) {

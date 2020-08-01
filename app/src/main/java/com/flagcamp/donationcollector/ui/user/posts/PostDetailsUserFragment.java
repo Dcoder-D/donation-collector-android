@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.flagcamp.donationcollector.R;
 import com.flagcamp.donationcollector.databinding.FragmentPostDetailsUserBinding;
@@ -87,18 +88,24 @@ public class PostDetailsUserFragment extends Fragment {
 //        AppUser appUser = signInRepository.getAppUser().getValue().get(0);
         AppUser appUser[] = new AppUser[1];
         signInRepository.getAppUser().observe(getViewLifecycleOwner(), response -> {
-            appUser[0] = response.get(0);
+            if(response != null && response.size() > 0) {
+                appUser[0] = response.get(0);
+            }
         });
 //        AppUser appUser = signInRepository.getAppUsersList().get(0);
         ViewModel = new ViewModelProvider(this, new PostViewModelFactory(repository)).get(PostDetailsUserViewModel.class);
         binding.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!ViewModel.deletePost(appUser[0].getUid(), mitem.id)) {
-
-                    System.out.println("delete failed!!!");
-                }
-                Navigation.findNavController(v).navigate(R.id.action_nav_details_to_user);
+                ViewModel.deletePost(appUser[0].getUid(), mitem.id).observe(getViewLifecycleOwner(), response -> {
+                    Log.d("PostDetailsUserFragment", "userId: " + appUser[0] + ", itemId: " + mitem.id);
+                    if(response != null && response.isSuccessful()) {
+                        Toast.makeText(getContext(), "delete succeeds!", Toast.LENGTH_SHORT).show();
+                        Navigation.findNavController(v).navigate(R.id.action_nav_details_to_user);
+                    } else {
+                        Toast.makeText(getContext(), response != null ? response.message() : "delete failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
